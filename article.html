@@ -8,6 +8,8 @@
   <video id="robust" width="95%"  autoplay loop muted="" class="l-middle-outset videoShow">
                 <source src="demo.mp4" type="video/mp4">
               </video>
+
+
   <dt-byline></dt-byline>
 
   <canvas id="glCanvas" width="640" height="360" class='l-body'></canvas>
@@ -51,172 +53,133 @@
 
 
 
-  <d-content class="figcaption" >
-  <nav style="margin-left:2em">
-    <h2>Contents</h2>
-    <h5><a href="#introduction">Introduction</a></h5>
-    <h5><a href="#system">The System</a></h5>
-    <ul>
-      <li><a href="#Lenia">Lenia</a></li>
-      <li><a href="#walls">Walls</a></li>
-      <li><a href="#differentiable">Differentiable Lenia</a></li>
-    </ul>
-    <h5><a href="#movingCrea">Can we learn moving Creature in Lenia ? </a></h5>
-    <ul>
-      <li><a href="#movingCrea">Target shape</a></li>
-      <li><a href="#IMGEPcurriculum">IMGEP and utility of curriculum</a></li>
-    </ul>
-    <h5><a href="#robustCrea">Can we learn robust creatures with sensorimotor capabilities ?</a></h5>
-    <ul>
-      <li><a href="#robustCrea">Method</a></li>
-      <li><a href="#badInit">Overcoming bad initialization problem</a></li>
-    </ul>
-    <h5><a href="#results">Results</a></h5>
-    <ul>
-      <li><a href="#generalize"> How well do the creatures obtained generalize ?</a></li>
-      <li><a href="#multicrea">Multi creature setting</a></li>
-    </ul>
-    <h5><a href="#related">Related works</a></h5>
-    <h5><a href="#discussion">Discussion</a></h5>
-    <h5><a href="#appendix">Appendix</a></h5>
-  </nav>
-  </d-content>
+
 
 
 <p>Spatially localized patterns in cellular automata have shown a lot of interesting behavior that led to new understanding of self-organizing system. While the notion of environment is a keypoint in Maturana and Varela biology of cognition, studies on cellular automata rarely introduced a well defined environment in their system. In this paper, we propose to add walls in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, ie robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to learn the CA rule leading to such creature. The creature obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles in their way.</p>
 <h2 id='introduction'>Introduction</h2>
-<p>Behavior in living creature is often seen as action output in response to sensory input, these sensorimotor capabilities seem crucial to behave better in their environment and therefore increase their chance of survival. When we think about output from sensory inputs, the first thing we often think of is neural computation. However, we can't deny that a lot of living thing without a brain are also having these sensorimotor capabilities like plant moving to get more sun, slimemolds which seem to use mechanical cues of its environment to choose in which direction to expand [[https:&#x2F;&#x2F;doi.org&#x2F;10.1002&#x2F;adma.201758161]] , using their body both for sensing and computing the decision. We also find sensorimotor capabilities at the macro scale in swarm of bacterias <dt-cite key="PhysRevE.101.012407"></dt-cite> where a group of bacteria seem to avoid a wall of antibiotics, making group decision for obstacle avoidance.</p>
+<p>Behavior in living creature is often seen as action output in response to sensory input, these sensorimotor capabilities seem crucial to behave better in their environment and therefore increase their chance of survival. When we think about output from sensory inputs, the first thing we often think of is neural computation. However, we can't deny that a lot of living thing without a brain are also having these sensorimotor capabilities like plant moving to get more sun, slimemolds which seem to use mechanical cues of its environment to choose in which direction to expand [[Murugan2021Mechano]] , using their body both for sensing and computing the decision. We also find sensorimotor capabilities at the macro scale in swarm of bacterias <dt-cite key="PhysRevE.101.012407"></dt-cite> where a group of bacteria seem to avoid a wall of antibiotics, making group decision for obstacle avoidance.</p>
 <p>Furthermore, living behing with neural computation also seem to take advanatge of some morpholocial computation. In fact, morphological computation theory states that the body also plays a role in this sensory to motor flow. ref . Cognition therefore isn't bounded to the brain.</p>
 <p>In Maturana and Varela work [3][4], cognition is centered around how an agent "reacts" to the perturbation induced by its environment, ie sensory stimulus. More precisely, they introduce the notion of cognitive domain of a self-organizing system which are all the perturbations induced by the environment which do not result in the destruction of the self-organizing system. Their notion of cognition is thus deeply linked with how a self-organizing creature will try to preserve its integrity in its environment.</p>
 <p>From their theories, studies have been made to apply those notion to examples of self-organizing systems. One of the main test bed is cellular automata, which consists of a grid of states where only local update are allowed, and yet very complex self organizing pattern can emerge. One famous cellular automata is the game of life. The game of life and especially a moving pattern :the glider, has been studied under their paradigm [5] showing again the richness and complexity of such system. However, even if the glider in the game of life has shown to be a good toy model to explicit those theories with interesting interaction, they're also quite simple entity that are not very robust, with a lot of perturbation leading to destruction. Also in those work, the environment wasn't well defined like walls food, but rather other structures&#x2F;creatures.</p>
 <p>Other studies, taking inspiration from biological regrowth in some animals and morphogenesis, focused on the recovery from Deformation&#x2F; damage [6] [7], applying Cellular automata to build and regenerate damaged parts. But none of them use the CA rule to move the creature.</p>
-<video id="robust" width="100%" autoplay loop muted="" class="videoShow l-body side">
+  <video id="robust" width="100%" autoplay loop muted="" class="videoShow l-body side">
                 <source src="pacman.mp4" type="video/mp4">
               </video>
+
 
 <p>In Lenia [8] [9] which is a continous cellular automata, we can already observe sensorimotor capabilities(see section Lenia). However, even if there are interaction between some entity, there is no well defined environment. Moreover the search for new creature in Lenia was first done manually testing parameters and mutating it or with simple evolutionary algorithm, which might take time and luck to find the type of creature we really expect. Other studies [10] [11] focused on exploring as much as possible the space of morphology in Lenia using intrinsically motivated explorer . However this last techniques didn't focused much on finding moving creature.</p>
 <p>Finding moving creatures in Cellular automata differ from most classic RL experiment which evolve a body and train a separate controler as in cellular automata the body and its update rule are the controler.</p>
 <p>Define things</p>
 <p>In this work, we chose to add walls in Lenia to study the sensorimotor behavior of a self organizing agent. We propose a method based on gradient descent to learn the CA update rule leading to robustness and sensorimotor capabilities with walls. The creature we obtain, from the deformation induced by the walls on some part of it make new deicision at the macro level on where to go&#x2F;how to react. What's even more interesting is that the computation made for the decision are all made in the creature itself, at the morphology level. In this study, to characterize creatures as creature with sensorimotor capabilities, we look if this creature can pass some basic test of robustness to a diversity of obstacles.</p>
 <h2 id='the-system'>The system</h2>
-<div class="l-screen-inset" style="position:relative">
+
+  <div class="l-screen-inset" style="position:relative">
   <img src="LeniaWall.svg" alt="scheme">
-
-  <div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
-
-  <div style="position:absolute; left:5%; top:0%;border-radius:5px;">
-    <p>
-    $$ A^{t+1}= \left[A^t +\frac{1}{\textcolor{#00c8c8}{T}}  \left(G_{wall}(K_{wall}*A^t_1) +\sum_k \textcolor{#008000}{h^k} G_k(K_k * A^t_0) \right) \right]^1_0 $$
-  </p>
-
-
-  <div class="row">
-
-
-    <div class="column">
-      $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(x-\textcolor{#0000c8}{{rk}^k_{i}})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) \right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$
-      <!---$$K_k=  x \rightarrow \left(\sum_i^{n} b_i\mathcal{N}(\frac{x}{r^kR},{rk}^k_{i},w^k_{i}) \right) \mathbb{I}_{x\leq r^kR}$$--->
-      <!---sigmoid(4(1-\frac{x}{r^kR}))--->
-    </div>
-    <div class="column">
-      $$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$
-    </div>
-
   </div>
 
 
-  <div class="row">
-    <div class="column">
-      $$ G_k= x \rightarrow 2*exp(-\frac{(x-\textcolor{#c80000}{m^k})^2}{2(\textcolor{#c80000}{s^k} )^2})-1  $$
-
-      <!---exp(-\frac{(x-m^k)^2}{2(s^k)^2})\mathcal{N}(\frac{x}{r^kR},m^k,s^k)-->
-    </div>
-    <div class="column">
-      $$ G_{wall}= x \rightarrow -10 max(0,(x-0.001))  $$
-    </div>
-  </div>
-
-
-
-<p style="text-align: center">
-<b>Parameters:</b><br>
-<span style="color:rgba(186,186,40,0.8)">
-R maximum radius of a kernel</span><br>
-<span style="color:rgba(0,175,175,0.8)">
-T time scale </span><br>
-
-<span style="text-decoration:underline">For each kernel:<span>
-<div class="row">
-  <div class="column">
-    <ul>
-    <li style="color:rgba(0,0,175,0.8)">w  \( \in [0,1]^n \) width of the guassian bumps</li>
-    <li style="color:rgba(0,0,175,0.8)">b  \( \in [0,1]^n \) height of the guassian bumps </li>
-  </ul>
-
-  </div>
-  <div class="column">
-    <ul>
-    <li style="color:rgba(0,0,175,0.8)">rk \( \in [0,1]^n \) shift of gaussian bumps from center of kernel </li>
-    <li style="color:rgba(0,0,175,0.8)"> r   \( \in [0,1] \) relative radius  </li>
-  </ul>
-  </div>
-
-
-  <div class="column">
-    <ul>
-    <li style="color:rgba(175,0,0,0.8)">m mean in growth function</li>
-    <li style="color:rgba(175,0,0,0.8)">s variance/size in growth function </li>
-  </ul>
-  </div>
-
-  <div class="column">
-    <ul>
-    <li style="color:rgba(0,128,0,0.8)"> h   \( \in [0,1] \) weight of the kernel </li>
-
-  </ul>
-  </div>
-</div>
-
-</p>
-  </div>
-
-  </div>
-
-  <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
-
-  </div>
 
 <h4 id='lenia'><strong>LENIA</strong></h4>
 <p>The cellular automaton we will study in this work is Lenia [8][9]. Lenia is a system of continous cellular automata where a wide variety of complex behavior has already been osberved, including what looks like sensorimotor-capabilities. In this work i will use the multi channel, multi kernel version of Lenia [8] but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
 <p>A Lenia system like all CA starts from an initial pattern and iteratively update every pixel based on its neihgbours. The CA rule is given by the kernels and associated growth map which are both parametrized. So to find creatures we need to find both interesting CA rules and initialization. This is different from the game of life where the CA rule is fixed and initialization pattern are searched. Finding interesting rules from random exploration can be hard, especially in higher dimensions or when the number of kernels is big. This motivates our choice for gradient based method.</p>
 <p>A wide variety of patterns has been found in Lenia, using hand made exploration&#x2F;mutation and evolutionary algorithm [8][9] or exploratory algorithm [10] [11]. However, as exploration algorithm studies focused on exploration of the morpholgy space and as moving creature are hard to find, these studies didn't found much of moving creatures. The other studies focused a lot on spatially localized pattern and especially moving one. You can find a library of creatures (especially moving one) found in the first version of Lenia ([9]) at this <a href='https://chakazul.github.io/Lenia/JavaScript/Lenia.html'>link</a>.</p>
+
+<div class="row l-page side">
+    <div class="column">
+      <video id="robust" width="80%" autoplay loop muted="" class="videoShow">
+                    <source src="orbiumCollision.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="80%"  autoplay loop muted="" class="videoShow">
+                    <source src="orbiumCollision2.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
+
 <p>The moving creature found are long term stable and can have interesting interactions with each other but some as the orbium (which you can find below) are not very robust for example here with collision between each other, or with walls (see next section). TO be fair, they're quite simple with only 1 kernel for the update rule.</p>
+
+<div class="row l-page side" >
+  <div class="column">
+    <video id="robust" width="80%"  autoplay loop muted="" class="videoShow">
+                  <source src="LeniaSpecie.mp4" type="video/mp4">
+                </video>
+  </div>
+  <div class="column">
+    <video id="robust" width="80%"  autoplay loop muted="" class="videoShow">
+                  <source src="courLenia.mp4" type="video/mp4">
+                </video>
+  </div>
+  </div>
+  <p class="l-gutter" style="font-size: 12px;color:#A0A0A0;">
+    Videos from Bert Chan's twitter : <a href="https://twitter.com/BertChakovsky/status/1219332395456815104">https://twitter.com/BertChakovsky/status/1219332395456815104</a>   <a href="https://twitter.com/BertChakovsky/status/1265861527829004288">https://twitter.com/BertChakovsky/status/1265861527829004288</a>
+  </p>
+
+
 <p>Other more complex creatures with multiple kernels seem to resist better to collision and seem to be able to sense the other creatures. These creatures show senorimotor capabilities as they change direction in response to interaction to other creatures. However, these other creatures that form the environment of the creature are in the same channel as the creature itself. Therefore they can be sensed through the kernel at higher distance. (explaining the large gap in the left video)</p>
 <h4 id='walls'><strong>WALLS</strong></h4>
 <p>Our work, contrary to previous work on Lenia and most cellular automata, clearly separates what belongs to the environment and what does not. We also hand craft and fix the environment rule to define properly the environment we want. In this work we'll focus on walls in the environment as navigating between obstacle requires sensorimotor capabilites.</p>
 <p>To implement walls in Lenia we added a separate walls channels with a kernel from the wall channel to the creature channel. This kernel have a huge negative growth where there are walls and no impact on other pixels where there are no walls (very localized kernel). This way we prevent any growth in the pixels where there are walls. This is similar to [2] where they put antibiotic zone as obstacle where the bacteria can't live. The creature can only sense the wall through the changes&#x2F;deformations it implies on the creature.In fact, the only kernel that goes from the wall channel to the creature is the fixed kernel that we impose. And as this kernel is localized, the creature has to "touch" the wall to sense it. To be precise the creature can only know that there is a wall because it won't be able to grow in these area which will perturb the creature shape locally.(And because of the cellular automaton nature of the creature the information has to be transmitted to other cells.)</p>
+<div class="row l-page side">
+    <div class="column">
+      <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
+                    <source src="orbium.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
+                    <source src="orbiumWallb.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
+
 <p>Note that we used a kernel for the walls so that the system stays under the Lenia paradigm using local kernels only for the updates.</p>
 <p>In this study, the creature can't have any impact on the walls. This differs from other studies such as [5] in the game of life where the creature also perturb it's environment.</p>
+<div class="row l-page side">
+    <div class="column">
+      <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
+                    <source src="aquariumWall2.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
+                    <source src="multiK4.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
+
 <p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to walls as shown bellow. The multi channel creature(bottom left) dies from special collision with the wall. The multi kernel one is able to sense the wall and resist to perturbation but only if we slow time so that it can make more small updates. Also its movements are a kind of erratic.</p>
 <h4 id='differentiable-lenia'><strong>DIFFERENTIABLE LENIA</strong></h4>
 <p>Now that the environment is defined, we want to learn both the initialization and the CA rules leading to interesting behaviors. All parameters of the CA rule will be optimized, as well as the initialization which will be a square of fixed size.( each pixel will have its value optimized)</p>
 <p>To learn these parameters we chose to use gradient descent method. Thus we tried to make Lenia as Differentiable friendly as possible. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps:</p>
-
+<img src="freeK.png" alt="schemeK" class='l-body'>
 <p>The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
 <p>We did this shift because in the vanilla version of Lenia, the shape of the kernel was only given by a vector b of arbitrary size (but often max size 4). The number of bumps was given by the number of coefficient in b&gt;0. However, the fact that the number of bumps depends on the number of coefficient &gt; 0 prevents proper differentiation. (if a coefficient is at 0 then it won't change with gradient descent as it doesn't play a role, and if a coefficient is &gt;0 a gradient step can put it &lt;0 which will make a strong unexpected change). We could have left the number of bumps to an arbitrary value like 3, and only optimizing the height such as they stay &gt;0 but this would have been a strong limitation on the shape. The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
 <p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations and each iteration has it's result clipped between 0 and 1. We should thus limit ourselves to few iterations when training.</p>
 <h2 id='can-we-learn-moving-creature-in-lenia-'>Can we learn Moving Creature in Lenia ?</h2>
+<img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
 <p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like glider in the game of life. Note that moving creature in cellular automaton differ from other type of movement like muscle contraction or soft robot (article) by the fact that moving is growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this paper, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
 <p>Target image with MSE error seems effective to learn CA rule leading to certain pattern [7]. And the fact that it's a very informative loss, thus helping with vanishing gradient problem made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass . The first target shape we tried was a single disk. However after seeing that robust creature obtained seemed to have a "core" and a shallow envelopp, we informally chose to move to two superposed disk, a large shallow one with a thick smaller one on top. The target shape has the formula: </p>
-<p>0.1*(R&lt;1)+0.8*(R&lt;0.5)</p>
-<p>0.1∗(<i>R</i>&lt;1)+0.8∗(<i>R</i>&lt;0.5). We chose on purpose to have the sum to be smaller than 1 because as we clip to 1 the pixels after each update it&#x2F;s better to have pixel below 1 than pixel saturated if you want to have gradients.</p>
+<p>\(0.1*(R&lt;1)+0.8*(R&lt;0.5)\)</p>
+<p>. We chose on purpose to have the sum to be smaller than 1 because as we clip to 1 the pixels after each update it&#x2F;s better to have pixel below 1 than pixel saturated if you want to have gradients.</p>
 <p>However simply putting a target shape far from initialization and optimize towards it does not work most of the times. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization (so after the random initialization) . This comes from the fact that applying a lot of steps, each clipped, prevents gradient from flowing. The solution we propose to go further than this is curriculum learning.</p>
 <h3 id='imgep-and-utility-of-curriculum'><i>IMGEP and Utility of curriculum</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimisation. Then we just need to iterate this process.</p>
 <p>The effectiveness of curriculum with complex task has already been shown in [12] where they made an agent design increasingly complex tasks trying too make it both not too hard and not too easy for an other learning agent. And in complex self organizing systems in [13] where they needed to first make it learn easy computation in order to stabilize it.</p>
 <p>One modular way we introduced it was using IMGEP [14] which has already been used as an explorative tool in Lenia to explore the morphological space [10] [11].</p>
 <p>The general idea of IMGEP is to iteratively set new goals to achieve and for each of these goals try to learn a policy (here a policy is simply an initial state and the CA rule) that would suit this goal. THis way an IMGEP needs an interesting way to sample new goal for example based on intrinsic reward. It also needs a way to track the progress on this goal, and a way to optimize toward this goal. It also might use the knowledge acquired on other goals to learn new goals or attain them more quickly.</p>
-<p>Lenia Step (hover over gray area to show step by step)</p>
+<div class="l-middle-outset" style="position:relative">
+  <img id="schemeIMGEP" src="IMGEP.svg" alt="IMGEPscheme" width="100%" >
+  <div style="position:absolute; left:80%; top:79%; width:17%; height:9%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP1.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+  <div style="position:absolute; left:39%; top:85%; width:17%; height:11%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP2.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+  <div style="position:absolute; left:25%; top:11%; width:16%; height:13%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP3.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+  <div style="position:absolute; left:58%; top:36%; width:14%; height:13%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP4.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+ </div>
+ <p  style="font-size: 14px;color:#A0A0A0;text-align:center;" class="l-middle-outset">
+  Lenia Step (hover over gray area to show step by step)
+ </p>
+
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we will randomly sample position in the grid biasing the sampling toward one edge of the grid. we use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by intializing the parameters by the one that achieved the closest goal.</p>
 <p>The overall method can be summarized as such:</p>
 <p>Initialize randomly the history (sampling random parameters)</p>
@@ -629,7 +592,7 @@ T time scale </span><br>
       archivePrefix={arXiv},
       primaryClass={cs.NE}
   }
-  @article{Murugan2021Mechano,,
+  @article{Murugan2021Mechano,
     author = {Murugan, Nirosha J. and Kaltman, Daniel H. and Jin, Paul H. and Chien, Melanie and Martinez, Ramses and Nguyen, Cuong Q. and Kane, Anna and Novak, Richard and Ingber, Donald E. and Levin, Michael},
     title = {Mechanosensation Mediates Long-Range Spatial Decision-Making in an Aneural Organism},
     journal = {Advanced Materials},
@@ -711,6 +674,7 @@ T time scale </span><br>
 }
 </script>
 <script type="text/javascript">
+/*
   "use strict";
   var sliderSpeed = document.getElementById("rangeSpeed");
   var outputSpeed = document.getElementById("valueSpeed");
@@ -723,6 +687,7 @@ T time scale </span><br>
   for (var i = 0; i < videos.length; i++) {
   	videos[i].playbackRate = this.value;
   }}
+*/
   function changeImgIMGEP(img)
         {
             var schemeIMGEP=document.getElementById("schemeIMGEP");
