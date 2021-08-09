@@ -82,7 +82,7 @@ function ConvertGoogleDocToCleanHtml() {
   for (let i=0; i<body.getNumChildren(); ++i) {
     const p = body.getChild(i);
     const text = p.getText().trim();
-    foundStart |= (text == '<d-article>');
+    foundStart |= (text == '<dt-article>');
     if (!foundStart)
       continue;
     output.push(processItem(p, consts, false));
