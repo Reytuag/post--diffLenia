@@ -52,6 +52,10 @@
   <script type="text/javascript" src="gl.js"></script>
 
 
+<div style="position:fixed;bottom:0;left :-175px;">
+  <input type="range" min="0.1" max="3"  step="0.1" value="1" class="slider" id="rangeSpeed" >
+  <p> Speed of video: <span id="valueSpeed"></span></p>
+</div>
 
 
 
@@ -160,9 +164,7 @@
 <h2 id='can-we-learn-moving-creature-in-lenia-'>Can we learn Moving Creature in Lenia ?</h2>
 <img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
 <p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like glider in the game of life. Note that moving creature in cellular automaton differ from other type of movement like muscle contraction or soft robot (article) by the fact that moving is growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this paper, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
-<p>Target image with MSE error seems effective to learn CA rule leading to certain pattern [7]. And the fact that it's a very informative loss, thus helping with vanishing gradient problem made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass . The first target shape we tried was a single disk. However after seeing that robust creature obtained seemed to have a "core" and a shallow envelopp, we informally chose to move to two superposed disk, a large shallow one with a thick smaller one on top. The target shape has the formula: </p>
-<p>\(0.1*(R&lt;1)+0.8*(R&lt;0.5)\)</p>
-<p>. We chose on purpose to have the sum to be smaller than 1 because as we clip to 1 the pixels after each update it&#x2F;s better to have pixel below 1 than pixel saturated if you want to have gradients.</p>
+<p>Target image with MSE error seems effective to learn CA rule leading to certain pattern [7]. And the fact that it's a very informative loss, thus helping with vanishing gradient problem made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass . The first target shape we tried was a single disk. However after seeing that robust creature obtained seemed to have a "core" and a shallow envelopp, we informally chose to move to two superposed disk, a large shallow one with a thick smaller one on top. The target shape has the formula:\(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 because as we clip to 1 the pixels after each update it&#x2F;s better to have pixel below 1 than pixel saturated if you want to have gradients.</p>
 <p>However simply putting a target shape far from initialization and optimize towards it does not work most of the times. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization (so after the random initialization) . This comes from the fact that applying a lot of steps, each clipped, prevents gradient from flowing. The solution we propose to go further than this is curriculum learning.</p>
 <h3 id='imgep-and-utility-of-curriculum'><i>IMGEP and Utility of curriculum</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimisation. Then we just need to iterate this process.</p>
@@ -182,68 +184,168 @@
 
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we will randomly sample position in the grid biasing the sampling toward one edge of the grid. we use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by intializing the parameters by the one that achieved the closest goal.</p>
 <p>The overall method can be summarized as such:</p>
-<p>Initialize randomly the history (sampling random parameters)</p>
-<p>loop (number of Imgep step)</p>
-<p>sample target position&#x2F;goal</p>
-<p>Select the policy that achieved the closest position&#x2F;goal</p>
-<p>loop (number of optimisation steps)</p>
-<p>Run lenia</p>
-<p>Gradient descent toward the disk at target position</p>
-<p>See what is the position(ie goal) achieved</p>
+<div class=l-body>
+<pre>
+<code  style="line-height:0.4">
+    <p>Initialize randomly the history (sampling random parameters)</p>
+    <p>loop (number of Imgep step) </p>
+    <div style="margin:25px">
+    <p >   sample target position/goal</p>
+    <p >   Select the policy that achieved the closest position/goal</p>
+    <p>   loop (number of optimisation steps)</p>
+    <div style="margin:25px">
+    <p>       Run lenia </p>
+    <p>       Gradient descent toward the disk at target position</p>
+  </div>
+    <p>   See what is the position(ie goal) achieved</p>
+  </div>
+</code>
+</pre>
+</div>
+
 
 
 <h2 id='can-we-learn-robust-creatures-with-sensorimotor-capabilities-'>Can we learn robust creatures with sensorimotor capabilities ?</h2>
-<p>Initialization is the yellow square Green dashed line is at the same position in both.;</p>
-<p>Left: reached goal&#x2F;position library in green, target goal in red. THe policy selected is the one reaching the position in purple circle</p>
-<p>Right: Blue disks are the obstacles, red the target shape and green the creature at last timestep before optimisation .</p>
+<img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
+
+     <p  style="font-size: 13px;color:#A0A0A0;">
+      Initialization is the yellow square  Green dashed line is at the same position in both.; <br>
+
+     Left: reached goal/position library in green, target goal in red. THe policy selected is the one reaching the position in purple circle <br>
+
+      Right:  Blue disks are the obstacles, red the target shape and green the creature at last timestep before optimisation .
+     </p>
+
 <p>Now that we have an algorithm that is capable of learning moving creature in Lenia. the next step is to find a way to learn a creature that would resist and avoid obstacles in its environment, <strong>using the deformations the environment induces on it to sense </strong>. In this section, we'll try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creature. So we will learn a single global rule for multiple functions contrary to [6] which separates regenerating and building into two different CA.</p>
 <p>What we want to obtain is a creature that is able to generalize to different obstacles. To do so we will train the creatures using the method from previous section but adding randomly generated obstacles. This way our gradient descent will be stochastic gradient descent with the stochasticity coming from the sampling of the obstacles. The learning process will thus encounter a lot of different configurations and may find general behavior. In practice, we will only put obstacles in half the lattice grid. This way, there will be half of the grid free from obstacle where we will first learn a creature that is able to move without any perturbation as in previous section and then as we push the target further and further the creature will start to encounter obstacles. And the deeper the target position is, the more it will encounter obstacles and so the more it should be robust. In fact at the beginning you will just be a little perturbed by one obstacle and the target circle will optimize the creature to get past the obstacle and recover. (scheme) Then if you want the creature to go further it will have to encounter more obstacles and still be able to resist the second one even if the first one perturbed it. So the curriculum is made by going further and further because the further you go the more you will have to resist to obstacles. See appendix for more details on the obstacles.</p>
 <p>In the IMGEP, to take into account the fact that the position attained depends on the obstacle configuration, the reached goal will be an average of the position attained on different configurations of obstacles.</p>
-<p>Initialize randomly the history (sampling random parameters)</p>
-<p>loop (number of Imgep step)</p>
-<p>sample target position&#x2F;goal</p>
-<p>Select the policy that achieved the closest position&#x2F;goal</p>
-<p>loop (number of optimisation steps)</p>
-<p>Sample random obstacles</p>
-<p>Run lenia</p>
-<p>Gradient descent toward the disk at target position</p>
-<p>See what is the position(ie goal) achieved (mean over several random obstacles runs)</p>
+<div clas=l-body>
+ <pre>
+ <code  style="line-height:0.4">
+     <p>Initialize randomly the history (sampling random parameters)</p>
+     <p>loop (number of Imgep step) </p>
+     <div style="margin:25px">
+     <p >   sample target position/goal</p>
+     <p >   Select the policy that achieved the closest position/goal</p>
+     <p>   loop (number of optimisation steps)</p>
+     <div style="margin:25px">
+     <p style="color:rgba(255,0,0,0.5)">       Sample random obstacles  </p>
+     <p>       Run lenia </p>
+     <p>       Gradient descent toward the disk at target position</p>
+   </div>
+     <p>   See what is the position(ie goal) achieved <span style="color:rgba(255,0,0,0.5)"> (mean over several random obstacles runs) <span></p>
+   </div>
+ </code>
+ </pre>
+ </div>
+
 
 
 <h3 id='overcoming-bad-initialization-problem'><i>Overcoming "bad initialization" problem</i></h3>
-<p>The arrows show the dependencies between the creatures, the back of the arrow is the creature which initializes the optimization and the head of the arrow is the creature obtained after optimization. The arrows are only to show how much initialization and first optimisation steps mattter but dependencies is not used.</p>
+<img src="dependencies.svg" alt="schemeLearn" width="100%" class="l-body" >
+<p  style="font-size: 13px;color:#A0A0A0;">
+ The arrows show the dependencies between the creatures, the back of the arrow is the creature which initializes the optimization and the head of the arrow is the creature obtained after optimization. The arrows are only to show how much initialization and first optimisation steps mattter but dependencies is not used.
+</p>
+
 <p>Note that the random initialization of the history using random paramaters and the first steps have a huge impact on the performance of the method. Because it will be the basis on which most of the next optimization will be made.In fact, we will select one random initialization, and do the first optimization step on top of it. And as it will lead to a creature that goes a little bit further, when we'll sample new goal we will most of the time select this creature as the basis for the new optimization. Which will lead to a creature going further which in consequence will also be sampled after. And so in most of the runs, most of the creatures will be based more or less closely on the random initialization selected and also the first steps. However, if the initialization is "bad" or the first IMGEP steps, on which the nexts will be based, go in the "wrong" optimisation direction, optimization problems can arise.</p>
 <p>While training with this algorithm sometimes the optimisation could not get creature getting passed the obstacles, and would diverge to exploding or dying creature. This can be mitigated by adding random mutations before optimizing that could lead to better optimization spots by luck. It may unstuck the situation however the creature after mutation are often not that good and most of the time far from the previously achieved goal (because mutation often make "suboptimal" creature that may be slower than the one before mutation) which prevent learning. So mutation can help unstuck situation but also slows the training. This is why we apply less optimization steps for the mutated one, see appendix for more details.</p>
 <p>This does not solve the problem 100% of the time and that's why we also apply initialization selection. We run the first steps of the methode (random initialization and optimization), until we find an initialization which gives a good loss for the 3 first deterministic target (placed before the obstacles). Because the first steps will be the basis of most of the creatures and so if it struggle to make a moving creature, it will be hard for it to learn the senorimotor capabilities on top .This way we only keep the initializations and first steps that learned quickly and seemed to have room for improvement.</p>
 <h2 id='results'>Results</h2>
-<p>Speed of video: 1</p>
+<div class="row l-body">
+<div class="column">
+  <video id="robust" width="95%" controls="" loop muted="" class="videoShow">
+                <source src="robust.mp4" type="video/mp4">
+              </video>
+</div>
+<div class="column">
+  <video id="robust" width="95%" controls="" loop muted="" class="videoShow">
+                <source src="robust2.mp4" type="video/mp4">
+              </video>
+</div>
+</div>
+
 <p>In this section, we will test the creature to explore its sensorimotor capabilities and robustness. We will also test the creatures obtained in situation that it has not encounterd during training.</p>
 <h3 id='how-well-do-the-creatures-obtained-generalize-'><i>How well do the creatures obtained generalize ?</i></h3>
 <h4 id='are-the-creature-long-term-stable-'><strong>ARE THE CREATURE LONG TERM STABLE ?</strong></h4>
 <p>Even if we can not know if the creature is indefinitively stable, we can test for reasonable number of timesteps. The result is that the creature obtained with IMGEP with obstacles seems stable for 2000 timesteps while it has only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, Training a creature only for movement(without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in [7] where training to grow a creature from the same initialization (a pixel) led to pattern that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability. (by making the target shape a stronger attractor)</p>
-<h4 id='are-the-creatures-robust-to-new-obstacles-'><strong>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</strong></h4>
+<strong>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</strong>
+
+<video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
+              <source src="demoObstacle.mp4" type="video/mp4">
+            </video>
+
 <p>The resulting creatures are very robust to walls perturbations and able to navigate in difficult environment. The resulting creature seems able to recover from perturbation induced by various shape of wall including vertical walls.(see interactive demo) One very surprising emerging behavior is that the creature is sometimes able to come out of dead end showing how well this technique generalizes. There are still some failure cases, with creature obtained that can get unstable after some perturbation, but the creatures are most of the time robust to a lot of different obstacles. The generalization is due to the large diversity of obstacles encountered by the creature during the learning because 8 circle randomly placed can lead to a very diverse set of obstacles. Moreover as it learns to go further, the creature have to learn to collide with several obstacles one after the other and so be able to recover fast but also still be able to resist&#x2F;sense a second obstacle while not having fully recover.</p>
 <h4 id='are-the-creatures-robust-to-moving-obstacles-'><strong>ARE THE CREATURES ROBUST TO MOVING OBSTACLES ?</strong></h4>
+<video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
+              <source src="harderEnv.mp4" type="video/mp4">
+            </video>
+
 <p>We can make an harder out of distribution environment by adding movement to the obstacles. For example we can do bullet like environment where the tiny wall disks are shifted of few pixels at every step. The creature seems quite resilient to this kind of perturbation even if we can see that a well placed perturbation can kill the creature. However, this kind of environment differs a lot of what the creature has been trained on and therefore shows how much the creature learned to quickly recover from perturbations, even unseen ones.</p>
 <h4 id='are-the-creature-robust-to-asynchronous-update-with-noise-'><strong>ARE THE CREATURE ROBUST TO ASYNCHRONOUS UPDATE WITH NOISE ?</strong></h4>
+  <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
+                <source src="asynchro.mp4" type="video/mp4">
+              </video>
+
 <p>As done in [7], we can relax the assumption of synchronous update (which assumes a global clock) by adding stochastic update. By applying a mutation mask on each cell which is on in average 50% of the time we get partial asynhcronous updates. The creature we obtained with the previous training with synchronous updates seem to behave "normally" with stochastic updates. The creature is slowed a little bit but this is what we can expect as each cell is updated in average 50% of the time.</p>
 <h4 id='are-the-creature-robust-to-change-of-scale-'><strong>ARE THE CREATURE ROBUST TO CHANGE OF SCALE ?</strong></h4>
-<p>The grid is the same size as above to give you an idea of the scale change( kernel radius *0.4)</p>
+<p>&lt;video id&#x3D;&quot;model-editing-level-1-video-1&quot;  autoplay loop muted&#x3D;&quot;&quot; class&#x3D;&quot;videoShow l-middle side&quot;&gt;</p>
+<p>              &lt;source src&#x3D;&quot;smallerDie.mp4&quot; type&#x3D;&quot;video&#x2F;mp4&quot;&gt;</p>
+<p>            &lt;&#x2F;video&gt;</p>
+<p>      &lt;p class&#x3D;&quot;l-gutter&quot;  style&#x3D;&quot;font-size: 12px;color:#A0A0A0;&quot;&gt;</p>
+<p>        The grid is the same size as above to give you an idea of the scale change( kernel radius *0.4)</p>
+<p>      &lt;&#x2F;p&gt;</p>
+
 <p>We can change the scale of the creature by changing the radius of the kernels as well as the size of the initialization square. This way we can make much smaller creature that therefore have less pixels to do the computation. This scale reduction has a limit but we can get pretty small creature. The creature stil seem to be quite robust and be able to sense and react to their environment while having less space to compute. The creature are even able to reproduce, however they seem to be less robust than the bigger one as we can see some dying from collision. We can also do it the other way and have much bigger creature that therefore have more space to compute.</p>
 <h4 id='are-the-creatures-robust-to-change-of-initialization-'><strong>ARE THE CREATURES ROBUST TO CHANGE OF INITIALIZATION ?</strong></h4>
+<video id="model-editing-level-1-video-1"   controls="" muted="" class="videoShow l-middle side">
+              <source src="initCircleGrad.mp4" type="video/mp4">
+            </video>
+<video id="model-editing-level-1-video-1"   controls="" muted="" class="videoShow l-middle side">
+              <source src="initCircle.mp4" type="video/mp4">
+            </video>
+  <video id="model-editing-level-1-video-1"   controls="" muted="" class="videoShow l-middle side">
+                <source src="initDie.mp4" type="video/mp4">
+              </video>
+
 <p>While we didn't put any attention to initialization robustness and the creature initialization has been learned with a lot of degree of liberty, we can look if the same creature can emerge from other (maybe simpler) initialization. This would show how prone the CA rule learned is to grow the shape and maintain it. As the creature learned to recover from perturbed morphology, we can expect the shape to be a strong attractor thus letting more liberty on the initialization. In fact, what we find in practice is that the creature can emerge from other initialization, especially as shown here circle with a gradient. Bigger initializations also lead to multiple creature forming and seprating from each other (see next section for more about individuality). However the robustness to initialization is far from being perfect as other initializations easily lead to death, like for example here a circle of inapropriate size.</p>
 <h3 id='multi-creature-setting'><i>Multi creature setting</i></h3>
 <p>By adding more initialization square in the grid, we can add several creature with the same update rule letting us observe multicreature . As pointed out in [5], other entity are also part of the environment for the creature and can give rise to nice interactions. Maturana and Varela even refer to this kind of interaction as communication. Note that the creature never encountered any other creature during its training and was always alone.</p>
 <h4 id='individuality'><strong>INDIVIDUALITY</strong></h4>
+<video id="robust" width="95%"  autoplay controls="" loop muted="" class="l-middle side videoShow">
+                 <source src="demo.mp4" type="video/mp4">
+               </video>
+
 <p>The creature obtained shows strong individuality preservation. In fact, creatures goes in non destructive interactions most of the times without merging. As said before, we can tune the weight of the kernels (especially the limiting growth one) to make the merge of two creature harder. By increasing those limiting growth kernels, the repeal of two entities get stronger and they will simply change direction. (Individuality has also been observed in the "orbium" creature in Lneia for exemple but much more fragile, a lot of collision led to destruction or explosion)</p>
 <h4 id='attraction'><strong>ATTRACTION</strong></h4>
-<p>If they are too far from each other no attraction.</p>
+<video id="robust" width="95%"  autoplay controls="" loop muted="" class="l-middle side videoShow">
+                 <source src="stick.mp4" type="video/mp4">
+               </video>
+
+   <video id="robust" width="95%"  autoplay  loop muted="" class="l-gutter videoShow">
+                 <source src="stickFar.mp4" type="video/mp4">
+               </video>
+     <p class="l-gutter" style="font-size: 13px;color:#A0A0A0;  ">
+       If they are too far from each other no attraction.
+     </p>
+
 <p>One other type of interaction between two creature of the same species(governed by the same update rule&#x2F;physic) is creature getting stuck together. The two creatures seem to attract each other a little bit when they are close enough leading to the two creature stuck together going in the same direction. When they encounter an obstacle and separate briefly, their attraction reassemble them together. Even when they're stuck together, from a human point of view seeing this system, we ce can still see 2 distinct creatures. This type of behavior is studied in the game of life in [5] with the notion of consensual domain.</p>
 
 <h4 id='reproduction'><strong>REPRODUCTION</strong></h4>
+<video id="robust" width="95%"  autoplay  controls="" loop muted="" class="l-middle side videoShow">
+                <source src="repro.mp4" type="video/mp4">
+              </video>
+
 <p>Another interesting interaction we observed during colision was "reproduction". In fact for some collision, we could observe the birth of a 3rd entity. This kind of interaction seemed to happen when one of the two entity colliding was in a certain "mode" like when it just hit a wall. Our intuition is that when it hits a wall, it has to have a growth response in order to recover. And during this growth response if we add some perturbation of another entity it might separate this growth from the entity and then this separated mass from strong self-organization grows into a complete individual.</p>
 <h3 id='still-failure-cases'><i>Still failure cases</i></h3>
 <p>Even with the initialization selection and small mutations, sometimes the algorithm doesn't seem able to learn to go past obstacles and we can't reach goal position beyond a certain limit near the beginning of walls.</p>
+<video id="robust" width="100%" autoplay loop muted="" class="videoShow l-middle side">
+              <source src="unstable.mp4" type="video/mp4">
+            </video>
+
+<video id="robust" width="100%" autoplay loop muted="" class="videoShow l-middle side">
+              <source src="strange210.mp4" type="video/mp4">
+            </video>
+
 <p>The main creature used in most of the demo&#x2F;test above is very robust but with different configuration it's possible to kill or explode others creature. However they were only trained for 50 timesteps (2seconds in the clips above) and witth always 8 obstacle of the same type (even if their position induced diversity). Further training of the parameters for more robustness should be achievable. In the Multi creature case, we can have death and explosion but it has not been trained for that.</p>
 <h2 id='related-works'>Related works</h2>
 <h4 id='classic-ca-cognition'><strong>CLASSIC CA COGNITION</strong></h4>
@@ -257,6 +359,10 @@
 <p>[11][10]</p>
 <h2 id='discussion'>Discussion</h2>
 <p>What's interesting in such system is that <strong>the computation of decision is done at the macro (group) level</strong>, showing how a group of simple identical entities through local interactions can make "decision", sense at the macro scale. Seeing these creature it's even hard to believe that they are in fact made of tiny part all behaving under the same rules. Moreover the creatures presented here are all 1 channels creature, there is no hidden channel where some value could be stored.</p>
+ <video id="robust" width="95%"  autoplay  controls="" loop muted="" class="l-middle side videoShow">
+               <source src="damageHand.mp4" type="video/mp4">
+             </video>
+
 <p>In order to navigate, <strong>the creature first need to sense the wall through a deformation of macro creature </strong>. Then after this deformation it has to make a <strong>collective "decision" </strong>on where to grow next and then move and regrow it's shape. We can even do the deformation ourselves by suppressing a part of the creature. It's not clear looking at the kernels activity which ones are responsible for these decision if not all. How the decision is made remains a mystery. Moreover some cells don't even see the deformation because they're too far so some messages from the one that see have to be transmitted.</p>
 <p>Maybe each kernel has its own purpose, some may be responsible for growth, some for detection of deformation, some for decision. If it's the case, we could even see those creature as modular adding new functionalities by adding new kernels. However as there is a quite strict equilibrium between kernel, i doubt that we could simply plug new kernels without disturbing this equilibrium.</p>
 <p>One major difference between the neural CA model used in [7] and Lenia is that the radius of the neighbourhood of each cell that we used is quite big. In fact, in [7] they use a Moore neighbourhood (direct neighbours and diagonal) while we use kernel of large size :radius 28 or so during training (but that's an arbitrary choice, even if large radius helps to train fast as creature overlap more easily and from larger distance with the target shape and so we can make larger curriculum steps, having larger target area may also help the MSE optimization ) and we can downscale our creature to have a radius of approximatively 6. Maybe using message passing like model we can get something equivalent with moore neighbourhood. One interesting experiment would be to try to fit a Neural CA on the creature obtained here and see if it can make approximatively the same creature with moore neighbourhood. We also think that hidden channel could help in this case maybe by storing some value. One other difference from [7] is that our kernels are totally symetrical while theirs have the notion of up and down, right and left which might be helpful if we want the creature to have a prefered direction and know in which direction it is pointing.</p>
