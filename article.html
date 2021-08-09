@@ -10,6 +10,49 @@
               </video>
 
 
+  <dt-byline></dt-byline>
+
+  <canvas id="glCanvas" width="640" height="360" class='l-body'></canvas>
+  <!--shadertoy at mac 840x472, at win 640x360-->
+  <div id="showText" onclick="this.style.display='none';">initializing...</div>
+  <p id="instructionDemo"class="l-gutter" style="font-size: 12px;color:#A0A0A0;"> Radius 0.5 is good to spawn creatures<br> Click on screen to spawn </p>
+  <p> press p to pause and enter to clear </p>
+  <div class='l-body row'>
+    <div class="column">
+      <input type="range" min="0.1" max="1"  step="0.1" value="0.5" class="slider" id="rangeRadiusWall" >
+      <p> Brush size: <span id="valueRadiusWall"></span></p>
+      <input type="range" min="6" max="20"  step="0.1" value="8.5" class="slider" id="rangeRadius" style="display:none">
+      <p style="display:none"> Radius of kernels (size of creature): <span id="valueRadius"></span></p>
+    </div>
+    <div class="column">
+      <input type="range" min="2" max="8"  step="1" value="2" class="slider" id="rangeZoom" >
+      <p> Zoom : <span id="valueZoom"></span></p>
+    </div>
+  </div>
+  <div class="radio-toolbar" id="optionDiv">
+    <input type="radio" id="radioErase"  name='option'  value="erase">
+    <label for="radioErase">Eraser</label>
+
+    <input type="radio" id="radioCircle"  name='option'  value="circle">
+    <label for="radioCircle">Wall Dot</label>
+
+    <input type="radio" id="radioCreature" name='option'  value="creature" checked>
+    <label for="radioCreature">Place Creature</label>
+
+    <input type="radio" id="radioZoom" name='option'  value="zoom" >
+    <label for="radioZoom">Zoom</label>
+
+    <input type="radio" id="radioAttract" name='option'  value="attract" >
+    <label for="radioAttract">Attractor</label>
+</div>
+
+
+
+  <script type="text/javascript" src="utils.js"></script>
+  <script type="text/javascript" src="gl.js"></script>
+
+
+
 
 
 
@@ -31,7 +74,7 @@
 <p>In this work, we chose to add walls in Lenia to study the sensorimotor behavior of a self organizing agent. We propose a method based on gradient descent to learn the CA update rule leading to robustness and sensorimotor capabilities with walls. The creature we obtain, from the deformation induced by the walls on some part of it make new deicision at the macro level on where to go&#x2F;how to react. What's even more interesting is that the computation made for the decision are all made in the creature itself, at the morphology level. In this study, to characterize creatures as creature with sensorimotor capabilities, we look if this creature can pass some basic test of robustness to a diversity of obstacles.</p>
 <h2 id='the-system'>The system</h2>
 
-<div class="l-screen-inset" style="position:relative">
+  <div class="l-screen-inset" style="position:relative">
   <img src="LeniaWall.svg" alt="scheme">
 
   <div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
@@ -117,6 +160,8 @@ T time scale </span><br>
   <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
 
   </div>
+
+
 
 <h4 id='lenia'><strong>LENIA</strong></h4>
 <p>The cellular automaton we will study in this work is Lenia [8][9]. Lenia is a system of continous cellular automata where a wide variety of complex behavior has already been osberved, including what looks like sensorimotor-capabilities. In this work i will use the multi channel, multi kernel version of Lenia [8] but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
