@@ -32,7 +32,7 @@ var imouseDrawLoca,zoomLoca,iResolutionLoca;
 var framebufferA, framebufferB, textureA, textureB;
 var frameFlip = false;
 
-var pause = false;
+var pause = true;
 var gen, frame;
 var startTime;
 var lastTime;
