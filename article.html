@@ -90,6 +90,10 @@
 <p>In Maturana and Varela work [3][4], cognition is centered around how an agent "reacts" to the perturbation induced by its environment, ie sensory stimulus. More precisely, they introduce the notion of cognitive domain of a self-organizing system which are all the perturbations induced by the environment which do not result in the destruction of the self-organizing system. Their notion of cognition is thus deeply linked with how a self-organizing creature will try to preserve its integrity in its environment.</p>
 <p>From their theories, studies have been made to apply those notion to examples of self-organizing systems. One of the main test bed is cellular automata, which consists of a grid of states where only local update are allowed, and yet very complex self organizing pattern can emerge. One famous cellular automata is the game of life. The game of life and especially a moving pattern :the glider, has been studied under their paradigm [5] showing again the richness and complexity of such system. However, even if the glider in the game of life has shown to be a good toy model to explicit those theories with interesting interaction, they're also quite simple entity that are not very robust, with a lot of perturbation leading to destruction. Also in those work, the environment wasn't well defined like walls food, but rather other structures&#x2F;creatures.</p>
 <p>Other studies, taking inspiration from biological regrowth in some animals and morphogenesis, focused on the recovery from Deformation&#x2F; damage [6] [7], applying Cellular automata to build and regenerate damaged parts. But none of them use the CA rule to move the creature.</p>
+<video id="robust" width="100%" autoplay loop muted="" class="videoShow l-body side">
+                <source src="pacman.mp4" type="video/mp4">
+              </video>
+
 <p>In Lenia [8] [9] which is a continous cellular automata, we can already observe sensorimotor capabilities(see section Lenia). However, even if there are interaction between some entity, there is no well defined environment. Moreover the search for new creature in Lenia was first done manually testing parameters and mutating it or with simple evolutionary algorithm, which might take time and luck to find the type of creature we really expect. Other studies [10] [11] focused on exploring as much as possible the space of morphology in Lenia using intrinsically motivated explorer . However this last techniques didn't focused much on finding moving creature.</p>
 <p>Finding moving creatures in Cellular automata differ from most classic RL experiment which evolve a body and train a separate controler as in cellular automata the body and its update rule are the controler.</p>
 <p>Define things</p>
@@ -538,7 +542,7 @@
       archivePrefix={arXiv},
       primaryClass={cs.NE}
   }
-  @article{https://doi.org/10.1002/adma.201758161,
+  @article{Murugan2021Mechano,,
     author = {Murugan, Nirosha J. and Kaltman, Daniel H. and Jin, Paul H. and Chien, Melanie and Martinez, Ramses and Nguyen, Cuong Q. and Kane, Anna and Novak, Richard and Ingber, Donald E. and Levin, Michael},
     title = {Mechanosensation Mediates Long-Range Spatial Decision-Making in an Aneural Organism},
     journal = {Advanced Materials},
