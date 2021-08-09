@@ -51,36 +51,7 @@
 
 
 
-  <d-content class="figcaption" >
-  <nav style="margin-left:2em">
-    <h2>Contents</h2>
-    <h5><a href="#introduction">Introduction</a></h5>
-    <h5><a href="#system">The System</a></h5>
-    <ul>
-      <li><a href="#Lenia">Lenia</a></li>
-      <li><a href="#walls">Walls</a></li>
-      <li><a href="#differentiable">Differentiable Lenia</a></li>
-    </ul>
-    <h5><a href="#movingCrea">Can we learn moving Creature in Lenia ? </a></h5>
-    <ul>
-      <li><a href="#movingCrea">Target shape</a></li>
-      <li><a href="#IMGEPcurriculum">IMGEP and utility of curriculum</a></li>
-    </ul>
-    <h5><a href="#robustCrea">Can we learn robust creatures with sensorimotor capabilities ?</a></h5>
-    <ul>
-      <li><a href="#robustCrea">Method</a></li>
-      <li><a href="#badInit">Overcoming bad initialization problem</a></li>
-    </ul>
-    <h5><a href="#results">Results</a></h5>
-    <ul>
-      <li><a href="#generalize"> How well do the creatures obtained generalize ?</a></li>
-      <li><a href="#multicrea">Multi creature setting</a></li>
-    </ul>
-    <h5><a href="#related">Related works</a></h5>
-    <h5><a href="#discussion">Discussion</a></h5>
-    <h5><a href="#appendix">Appendix</a></h5>
-  </nav>
-  </d-content>
+
 
 
 <p>Spatially localized patterns in cellular automata have shown a lot of interesting behavior that led to new understanding of self-organizing system. While the notion of environment is a keypoint in Maturana and Varela biology of cognition, studies on cellular automata rarely introduced a well defined environment in their system. In this paper, we propose to add walls in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, ie robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to learn the CA rule leading to such creature. The creature obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles in their way.</p>
@@ -277,7 +248,17 @@ T time scale </span><br>
 <p>The effectiveness of curriculum with complex task has already been shown in [12] where they made an agent design increasingly complex tasks trying too make it both not too hard and not too easy for an other learning agent. And in complex self organizing systems in [13] where they needed to first make it learn easy computation in order to stabilize it.</p>
 <p>One modular way we introduced it was using IMGEP [14] which has already been used as an explorative tool in Lenia to explore the morphological space [10] [11].</p>
 <p>The general idea of IMGEP is to iteratively set new goals to achieve and for each of these goals try to learn a policy (here a policy is simply an initial state and the CA rule) that would suit this goal. THis way an IMGEP needs an interesting way to sample new goal for example based on intrinsic reward. It also needs a way to track the progress on this goal, and a way to optimize toward this goal. It also might use the knowledge acquired on other goals to learn new goals or attain them more quickly.</p>
-<p>Lenia Step (hover over gray area to show step by step)</p>
+<div class="l-middle-outset" style="position:relative">
+  <img id="schemeIMGEP" src="IMGEP.svg" alt="IMGEPscheme" width="100%" >
+  <div style="position:absolute; left:80%; top:79%; width:17%; height:9%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP1.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+  <div style="position:absolute; left:39%; top:85%; width:17%; height:11%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP2.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+  <div style="position:absolute; left:25%; top:11%; width:16%; height:13%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP3.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+  <div style="position:absolute; left:58%; top:36%; width:14%; height:13%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP4.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
+ </div>
+ <p  style="font-size: 14px;color:#A0A0A0;text-align:center;" class="l-middle-outset">
+  Lenia Step (hover over gray area to show step by step)
+ </p>
+
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we will randomly sample position in the grid biasing the sampling toward one edge of the grid. we use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by intializing the parameters by the one that achieved the closest goal.</p>
 <p>The overall method can be summarized as such:</p>
 <p>Initialize randomly the history (sampling random parameters)</p>
