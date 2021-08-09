@@ -64,26 +64,26 @@
     <h5><a href="#introduction">Introduction</a></h5>
     <h5><a href="#system">The System</a></h5>
     <ul>
-      <li><a href="#Lenia">Lenia</a></li>
+      <li><a href="#lenia">Lenia</a></li>
       <li><a href="#walls">Walls</a></li>
-      <li><a href="#differentiable">Differentiable Lenia</a></li>
+      <li><a href="#differentiable-lenia">Differentiable Lenia</a></li>
     </ul>
-    <h5><a href="#movingCrea">Can we learn moving Creature in Lenia ? </a></h5>
+    <h5><a href="#can-we-learn-moving-creature-in-lenia">Can we learn moving Creature in Lenia ? </a></h5>
     <ul>
-      <li><a href="#movingCrea">Target shape</a></li>
-      <li><a href="#IMGEPcurriculum">IMGEP and utility of curriculum</a></li>
+      <li><a href="#can-we-learn-moving-creature-in-lenia">Target shape</a></li>
+      <li><a href="#imgep-and-utility-of-curriculum">IMGEP and utility of curriculum</a></li>
     </ul>
-    <h5><a href="#robustCrea">Can we learn robust creatures with sensorimotor capabilities ?</a></h5>
+    <h5><a href="#can-we-learn-robust-creature-with-sensorimotor-capabilities-">Can we learn robust creatures with sensorimotor capabilities ?</a></h5>
     <ul>
-      <li><a href="#robustCrea">Method</a></li>
-      <li><a href="#badInit">Overcoming bad initialization problem</a></li>
+      <li><a href="#can-we-learn-robust-creature-with-sensorimotor-capabilities-">Method</a></li>
+      <li><a href="#overcoming-bad-initialization-problem">Overcoming bad initialization problem</a></li>
     </ul>
     <h5><a href="#results">Results</a></h5>
     <ul>
-      <li><a href="#generalize"> How well do the creatures obtained generalize ?</a></li>
-      <li><a href="#multicrea">Multi creature setting</a></li>
+      <li><a href="#how-well-do-the-creatures-obtaines-generalize-"> How well do the creatures obtained generalize ?</a></li>
+      <li><a href="#multi-creature-setting">Multi creature setting</a></li>
     </ul>
-    <h5><a href="#related">Related works</a></h5>
+    <h5><a href="#related-works">Related works</a></h5>
     <h5><a href="#discussion">Discussion</a></h5>
     <h5><a href="#appendix">Appendix</a></h5>
   </nav>
@@ -110,7 +110,7 @@
 <p>Finding moving creatures in Cellular automata differ from most classic RL experiment which evolve a body and train a separate controler as in cellular automata the body and its update rule are the controler.</p>
 <p>Define things</p>
 <p>In this work, we chose to add walls in Lenia to study the sensorimotor behavior of a self organizing agent. We propose a method based on gradient descent to learn the CA update rule leading to robustness and sensorimotor capabilities with walls. The creature we obtain, from the deformation induced by the walls on some part of it make new deicision at the macro level on where to go&#x2F;how to react. What's even more interesting is that the computation made for the decision are all made in the creature itself, at the morphology level. In this study, to characterize creatures as creature with sensorimotor capabilities, we look if this creature can pass some basic test of robustness to a diversity of obstacles.</p>
-<span id="system"> </span>
+
 <h2 id='the-system'>The system</h2>
 
   <div class="l-screen-inset" style="position:relative">
@@ -118,7 +118,7 @@
   </div>
 
 
-<span id="Lenia"> </span>
+
 <h4 id='lenia'><strong>LENIA</strong></h4>
 
 <p>The cellular automaton we will study in this work is Lenia [8][9]. Lenia is a system of continous cellular automata where a wide variety of complex behavior has already been osberved, including what looks like sensorimotor-capabilities. In this work i will use the multi channel, multi kernel version of Lenia [8] but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
@@ -202,7 +202,7 @@
 <p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like glider in the game of life. Note that moving creature in cellular automaton differ from other type of movement like muscle contraction or soft robot (article) by the fact that moving is growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this paper, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
 <p>Target image with MSE error seems effective to learn CA rule leading to certain pattern [7]. And the fact that it's a very informative loss, thus helping with vanishing gradient problem made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass . The first target shape we tried was a single disk. However after seeing that robust creature obtained seemed to have a "core" and a shallow envelopp, we informally chose to move to two superposed disk, a large shallow one with a thick smaller one on top. The target shape has the formula:\(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 because as we clip to 1 the pixels after each update it&#x2F;s better to have pixel below 1 than pixel saturated if you want to have gradients.</p>
 <p>However simply putting a target shape far from initialization and optimize towards it does not work most of the times. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization (so after the random initialization) . This comes from the fact that applying a lot of steps, each clipped, prevents gradient from flowing. The solution we propose to go further than this is curriculum learning.</p>
-<span id="IMGEPcurriculum"> </span>
+
 <h3 id='imgep-and-utility-of-curriculum'><i>IMGEP and Utility of curriculum</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimisation. Then we just need to iterate this process.</p>
 <p>The effectiveness of curriculum with complex task has already been shown in [12] where they made an agent design increasingly complex tasks trying too make it both not too hard and not too easy for an other learning agent. And in complex self organizing systems in [13] where they needed to first make it learn easy computation in order to stabilize it.</p>
