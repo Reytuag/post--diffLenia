@@ -26,34 +26,53 @@
 <li>Update the <i>password</i><i><strong> </i></strong>parameter in main.html to a password of your choosing. The default password is <strong>selforgtheworld</strong>.</li>
 <li>Navigate to <i>https:&#x2F;&#x2F;username.github.com&#x2F;post--canonicalized-article-name&#x2F;public</i> to see a live draft of the page. This draft typically updates within 30-40 seconds after running an export. The link to the rendered version of this tutorial is <a href='https://eyvind.me/gdocs_distill_template/public/'>here</a><strong>.</strong></li></ul>
 
-<h2 id='optional-adding'>(Optional) Adding to Existing Google Doc</h2>
+<h2 id='optional-adding-to-existing-google-doc'>(Optional) Adding to Existing Google Doc</h2>
 <p>Alternatively you can install the script manually on an existing Google Doc.</p>
 
 <ul><li>Press Tools-&gt;Script Editor. The new "Apps Script" tab will open.</li>
 <li>In the Script Editor tab replace the content of the "Code.gs" script with the code from "bin&#x2F;gdoc2html.gs". You can also rename "Untitled project" into something meaningful.</li>
 <li>Go back to the document tab and reload it. The new "HTML Export" menu will appear.</li></ul>
 <h2 id='features'>Features</h2>
-<h3>Citations</h3>
+<h3 id='citations'>Citations</h3>
 <p>To insert citations, edit the file &quot;<i>public&#x2F;bibliography.bib</i>&quot; and add citations in the BibTex format.  Then, in the text, simply insert a citation as can be seen in the Google Doc <d-cite key="mordvintsev_niklasson"></d-cite>. This will show up as a footnote with a bibliography at the end, placed using the &lt;d-citation-list&gt; section.</p>
-<h3>Colab Button</h3>
+<h3 id='colab-button'>Colab Button</h3>
 <p>There is built in support for a &quot;Try in Colab&quot; button. To insert this, make sure you have the <i><strong>colab</i></strong> constant defined in the constants table in the doc. Simple write </p>
 <p><a href="https://colab.research.google.com/github/google-research/self-organising-systems/blob/master/notebooks/growing_ca.ipynb#scrollTo=lyxeGm6dJX8D" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a> </p>
 <p>to insert a colab link. This will be rendered as a link with a <i>scrollTo </i>the specified section of the colab.</p>
-<h3>Hyperlinks</h3>
+<h3 id='hyperlinks'>Hyperlinks</h3>
 <p>The export script respects hyperlinks and hyperlinked text in Google Docs, and faithfully reproduces it in the rendered HTML.</p>
-<h3>Smart Quotes</h3>
+<h3 id='smart-quotes'>Smart Quotes</h3>
 <p>By default Google Docs uses &quot;smart quotes&quot; (UTF-8 quotes which differ based on whether they are at the beginning or end of a phrase). This does not play well with HTML. The export script replaces these quotes with the standard ASCII double and single quotes.</p>
-
-<h3>Lists and sublists</h3>
+<h3 id='lists-and-sublists'>Lists and sublists</h3>
 <ul><li>The script faithfully reproduces lists as HTML lists. </li><ul>
 <li>It respects nesting.</li><ul><ul><ul>
 <li>Even discontinuous nesting</li></ul></ul></ul></ul>
 <li>To change the appearance of the HTML lists, please edit the stylesheet.</li></ul>
-<h3>Latex</h3>
+<h3 id='latex'>Latex</h3>
 <p>The underlying Distill template has Latex compilation enabled. To insert equations, simply wrap them as follows: $(\vec{x} &gt; \vec{y}) \, \forall \, \vec{y}$.</p>
-<h3>Custom HTML</h3>
+<h3 id='custom-html'>Custom HTML</h3>
 <p>Most special characters (for HTML) in the Google Doc are escaped (&lt;, &gt;, &#x2F;, …). However, you can add HTML to have it be exported as-is to the generated HTML in GitHub. To do so, simply mark it as having the <i>Subtitle</i> paragraph style in Google Docs. If you duplicated this template, we have adjusted the <i>Subtitle</i> paragraph style to be visually unobtrusive. If you are using your own document from scratch, the functionality will still work and you can alter the <i>Subtitle</i> paragraph style to look how you want. For an example of inline HTML in the Google Doc, see the below footer code (in the rendered page, you will see the bibliography).</p>
 
+<h3 id='videos'>Videos</h3>
+<p>There is some simple boilerplate to add videos with an overlaid &quot;play&quot; button in the template. Feel free to customize this, but for a simple video use the following HTML snippet. Customize the &quot;#t&#x3D;x.x&quot; to change the preview image for the video (prior to playing) to a specific time in the video, and customize the "src" attribute to choose the video.</p>
+
+<p></p>
+<figure>
+  <div class="vc">
+    <div class="vidoverlay"></div>
+      <video playsinline muted width="300px" preload="auto">
+        <source src="grid.mov#t=0.3" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+  </div>
+  <figcaption>
+Example of an inline video.
+  </figcaption>
+</figure>
+<h3 id='apps-script-changelog'>Apps Script Changelog</h3>
+<ul><li>16&#x2F;01&#x2F;2021</li><ul>
+<li>Allow links in footnotes.</li>
+<li>Fix URI fragment generation (longer fragments for uniqueness + fixed bug) </li></ul></ul>
 </d-article>
 <d-appendix>
     <d-footnote-list></d-footnote-list>
