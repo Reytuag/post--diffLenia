@@ -72,7 +72,7 @@
               </video>
 
 
-<p>In Lenia [8] [9] which is a continous cellular automata, we can already observe sensorimotor capabilities(see section Lenia). However, even if there are interaction between some entity, there is no well defined environment. Moreover the search for new creature in Lenia was first done manually testing parameters and mutating it or with simple evolutionary algorithm, which might take time and luck to find the type of creature we really expect. Other studies [10] [11] focused on exploring as much as possible the space of morphology in Lenia using intrinsically motivated explorer . However this last techniques didn't focused much on finding moving creature.</p>
+<p>In Lenia [8] [9] which is a continuous cellular automata, we can already observe sensorimotor capabilities(see section Lenia). However, even if there are interaction between some entity, there is no well defined environment. Moreover the search for new creature in Lenia was first done manually testing parameters and mutating it or with simple evolutionary algorithm, which might take time and luck to find the type of creature we really expect. Other studies [10] [11] focused on exploring as much as possible the space of morphology in Lenia using intrinsically motivated explorer . However this last techniques didn't focused much on finding moving creature.</p>
 <p>Finding moving creatures in Cellular automata differ from most classic RL experiment which evolve a body and train a separate controler as in cellular automata the body and its update rule are the controler.</p>
 <p>Define things</p>
 <p>In this work, we chose to add walls in Lenia to study the sensorimotor behavior of a self organizing agent. We propose a method based on gradient descent to learn the CA update rule leading to robustness and sensorimotor capabilities with walls. The creature we obtain, from the deformation induced by the walls on some part of it make new deicision at the macro level on where to go&#x2F;how to react. What's even more interesting is that the computation made for the decision are all made in the creature itself, at the morphology level. In this study, to characterize creatures as creature with sensorimotor capabilities, we look if this creature can pass some basic test of robustness to a diversity of obstacles.</p>
@@ -268,12 +268,11 @@
 <h3 id='how-well-do-the-creatures-obtained-generalize-'><i>How well do the creatures obtained generalize ?</i></h3>
 <h4 id='are-the-creature-long-term-stable-'><strong>ARE THE CREATURE LONG TERM STABLE ?</strong></h4>
 <p>Even if we can not know if the creature is indefinitively stable, we can test for reasonable number of timesteps. The result is that the creature obtained with IMGEP with obstacles seems stable for 2000 timesteps while it has only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, Training a creature only for movement(without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in [7] where training to grow a creature from the same initialization (a pixel) led to pattern that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability. (by making the target shape a stronger attractor)</p>
-<strong>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</strong>
 
+<h4 id='are-the-creatures-robust-to-new-obstacles-'>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</h4>
 <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
               <source src="demoObstacle.mp4" type="video/mp4">
             </video>
-
 <p>The resulting creatures are very robust to walls perturbations and able to navigate in difficult environment. The resulting creature seems able to recover from perturbation induced by various shape of wall including vertical walls.(see interactive demo) One very surprising emerging behavior is that the creature is sometimes able to come out of dead end showing how well this technique generalizes. There are still some failure cases, with creature obtained that can get unstable after some perturbation, but the creatures are most of the time robust to a lot of different obstacles. The generalization is due to the large diversity of obstacles encountered by the creature during the learning because 8 circle randomly placed can lead to a very diverse set of obstacles. Moreover as it learns to go further, the creature have to learn to collide with several obstacles one after the other and so be able to recover fast but also still be able to resist&#x2F;sense a second obstacle while not having fully recover.</p>
 <h4 id='are-the-creatures-robust-to-moving-obstacles-'><strong>ARE THE CREATURES ROBUST TO MOVING OBSTACLES ?</strong></h4>
 <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
@@ -288,12 +287,12 @@
 
 <p>As done in [7], we can relax the assumption of synchronous update (which assumes a global clock) by adding stochastic update. By applying a mutation mask on each cell which is on in average 50% of the time we get partial asynhcronous updates. The creature we obtained with the previous training with synchronous updates seem to behave "normally" with stochastic updates. The creature is slowed a little bit but this is what we can expect as each cell is updated in average 50% of the time.</p>
 <h4 id='are-the-creature-robust-to-change-of-scale-'><strong>ARE THE CREATURE ROBUST TO CHANGE OF SCALE ?</strong></h4>
-<p>&lt;video id&#x3D;&quot;model-editing-level-1-video-1&quot;  autoplay loop muted&#x3D;&quot;&quot; class&#x3D;&quot;videoShow l-middle side&quot;&gt;</p>
-<p>              &lt;source src&#x3D;&quot;smallerDie.mp4&quot; type&#x3D;&quot;video&#x2F;mp4&quot;&gt;</p>
-<p>            &lt;&#x2F;video&gt;</p>
-<p>      &lt;p class&#x3D;&quot;l-gutter&quot;  style&#x3D;&quot;font-size: 12px;color:#A0A0A0;&quot;&gt;</p>
-<p>        The grid is the same size as above to give you an idea of the scale change( kernel radius *0.4)</p>
-<p>      &lt;&#x2F;p&gt;</p>
+<video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
+              <source src="smallerDie.mp4" type="video/mp4">
+            </video>
+      <p class="l-gutter"  style="font-size: 12px;color:#A0A0A0;">
+        The grid is the same size as above to give you an idea of the scale change( kernel radius *0.4)
+      </p>
 
 <p>We can change the scale of the creature by changing the radius of the kernels as well as the size of the initialization square. This way we can make much smaller creature that therefore have less pixels to do the computation. This scale reduction has a limit but we can get pretty small creature. The creature stil seem to be quite robust and be able to sense and react to their environment while having less space to compute. The creature are even able to reproduce, however they seem to be less robust than the bigger one as we can see some dying from collision. We can also do it the other way and have much bigger creature that therefore have more space to compute.</p>
 <h4 id='are-the-creatures-robust-to-change-of-initialization-'><strong>ARE THE CREATURES ROBUST TO CHANGE OF INITIALIZATION ?</strong></h4>
