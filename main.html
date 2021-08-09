@@ -1,48 +1,24 @@
 <!doctype html>
+<meta charset="utf-8">
+<script src="template.v1.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://distill.pub/template.v2.js"></script>
-</head>
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
 
-<body>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+<script type="text/front-matter">
+  title: "Learning Sensorimotor Capabilities in Cellular Automata"
+  description: "Description of the post"
+  authors:
+  - Gautier Hamon: https://reytuag.github.io/
+  affiliations:
+  - affiliation:
+</script>
 
-  <d-front-matter>
-    <script type="text/json">{
-      "title": "A Minimalist Google Docs workflow for Distill.pub",
-      "description": "A simple build system for Distill.",
-      "password": "leniaDiff",
-      "authors": [
-        {
-          "author": "Eyvind Niklasson",
-          "authorURL": "https://eyvind.me/",
-          "affiliation": "Google",
-          "affiliationURL": "https://ai.google/"
-        },
-        {
-          "author": "Alexander Mordvinstev",
-          "authorURL": "https://znah.net/",
-          "affiliation": "Google",
-          "affiliationURL": "https://ai.google/"
-        }
-      ],
-      "katex": {
-        "delimiters": [
-          {
-            "left": "$",
-            "right": "$",
-            "display": false
-          },
-          {
-            "left": "$$",
-            "right": "$$",
-            "display": true
-          }
-        ]
-      }
-    }</script>
-  </d-front-matter>
+
 
   <style>
     figure {
@@ -216,11 +192,9 @@
       position: relative;
     }
   </style>
-  <d-title>
-    <h1>A Minimalist Google Docs workflow for Distill.pub</h1>
-    <p>A Minimalist Google Docs workflow for Distill.pub</p>
-
-</d-title>
+<dt-article  >
+  <h1>Learning Sensorimotor Capabilities in Cellular Automata</h1>
+  <h2> Learning robust self-organizing creatures with gradient descent  </h2>
 
 <d-byline></d-byline>
 
@@ -238,4 +212,5 @@
       e.style.opacity = '0';
     });
   </script>
-</body>
+</dt-article  >
+
