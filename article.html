@@ -157,9 +157,10 @@
   </p>
 
 
-<p>Other more complex creatures with multiple kernels seem to resist collision better and seem to be able to sense the other creatures. These creatures show sensorimotor capabilities as they change direction in response to interaction with other creatures. However, these other creatures that form the environment of the creature are in the same channel as the creature itself. Therefore they can be sensed through the kernel at higher distances. (explaining the large gap in the left video)</p>
+<p>Other more complex creatures with multiple kernels seem to resist collision better and seem to be able to sense the other creatures. These creatures show sensorimotor capabilities as they change direction in response to interaction with other creatures. However, these other creatures that form the environment of the creature are in the same channel as the creature itself. Therefore they can be sensed through the kernel at higher distances. (explaining the large gap in the left video).</p>
+<p>As said before, using other creatures as environment is a fuzzy delimitation leading to non intuitive separation between agent and environment (what belongs to each). We therefore handcraft the environment and clearly separate it from the creatures by putting it in a different channel.</p>
 
-<p> However, all of the previous methods use only randomness to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find those interesting behaviors. </p>
+<p> However, all of the previous methods use only randomness to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find those interesting behaviors in the handcrafted environment.</p>
 
 
 
@@ -168,7 +169,7 @@
   <img src="LeniaWall.svg" alt="scheme">
   </div>
  <p  style="font-size: 23px;color:#000000;text-align:center;" class="l-middle-outset">
-Update step in the Lenai System <br>
+Update step in the Lenia System <br>
  <span style="font-size: 14px;color:#A0A0A0;">(CLick on the Formulas button to see Lenia's equation)</span>
  </p>
 
@@ -224,6 +225,11 @@ Update step in the Lenai System <br>
 <p>We did this shift because in the vanilla version of Lenia, the shape of the kernel was only given by a vector b of arbitrary size (but often max size 4). The number of bumps was given by the number of coefficient in b&gt;0. However, the fact that the number of bumps depends on the number of coefficient &gt; 0 prevents proper differentiation. (if a coefficient is at 0 then it won't change with gradient descent as it doesn't play a role, and if a coefficient is &gt;0 a gradient step can put it &lt;0 which will make a strong unexpected change). We could have left the number of bumps to an arbitrary value like 3, and only optimizing the height such that they stay &gt;0 but this would have been a strong limitation on the shape. The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
 <p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations and each iteration has it's result clipped between 0 and 1. We should thus limit ourselves to few iterations when training.</p>
 <h2 id='can-we-learn-moving-creature-in-lenia-'>Can we learn Moving Creature in Lenia ?</h2>
+<p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. This will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
+
+
+
+
 <img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
 <p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like glider in the game of life. Note that moving creatures in cellular automaton differ from other types of movement like muscle contraction or soft robot (article) by the fact that moving is growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this paper, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
 <p>Target image with MSE error seems effective to learn CA rule leading to certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass . The first target shape we tried was a single disk. However after seeing that robust creature obtained seemed to have a "core" and a shallow envelopp, we informally chose to move to two superposed disk, a large shallow one with a thick smaller one on top. The target shape has the formula:\(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 because as we clip to 1 the pixels after each update it&#x2F;s better to have pixel below 1 than pixel saturated if you want to have gradients.</p>
@@ -280,7 +286,7 @@ Update step in the Lenai System <br>
       Right:  Blue disks are the obstacles, red the target shape and green the creature at last timestep before optimisation .
      </p>
 
-<p>Now that we have an algorithm that is capable of learning moving creature in Lenia. the next step is to find a way to learn a creature that would resist and avoid obstacles in its environment, <strong>using the deformations the environment induces on it to sense </strong>. In this section, we'll try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creature. So we will learn a single global rule for multiple functions contrary to <dt-cite key="horibe2021regenerating"></dt-cite> which separates regenerating and building into two different CA.</p>
+<p>Now that we have an algorithm that is capable of learning moving creatures in Lenia. The next step is to find a way to learn a creature that would resist and avoid  various obstacles in its environment, <strong>using the deformations the environment induces on it to sense </strong>. In this section, we'll try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creatures. So we will learn a single global rule for multiple functions contrary to <dt-cite key="horibe2021regenerating"></dt-cite> which separates regenerating and building into two different CA.</p>
 <p>What we want to obtain is a creature that is able to generalize to different obstacles. To do so we will train the creatures using the method from previous section but adding randomly generated obstacles. This way our gradient descent will be stochastic gradient descent with the stochasticity coming from the sampling of the obstacles. The learning process will thus encounter a lot of different configurations and may find general behavior. In practice, we will only put obstacles in half the lattice grid. This way, there will be half of the grid free from obstacle where we will first learn a creature that is able to move without any perturbation as in previous section and then as we push the target further and further the creature will start to encounter obstacles. And the deeper the target position is, the more it will encounter obstacles and so the more it should be robust. In fact at the beginning you will just be a little perturbed by one obstacle and the target circle will optimize the creature to get past the obstacle and recover. (scheme) Then if you want the creature to go further it will have to encounter more obstacles and still be able to resist the second one even if the first one perturbed it. So the curriculum is made by going further and further because the further you go the more you will have to resist to obstacles. See appendix for more details on the obstacles.</p>
 <p>In the IMGEP, to take into account the fact that the position attained depends on the obstacle configuration, the reached goal will be an average of the position attained on different configurations of obstacles.</p>
 <div clas=l-body>
@@ -838,6 +844,13 @@ Update step in the Lenai System <br>
   year={1997},
   volume={34},
   pages={72-87}
+}
+@article{
+  kirsch2020vsml,
+  title={Meta Learning Backpropagation And Improving It},
+  author={Louis Kirsch and Juergen Schmidhuber},
+  journal={Meta Learning Workshop at Advances in Neural Information Processing Systems},
+  year={2020}
 }
 
 
