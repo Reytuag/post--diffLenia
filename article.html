@@ -152,7 +152,15 @@
 
 <p>Other more complex creatures with multiple kernels seem to resist collision better and seem to be able to sense the other creatures. These creatures show sensorimotor capabilities as they change direction in response to interaction with other creatures. However, these other creatures that form the environment of the creature are in the same channel as the creature itself. Therefore they can be sensed through the kernel at higher distances. (explaining the large gap in the left video)</p>
 
-<p> However, all of these methods use only randomness to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find those interesting behaviors. In addition to that we propose to add a separated environment with fixed rules. In this section, we first explain in more detail the model in Lenia, then we show how we defined the environment in this system, and finally  we present how we made the Lenia model more differentiable. </p>
+<p> However, all of these methods use only randomness to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find those interesting behaviors. </p>
+
+<p>Our work, contrary to previous work on Lenia and most cellular automata, clearly separates what belongs to the environment and what does not. In fact, as proposed in <dt-cite key="autopoiesisBeer1754"></dt-cite>, an agent is a (subjective choice of)  unity, while the rest of the system constitutes its environment. Agent and environment are dynamically coupled as each perturbates the other. With this definition, the boundary between an agent and its environment can be fuzzy and hard to tell in cellular automata. Like in the example in the introduction, the green dot can be seen as the environment of  the blue and red creature but it can also be seen as part of the creature.  In classical RL environments like (gym etc cite), the environment is clearly separated from the agent, the agent has its own well defined body (with sensor and motors) and the environment (like walls, floor etc) has its influence on the body hand defined. </p>
+<p>We  decided in this work to clearly separate the environment and the creature by putting each of them in a different channel grid.  We also hand define the environment and especially its "physical influence" on the separated creature. </p>
+
+<p>Once this environment physics is defined, our proposed technique aims to learn the creature channel physics, which can give rise, given proper initial conditions, to creatures able of self-maintenance, motility and robustness to those environmental conditions</p>
+
+
+<p>In this section, we first explain in more detail the model in Lenia, then we show how we defined the environment in this system, and finally  we present how we made the Lenia model more differentiable. </p>
   <div class="l-screen-inset" style="position:relative">
   <img src="LeniaWall.svg" alt="scheme">
   </div>
@@ -166,7 +174,7 @@
 
 
 <h4 id='walls'><strong>WALLS</strong></h4>
-<p>Our work, contrary to previous work on Lenia and most cellular automata, clearly separates what belongs to the environment and what does not. We also hand craft and fix the environment rule to properly define the environment we want. In this work we'll focus on walls in the environment as navigating between obstacles requires sensorimotor capabilities.</p>
+<p> In this work we'll focus on walls in the environment as navigating between obstacles requires sensorimotor capabilities.</p>
 <p>To implement walls in Lenia we added a separate walls channels with a kernel from the wall channel to the creature channel. This kernel have a huge negative growth where there are walls and no impact on other pixels where there are no walls (very localized kernel). This way we prevent any growth in the pixels where there are walls. This is similar to <dt-cite key="PhysRevE.101.012407"></dt-cite> where they put antibiotic zone as obstacle where the bacteria can't live. The creature can only sense the wall through the changes&#x2F;deformations it implies on the creature.In fact, the only kernel that goes from the wall channel to the creature is the fixed kernel that we impose. And as this kernel is localized, the creature has to "touch" the wall to sense it. To be precise the creature can only know that there is a wall because it won't be able to grow in these area which will perturb the creature shape locally.(And because of the cellular automaton nature of the creature the information has to be transmitted to other cells.)</p>
 <div class="row l-page side">
     <div class="column">
