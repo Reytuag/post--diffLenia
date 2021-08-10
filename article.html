@@ -115,20 +115,8 @@
 
 <p>Cellular automata are, in their classic form, a grid of "cells" which sequentially update their state based on the states of their neighbours. The dynamic of the CA is thus entirely defined by the initialization (initial state of the cells in the grid) and the update rule (how a cell updates based on its neighbours), but predicting their long term behavior is a difficult challenge even for simple ones. </p>
 
-<p>The cellular automaton we will study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous states. Contrary to the game of life in which the update rule is fixed, the update rule in Lenia is parametrized. A wide variety of complex behavior has already been observed in Lenia. They were obtained either by random exploration by hand, simple evolutionary algorithm, or automatic exploration <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>.</p>
-
-<p> However, all of these methods use only randomness to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find those interesting behaviors. In addition to that we propose to add a separated environment with fixed rules. In this section, we first explain in more detail the model in Lenia, then we show how we defined the environment in this system, and finally  we present how we made the Lenia model more differentiable. </p>
-  <div class="l-screen-inset" style="position:relative">
-  <img src="LeniaWall.svg" alt="scheme">
-  </div>
-
-
-
-<h4 id='lenia'><strong>LENIA</strong></h4>
-
-<p>We will use the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
-<p>Follow the scheme</p>
-<p>A wide variety of patterns has been found in Lenia, using hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. However, as exploration algorithm studies focused on exploration of the morphology space and as moving creatures are hard to find, these studies didn't find much of moving creatures. The other studies focused a lot on spatially localized patterns and especially moving one. You can find a library of creatures (especially moving one) found in the first version of Lenia (<dt-cite key="chan2019lenia"></dt-cite>) at this <a href='https://chakazul.github.io/Lenia/JavaScript/Lenia.html'>link</a>.</p>
+<p>The cellular automaton we will study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous states. Contrary to the game of life in which the update rule is fixed, the update rule in Lenia is parametrized. </p>
+<p>A wide variety of complex patterns has been found in Lenia, using hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. However, as exploration algorithm studies focused on exploration of the morphology space and as moving creatures are hard to find, these studies didn't find much of moving creatures. The other studies focused a lot on spatially localized patterns and especially moving one. You can find a library of creatures (especially moving one) found in the first version of Lenia (<dt-cite key="chan2019lenia"></dt-cite>) at this <a href='https://chakazul.github.io/Lenia/JavaScript/Lenia.html'>link</a>.</p>
 
 <div class="row l-page side">
     <div class="column">
@@ -163,6 +151,20 @@
 
 
 <p>Other more complex creatures with multiple kernels seem to resist collision better and seem to be able to sense the other creatures. These creatures show sensorimotor capabilities as they change direction in response to interaction with other creatures. However, these other creatures that form the environment of the creature are in the same channel as the creature itself. Therefore they can be sensed through the kernel at higher distances. (explaining the large gap in the left video)</p>
+
+<p> However, all of these methods use only randomness to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find those interesting behaviors. In addition to that we propose to add a separated environment with fixed rules. In this section, we first explain in more detail the model in Lenia, then we show how we defined the environment in this system, and finally  we present how we made the Lenia model more differentiable. </p>
+  <div class="l-screen-inset" style="position:relative">
+  <img src="LeniaWall.svg" alt="scheme">
+  </div>
+
+
+
+<h4 id='lenia'><strong>LENIA</strong></h4>
+
+<p>We will use the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
+<p>A lenia step is decomposed as such: for every cell c  in the grid, we look at it's neighbourhood in both channels. We then multiply those neighbourhoods with the kernels filters associated to each channel. (this multiplication on every neighbourhood is convolution). Then, for every kernel, we obtain a scalar which will then pass to the growth function associated with the kernel. The scalars obtained  after the growth function are all summed to get the growth at cell c. We finally add the total growth to the creature channel  and clip the value between 0 and 1.</p>
+
+
 <h4 id='walls'><strong>WALLS</strong></h4>
 <p>Our work, contrary to previous work on Lenia and most cellular automata, clearly separates what belongs to the environment and what does not. We also hand craft and fix the environment rule to properly define the environment we want. In this work we'll focus on walls in the environment as navigating between obstacles requires sensorimotor capabilities.</p>
 <p>To implement walls in Lenia we added a separate walls channels with a kernel from the wall channel to the creature channel. This kernel have a huge negative growth where there are walls and no impact on other pixels where there are no walls (very localized kernel). This way we prevent any growth in the pixels where there are walls. This is similar to <dt-cite key="PhysRevE.101.012407"></dt-cite> where they put antibiotic zone as obstacle where the bacteria can't live. The creature can only sense the wall through the changes&#x2F;deformations it implies on the creature.In fact, the only kernel that goes from the wall channel to the creature is the fixed kernel that we impose. And as this kernel is localized, the creature has to "touch" the wall to sense it. To be precise the creature can only know that there is a wall because it won't be able to grow in these area which will perturb the creature shape locally.(And because of the cellular automaton nature of the creature the information has to be transmitted to other cells.)</p>
