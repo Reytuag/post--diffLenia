@@ -397,14 +397,14 @@ Update step in the Lenia System <br>
        If they are too far from each other no attraction.
      </p>
 
-<p>One other type of interaction between two creature of the same species(governed by the same update rule&#x2F;physic) is creature getting stuck together. The two creatures seem to attract each other a little bit when they are close enough leading to the two creature stuck together going in the same direction. When they encounter an obstacle and separate briefly, their attraction reassemble them together. Even when they're stuck together, from a human point of view seeing this system, we ce can still see 2 distinct creatures. This type of behavior is studied in the game of life in <dt-cite key="PMID:24494612"></dt-cite> with the notion of consensual domain.</p>
+<p>One other type of interaction between two creatures of the same species(governed by the same update rule&#x2F;physic) is creatures getting stuck together. The two creatures seem to attract each other a little bit when they are close enough, leading to the two creatures stuck together going in the same direction. When they encounter an obstacle and separate briefly, their attraction reassembles them together. Even when they're stuck together, from a human point of view seeing this system, we can still see 2 distinct creatures. This type of behavior is studied in the game of life in <dt-cite key="PMID:24494612"></dt-cite> with the notion of consensual domain.</p>
 
 <h4 id='reproduction'><strong>REPRODUCTION</strong></h4>
 <video id="robust" width="95%"  autoplay  controls="" loop muted="" class="l-middle side videoShow">
                 <source src="repro.mp4" type="video/mp4">
               </video>
 
-<p>Another interesting interaction we observed during colision was "reproduction". In fact for some collision, we could observe the birth of a 3rd entity. This kind of interaction seemed to happen when one of the two entity colliding was in a certain "mode" like when it just hit a wall. Our intuition is that when it hits a wall, it has to have a growth response in order to recover. And during this growth response if we add some perturbation of another entity it might separate this growth from the entity and then this separated mass from strong self-organization grows into a complete individual.</p>
+<p>Another interesting interaction we observed during collision was "reproduction". In fact, for some collision, we could observe the birth of a 3rd entity. This kind of interaction seemed to happen when one of the two entities colliding was in a certain "mode" like when it just hit a wall. Our intuition is that when it hits a wall, it has to have a growth response in order to recover. And during this growth response if we add some perturbation of another entity it might separate this growth from the entity and then this separated mass from strong self-organization grows into a complete individual.</p>
 <h3 id='still-failure-cases'><i>Still failure cases</i></h3>
 <p>Even with the initialization selection and small mutations, sometimes the algorithm doesn't seem able to learn to go past obstacles and we can't reach goal position beyond a certain limit near the beginning of walls.</p>
 <video id="robust" width="100%" autoplay loop muted="" class="videoShow l-middle side">
@@ -415,11 +415,11 @@ Update step in the Lenia System <br>
               <source src="strange210.mp4" type="video/mp4">
             </video>
 
-<p>The main creature used in most of the demo&#x2F;test above is very robust but with different configuration it's possible to kill or explode others creature. However they were only trained for 50 timesteps (2seconds in the clips above) and witth always 8 obstacle of the same type (even if their position induced diversity). Further training of the parameters for more robustness should be achievable. In the Multi creature case, we can have death and explosion but it has not been trained for that.</p>
+<p>The main creature used in most of the demo&#x2F;test above is very robust but with different configuration it's possible to kill or explode others creature. However they were only trained for 50 timesteps (2seconds in the clips above) and with always 8 obstacle of the same type (even if their position induced diversity). Further training of the parameters for more robustness should be achievable. In the Multi creature case, we can have death and explosion but it has not been trained for that.</p>
 <h2 id='related-works'>Related works</h2>
 <h4 id='classic-ca-cognition'><strong>CLASSIC CA COGNITION</strong></h4>
 
-<p>Studies have been focusing on the theoritical&#x2F;phylosifical part of cellular automata, using it as a  concrete testbed&#x2F;showcase for theories.</p>
+<p>Studies have been focusing on the theoretical&#x2F;philosophical part of cellular automata, using it as a  concrete testbed&#x2F;showcase for theories.</p>
 <p>, especially explore what are the necessary parts needed for &quot;life&quot;, what is cognition, identity </p>
 
 <p><dt-cite key="autopoiesisBeer1754"></dt-cite><dt-cite key="PMID:24494612"></dt-cite></p>
