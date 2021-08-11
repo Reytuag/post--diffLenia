@@ -175,7 +175,8 @@
  <p  style="font-size: 23px;color:#000000;text-align:center;" class="l-middle-outset">
 Update step in the Lenia System <br>
  <span style="font-size: 14px;color:#A0A0A0;">(CLick on the Formulas button to see Lenia's equation)</span>
- </p>
+ </p><br><br>
+
 
 <p>We will use the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
 <p>A lenia step is decomposed as such: for every cell c  in the grid, we look at it's neighbourhood in both channels. We then multiply those neighbourhoods with the kernels filters associated to each channel. (this multiplication on every neighbourhood is convolution). Then, for every kernel, we obtain a scalar which will then pass to the growth function associated with the kernel. The scalars obtained  after the growth function are all summed to get the growth at cell c. We finally add the total growth to the creature channel  and clip the value between 0 and 1.</p>
@@ -423,7 +424,9 @@ Update step in the Lenia System <br>
 
 <p><dt-cite key="autopoiesisBeer1754"></dt-cite><dt-cite key="PMID:24494612"></dt-cite></p>
 <h4 id='neural-ca'><strong>NEURAL CA</strong></h4>
-<p><dt-cite key="mordvintsev2020growing"></dt-cite><dt-cite key="variengien2021selforganized"></dt-cite></p>
+
+<p>Neural Cellular automata use the flexibility of neural networks to express the update rule. They greatly benefit from the differentiability of neural networks to learn the update rule for a diversity of specific tasks <dt-cite key="mordvinstev2020thread:"></dt-cite> .  Neural CA has been used to learn to grow and regenerate a desired shape or texture  <dt-cite key="mordvintsev2020growing"></dt-cite>, classify handwritten digit, or even allow the CA to be the circuits computing the action from inputs in a task.<dt-cite key="variengien2021selforganized"></dt-cite></p>
+
 <h4 id='soft-robots'><strong>SOFT ROBOTS</strong></h4>
 <p>Work has focused on designing the morphology of soft robots (articles ) using cellular automata. Those soft robots have a separate controler&#x2F; motor which is either automatic(<dt-cite key="horibe2021regenerating"></dt-cite><dt-cite key="10.1145&#x2F;2739480.2754662"></dt-cite>) controller using feedback of env (<dt-cite key="10.1162&#x2F;isal_a_00223"></dt-cite>) shapeshift to recover from injury (<dt-cite key="Kriegman2019AutomatedSF"></dt-cite>)</p>
 
@@ -446,24 +449,26 @@ Update step in the Lenia System <br>
 <p>One other interesting direction is to add even more constraints in the environment like food&#x2F;energy for example. We tried a little bit to add food in Lenia but we're not satisfied with the result. We think that adding food to the environment might be a great leap toward the search of more advanced behavior in Lenia. For example adding competition between individual&#x2F;species for food. From this competition and new constraints, interesting strategies could emerge as in <dt-cite key="baker2020emergent"></dt-cite></p>
 </dt-article>
 <dt-appendix>
-<h1 id="appendix"> Appendix </h1>
-      <h2>Different target shape</h2>
 
-       <p>
-         To try to have more diversity in the morphology of the creature we tried to change the target shape. In fact as the creature is optimized to fit this shape at the last timestep we can expect that changing this shape may lead to other morphologies.
-       </p>
-
-       <p>
-         However we tried with half circle, star and sharp star without success. For all of these shape we still obtained roundish morphologies. This may be due to the kernel shape which bias the shape of the creature. However as shown in the appendix, we can optimize the growth toward a complicated gecco shape. The failure of these optimisation may be due to the difficulty added by the fact that we want a moving creature.Thus When we optimize the MSE loss, before trying to make this complicated shape the optimization first learns to get the creature to where it should be, and trying to grow it into this star shape may not be well aligned with this.
-       </p>
+<h1>Appendix</h1>
+<h2 id='different-target-shape'>Different Target shape.</h2>
 
 
+       
+<p>         To try to have more diversity in the morphology of the creature we tried to change the target shape. In fact as the creature is optimized to fit this shape at the last timestep we can expect that changing this shape may lead to other morphologies.</p>
+       
+
+<p>       </p>
+<p>         However we tried with half circle, star and sharp star without success. For all of these shape we still obtained roundish morphologies. This may be due to the kernel shape which bias the shape of the creature. However as shown in the appendix, we can optimize the growth toward a complicated gecco shape. The failure of these optimisation may be due to the difficulty added by the fact that we want a moving creature.Thus When we optimize the MSE loss, before trying to make this complicated shape the optimization first learns to get the creature to where it should be, and trying to grow it into this star shape may not be well aligned with this.</p>
+       
 
 
-       <p>
 
-         We still tried to have roundish shape different from a single disk. For example we put as our target 2 disk target(defined \ref{}) close, overlapping a little bit. And the creature it produced was a creature seemingly composed of two roundish creature stuck together. But the force of their attraction is quite big as even when one of the creature collide an obstacle, they keep being stuck. And even when they seem to separate from a collision with an obstacle, they each independently follow the obstacle until they merge again.(However we can see at the end of the clip that they start to explode at the end) This type of behavior might be hard to get from random exploration as small mutation on the CA rule easily break this attraction leading to 2 separate creature going their own way from initialization or even worse lead to repealing creature.
-       </p>
+
+      
+
+<p>         We still tried to have roundish shape different from a single disk. For example we put as our target 2 disk target(defined \ref{}) close, overlapping a little bit. And the creature it produced was a creature seemingly composed of two roundish creature stuck together. But the force of their attraction is quite big as even when one of the creature collide an obstacle, they keep being stuck. And even when they seem to separate from a collision with an obstacle, they each independently follow the obstacle until they merge again.(However we can see at the end of the clip that they start to explode at the end) This type of behavior might be hard to get from random exploration as small mutation on the CA rule easily break this attraction leading to 2 separate creature going their own way from initialization or even worse lead to repealing creature.</p>
+<p>       </p>
        <div class="row l-page">
        <div class="column">
          <video id="robust" width="100%"  autoplay  controls="" loop muted="" class=" videoShow">
@@ -475,10 +480,10 @@ Update step in the Lenia System <br>
        </div>
      </div>
 
-      <h2>Mutation and breeding for diversity</h2>
-      <p>
-         Each time we run the method as we start from parameters randomly chosen, we seem to get different creatures in term of morphology and also in term of how they deal with the obstacles. However, as they are all optimized with the same loss and objective (even if the sampling of goal is random), we most of the time still get quite similar creature. In fact optimizing toward an objective often doesn't  give  much diversity. But diversity is very important as it allows to see what are the common thing that a creature with sensorimotor capabilities should have, if there are any. Diversity can also give us unexpected solution or behavior, and even those that don't perform well can be interesting. This is even more the case,  when the loss that we optimize is handmade with a particular idea of what the solution should look like; idea that might overshadow solution that we didn't think of. Also, adding diversity in our method could help to solve the fact that the method sometimes get stuck with some initialization, because some lineage might get stuck but some might also succeed and give us some solution.
-       </p>
+<h2 id='------mutation-and-breeding-for-diversity'>      Mutation and breeding for diversity</h2>
+      
+<p>         Each time we run the method as we start from parameters randomly chosen, we seem to get different creatures in term of morphology and also in term of how they deal with the obstacles. However, as they are all optimized with the same loss and objective (even if the sampling of goal is random), we most of the time still get quite similar creature. In fact optimizing toward an objective often doesn&#39;t  give  much diversity. But diversity is very important as it allows to see what are the common thing that a creature with sensorimotor capabilities should have, if there are any. Diversity can also give us unexpected solution or behavior, and even those that don&#39;t perform well can be interesting. This is even more the case,  when the loss that we optimize is handmade with a particular idea of what the solution should look like; idea that might overshadow solution that we didn&#39;t think of. Also, adding diversity in our method could help to solve the fact that the method sometimes get stuck with some initialization, because some lineage might get stuck but some might also succeed and give us some solution.</p>
+<p>       </p>
 
 
        <div class="row l-page">
@@ -505,13 +510,13 @@ Update step in the Lenia System <br>
 
       </div>
 
-       <p>
-         Taking inspiration from morphological search with IMGEP in Lenia <dt-cite key="reinke2020intrinsically"></dt-cite> <dt-cite key="etcheverry2020hierarchically"></dt-cite>, we could add extra dimension to the target space, like an embedding of the creature morphology. However in practice, if we  also use gradient descent to optimize toward the morphological target, this would interfere too much  with the optimization toward the target position. (because changing the morphology easily break the pattern leading to movement).
-      </p>
+<p>       </p>
+<p>         Taking inspiration from morphological search with IMGEP in Lenia <dt-cite key="reinke2020intrinsically"></dt-cite><dt-cite key="etcheverry2020hierarchically"></dt-cite>, we could add extra dimension to the target space, like an embedding of the creature morphology. However in practice, if we  also use gradient descent to optimize toward the morphological target, this would interfere too much  with the optimization toward the target position. (because changing the morphology easily break the pattern leading to movement).</p>
+<p>      </p>
 
-      <p>
-        One potential solution to add diversity is to mutate the creature obtained at the end of the method or even breed them. To breed them we can replace some kernels from a creatures with the ones of another creature. However, the kernels are often in an equilibrium between each other and some kernels in one creature may be inadapted in another creature. To counter this in practice, when replacing kernel of a creature we keep some parameter of the replaced kernel and only change the other. For example keeping h and s or even m and only changing the shape of the kernel. In fact h the weight of the kernel might be inadapted with the other weights of the creature (adding too much growth compared to inhibition and vice versa) and s and m  often are the parameters that tell if the kernel limit growth or boost growth. (and we don't want to replace a limiting growth kernel by a boosting growth one and vice versa). The obtained creatures show  different shapes and behaviors like jumping, keep itself on walls etc.
-      </p>
+     
+<p>        One potential solution to add diversity is to mutate the creature obtained at the end of the method or even breed them. To breed them we can replace some kernels from a creatures with the ones of another creature. However, the kernels are often in an equilibrium between each other and some kernels in one creature may be inadapted in another creature. To counter this in practice, when replacing kernel of a creature we keep some parameter of the replaced kernel and only change the other. For example keeping h and s or even m and only changing the shape of the kernel. In fact h the weight of the kernel might be inadapted with the other weights of the creature (adding too much growth compared to inhibition and vice versa) and s and m  often are the parameters that tell if the kernel limit growth or boost growth. (and we don&#39;t want to replace a limiting growth kernel by a boosting growth one and vice versa). The obtained creatures show  different shapes and behaviors like jumping, keep itself on walls etc.</p>
+      
 
       <div class="row l-page">
       <div class="column">
@@ -543,26 +548,34 @@ Update step in the Lenia System <br>
                     </video>
       </div>
       </div>
-      <p>
-        What would be even more interesting would be to add this kind of high mutation and breeding into the method , for exemple by seeing the method as a learning phase in an evolutionary algorithm. TO do so we would start several run of the method described above (in parallel if possible), and after a certain number of iterations we would breed and mutate the creatures obtained in these several runs. Then we would use the results of these breeding/mutation to initialize other several runs that would begin a new cycle.
-      </p>
+      
+<p>        What would be even more interesting would be to add this kind of high mutation and breeding into the method , for exemple by seeing the method as a learning phase in an evolutionary algorithm. TO do so we would start several run of the method described above (in parallel if possible), and after a certain number of iterations we would breed and mutate the creatures obtained in these several runs. Then we would use the results of these breeding&#x2F;mutation to initialize other several runs that would begin a new cycle.</p>
+<p>      </p>
 
 
+<h2 id='-food-attraction-'> Food attraction </h2>
+      
+<p>      Tests of food attraction implemeentation. We added kernels from food to creature. To learn the kernels that will make that the creature will be attracted by the food. &lt;br&gt;</p>
+<p>      ATM: Random search looking only at the kernel that lead to a superposition creature food during a long time using a moving food with simple trajectory (straight line )&lt;br&gt;</p>
+<p>      NEXT : Evolutionary algorithm or gradient descent with target shape displaced on food  orthogonal to bas trajectory.</p>
+      <video id="robust" width="100%" autoplay loop muted="" class="videoShow">
+                    <source src="attractLive.mp4" type="video/mp4">
+                  </video>
 
-
-      <h2>Kernels activity visualization</h2>
+    
+<h2 id='----kernels-activity-visualization'>    Kernels activity visualization</h2>
 
       <video id="kernels" width=85% controls="" muted="" class="videoShow" >
                     <source src="kernels.mp4" type="video/mp4">
                   </video>
 
-      <h2>Gecko experiment</h2>
+<h2 id='gecko-experiment'>Gecko experiment</h2>
       <video id="kernels" width=85% controls="" muted="" class="videoShow" >
                     <source src="optiminit40Kvid.mp4" type="video/mp4">
                   </video>
 
 
-      <h2> Soft clip sensorimotor found by Bert Chan </h2>
+<h2 id='---soft-clip-sensorimotor-found-by-bert-chan-'>   Soft clip sensorimotor found by Bert Chan </h2>
       <div class="row l-page">
       <div class="column">
         <video id="robust" width="100%" autoplay loop muted="" class="videoShow">
@@ -576,16 +589,7 @@ Update step in the Lenia System <br>
       </div>
     </div>
 
-      <h2> Food attraction </h2>
-      <p>
-      Tests of food attraction implemeentation. We added kernels from food to creature. To learn the kernels that will make that the creature will be attracted by the food. <br>
-      ATM: Random search looking only at the kernel that lead to a superposition creature food during a long time using a moving food with simple trajectory (straight line )<br>
-      NEXT : Evolutionary algorithm or gradient descent with target shape displaced on food  orthogonal to bas trajectory.
-      <video id="robust" width="100%" autoplay loop muted="" class="videoShow">
-                    <source src="attractLive.mp4" type="video/mp4">
-                  </video>
-
-    </p>
+      
 
    
 </dt-appendix>
@@ -608,6 +612,15 @@ Update step in the Lenia System <br>
   biburl    = {https://dblp.org/rec/journals/corr/abs-1901-01753.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
   }
+
+@article{randazzo2020self-classifying,
+  author = {Randazzo, Ettore and Mordvintsev, Alexander and Niklasson, Eyvind and Levin, Michael and Greydanus, Sam},
+  title = {Self-classifying MNIST Digits},
+  journal = {Distill},
+  year = {2020},
+  note = {https://distill.pub/2020/selforg/mnist},
+  doi = {10.23915/distill.00027.002}
+}
 
   @article{autopoiesisBeer1754,
     author    = {Randall D. Beer},
@@ -855,6 +868,15 @@ Update step in the Lenia System <br>
   journal={Meta Learning Workshop at Advances in Neural Information Processing Systems},
   year={2020}
 }
+@article{mordvintsev2020thread:,
+  author = {Mordvintsev, Alexander and Randazzo, Ettore and Niklasson, Eyvind and Levin, Michael and Greydanus, Sam},
+  title = {Thread: Differentiable Self-organizing Systems},
+  journal = {Distill},
+  year = {2020},
+  note = {https://distill.pub/2020/selforg},
+  doi = {10.23915/distill.00027}
+}
+
 
 
 
