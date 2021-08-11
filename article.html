@@ -171,7 +171,7 @@
 <h3 id='lenia'>Lenia</h3>
   <div class="l-screen-inset" style="position:relative">
   <img src="LeniaWall.svg" alt="scheme">
-<div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
+  <div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
 
   <div style="position:absolute; left:5%; top:0%;border-radius:5px;">
     <p>
@@ -203,6 +203,51 @@
     <div class="column">
       $$ G_{wall}= x \rightarrow -10 max(0,(x-0.001))  $$
     </div>
+  </div>
+
+
+
+<p style="text-align: center">
+<b>Parameters:</b><br>
+<span style="color:rgba(186,186,40,0.8)">
+R maximum radius of a kernel</span><br>
+<span style="color:rgba(0,175,175,0.8)">
+T time scale </span><br>
+
+<span style="text-decoration:underline">For each kernel:<span>
+<div class="row">
+  <div class="column">
+    <ul>
+    <li style="color:rgba(0,0,175,0.8)">w  \( \in [0,1]^n \) width of the guassian bumps</li>
+    <li style="color:rgba(0,0,175,0.8)">b  \( \in [0,1]^n \) height of the guassian bumps </li>
+  </ul>
+
+  </div>
+  <div class="column">
+    <ul>
+    <li style="color:rgba(0,0,175,0.8)">rk \( \in [0,1]^n \) shift of gaussian bumps from center of kernel </li>
+    <li style="color:rgba(0,0,175,0.8)"> r   \( \in [0,1] \) relative radius  </li>
+  </ul>
+  </div>
+
+
+  <div class="column">
+    <ul>
+    <li style="color:rgba(175,0,0,0.8)">m mean in growth function</li>
+    <li style="color:rgba(175,0,0,0.8)">s variance/size in growth function </li>
+  </ul>
+  </div>
+
+  <div class="column">
+    <ul>
+    <li style="color:rgba(0,128,0,0.8)"> h   \( \in [0,1] \) weight of the kernel </li>
+
+  </ul>
+  </div>
+</div>
+
+</p>
+
   </div>
 
 
