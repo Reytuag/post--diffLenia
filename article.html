@@ -178,6 +178,32 @@
     $$ A^{t+1}= \left[A^t +\frac{1}{\textcolor{#00c8c8}{T}}  \left(G_{wall}(K_{wall}*A^t_1) +\sum_k \textcolor{#008000}{h^k} G_k(K_k * A^t_0) \right) \right]^1_0 $$
   </p>
 </div>
+<p>&lt;div class&#x3D;&quot;row&quot;&gt;</p>
+
+
+<p>    &lt;div class&#x3D;&quot;column&quot;&gt;</p>
+<p>      $$ K_k&#x3D; x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(x-\textcolor{#0000c8}{{rk}^k_{i}})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) \right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$</p>
+<p>      &lt;!---$$K_k&#x3D;  x \rightarrow \left(\sum_i^{n} b_i\mathcal{N}(\frac{x}{r^kR},{rk}^k_{i},w^k_{i}) \right) \mathbb{I}_{x\leq r^kR}$$---&gt;</p>
+<p>      &lt;!---sigmoid(4(1-\frac{x}{r^kR}))---&gt;</p>
+<p>    &lt;&#x2F;div&gt;</p>
+<p>    &lt;div class&#x3D;&quot;column&quot;&gt;</p>
+<p>      $$ K_{wall}&#x3D; x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$</p>
+<p>    &lt;&#x2F;div&gt;</p>
+
+<p>  &lt;&#x2F;div&gt;</p>
+
+
+<p>  &lt;div class&#x3D;&quot;row&quot;&gt;</p>
+<p>    &lt;div class&#x3D;&quot;column&quot;&gt;</p>
+<p>      $$ G_k&#x3D; x \rightarrow 2*exp(-\frac{(x-\textcolor{#c80000}{m^k})^2}{2(\textcolor{#c80000}{s^k} )^2})-1  $$</p>
+
+<p>      &lt;!---exp(-\frac{(x-m^k)^2}{2(s^k)^2})\mathcal{N}(\frac{x}{r^kR},m^k,s^k)--&gt;</p>
+<p>    &lt;&#x2F;div&gt;</p>
+<p>    &lt;div class&#x3D;&quot;column&quot;&gt;</p>
+<p>      $$ G_{wall}&#x3D; x \rightarrow -10 max(0,(x-0.001))  $$</p>
+<p>    &lt;&#x2F;div&gt;</p>
+<p>  &lt;&#x2F;div&gt;</p>
+
 
 </div>
  <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
