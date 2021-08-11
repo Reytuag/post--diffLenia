@@ -165,6 +165,10 @@
 
 
 <p>In this section, we first explain in more detail the model in Lenia, then we show how we defined the environment in this system, and finally  we present how we made the Lenia model more differentiable. </p>
+
+
+
+<h4 id='lenia'><strong>LENIA</strong></h4>
   <div class="l-screen-inset" style="position:relative">
   <img src="LeniaWall.svg" alt="scheme">
   </div>
@@ -172,11 +176,6 @@
 Update step in the Lenia System <br>
  <span style="font-size: 14px;color:#A0A0A0;">(CLick on the Formulas button to see Lenia's equation)</span>
  </p>
-
-
-
-
-<h4 id='lenia'><strong>LENIA</strong></h4>
 
 <p>We will use the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we will only use 1 channel for the creature and other ones for the environment.</p>
 <p>A lenia step is decomposed as such: for every cell c  in the grid, we look at it's neighbourhood in both channels. We then multiply those neighbourhoods with the kernels filters associated to each channel. (this multiplication on every neighbourhood is convolution). Then, for every kernel, we obtain a scalar which will then pass to the growth function associated with the kernel. The scalars obtained  after the growth function are all summed to get the growth at cell c. We finally add the total growth to the creature channel  and clip the value between 0 and 1.</p>
