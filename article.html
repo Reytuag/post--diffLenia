@@ -336,22 +336,22 @@ Update step in the Lenia System <br>
 
 <p>In this section, we will test the creature to explore its sensorimotor capabilities and robustness. We will also test the creatures obtained in situation that it has not encounterd during training.</p>
 <h3 id='how-well-do-the-creatures-obtained-generalize-'><i>How well do the creatures obtained generalize ?</i></h3>
-<h4 id='are-the-creature-long-term-stable-'>ARE THE CREATURE LONG TERM STABLE ?</h4>
+<h4 id='are-the-creature-long-term-stable-'><strong>ARE THE CREATURE LONG TERM STABLE ?</strong></h4>
 <p>Even if we can not know if the creature is indefinitively stable, we can test for reasonable number of timesteps. The result is that the creature obtained with IMGEP with obstacles seems stable for 2000 timesteps while it has only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, Training a creature only for movement(without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in <dt-cite key="mordvintsev2020growing"></dt-cite> where training to grow a creature from the same initialization (a pixel) led to pattern that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability. (by making the target shape a stronger attractor)</p>
 
-<h4 id='are-the-creatures-robust-to-new-obstacles-'>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</h4>
+<h4 id='are-the-creatures-robust-to-new-obstacles-'><strong>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</strong></h4>
 
 <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
               <source src="demoObstacle.mp4" type="video/mp4">
             </video>
 <p>The resulting creatures are very robust to walls perturbations and able to navigate in difficult environment. The resulting creature seems able to recover from perturbation induced by various shape of wall including vertical walls.(see interactive demo) One very surprising emerging behavior is that the creature is sometimes able to come out of dead end showing how well this technique generalizes. There are still some failure cases, with creature obtained that can get unstable after some perturbation, but the creatures are most of the time robust to a lot of different obstacles. The generalization is due to the large diversity of obstacles encountered by the creature during the learning because 8 circle randomly placed can lead to a very diverse set of obstacles. Moreover as it learns to go further, the creature have to learn to collide with several obstacles one after the other and so be able to recover fast but also still be able to resist&#x2F;sense a second obstacle while not having fully recover.</p>
-<h4 id='are-the-creatures-robust-to-moving-obstacles-'>ARE THE CREATURES ROBUST TO MOVING OBSTACLES ?</h4>
+<h4 id='are-the-creatures-robust-to-moving-obstacles-'><strong>ARE THE CREATURES ROBUST TO MOVING OBSTACLES ?</strong></h4>
 <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
               <source src="harderEnv.mp4" type="video/mp4">
             </video>
 
 <p>We can make an harder out of distribution environment by adding movement to the obstacles. For example we can do bullet like environment where the tiny wall disks are shifted of few pixels at every step. The creature seems quite resilient to this kind of perturbation even if we can see that a well placed perturbation can kill the creature. However, this kind of environment differs a lot of what the creature has been trained on and therefore shows how much the creature learned to quickly recover from perturbations, even unseen ones.</p>
-<h4 id='are-the-creature-robust-to-asynchronous-update-with-noise-'>ARE THE CREATURE ROBUST TO ASYNCHRONOUS UPDATE WITH NOISE ?</h4>
+<h4 id='are-the-creature-robust-to-asynchronous-update-with-noise-'><strong>ARE THE CREATURE ROBUST TO ASYNCHRONOUS UPDATE WITH NOISE ?</strong></h4>
   <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
                 <source src="asynchro.mp4" type="video/mp4">
               </video>
