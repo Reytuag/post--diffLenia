@@ -519,12 +519,17 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <p>Those soft robots have a separate controller&#x2F; motor which is either automatic contraction <dt-cite key="horibe2021regenerating"></dt-cite><dt-cite key="10.1145&#x2F;2739480.2754662"></dt-cite> or with a controller using feedback from the environment <dt-cite key="10.1162&#x2F;isal_a_00223"></dt-cite>. Other studies on automatic contraction robot focused on  shapeshift to recover from injury <dt-cite key="Kriegman2019AutomatedSF"></dt-cite>.</p>
 
 <h4 id='biology'><strong>BIOLOGY</strong></h4>
+<p>Preserving coherence through communication</p>
+<p>Slimemolds</p>
+<p>Cilia ? </p>
+<p>Bacteria with antibiotic walls</p>
 
-<p>Cilliates flock , antiobiotic walls, slimemolds.</p>
+<p>Collective coherent behavior from individuals through communication, limited access to info Ants, bees    [[couzin2005Effective]]</p>
+
 
 <h4 id='swarm-robotic'><strong>SWARM ROBOTIC</strong></h4>
-<p>We can draw parallels with swarm robotic which dictates how several agent should arrange themselves in &quot;harmony&quot;</p>
-<h4 id='exploration'><strong>EXPLORATION</strong></h4>
+<p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in their environment.<dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Swarm robotic is inspired by nature and  covers various areas of navigation like collective exploration: , Coordinated motion, or even Collective decision-making.</p>
+<h4 id='open-ended-exploration-'><strong>OPEN ENDED </strong><strong>EXPLORATION </strong></h4>
 <p>Other works have been focusing on exploring as much as possible the system trying to find diversity of morphology in an open ended manner using IMGEP with morphological encoding of creature as goal space. <dt-cite key="reinke2020intrinsically"></dt-cite><dt-cite key="etcheverry2020hierarchically"></dt-cite></p>
 <h2 id='discussion'>Discussion</h2>
 <p>What's interesting in such system is that <strong>the computation of decision is done at the macro (group) level</strong>, showing how a group of simple identical entities through local interactions can make "decision", sense at the macro scale. Seeing these creatures it's even hard to believe that they are in fact made of tiny parts all behaving under the same rules. Moreover the creatures presented here are all 1 channel creatures, there is no hidden channel where some value could be stored.</p>
@@ -537,7 +542,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <p>One major difference between the neural CA model used in <dt-cite key="mordvintsev2020growing"></dt-cite> and Lenia is that the radius of the neighbourhood of each cell that we used is quite big. In fact, in <dt-cite key="mordvintsev2020growing"></dt-cite> they use a Moore neighbourhood (direct neighbours and diagonal) while we use kernel of large size :radius 28 or so during training (but that's an arbitrary choice, even if large radius helps to train fast as creature overlap more easily and from larger distance with the target shape and so we can make larger curriculum steps, having larger target area may also help the MSE optimization ) and we can downscale our creature to have a radius of approximately 6. Maybe using a message passing like model we can get something equivalent with moore neighbourhood. One interesting experiment would be to try to fit a Neural CA on the creature obtained here and see if it can make approximately the same creature with moore neighbourhood. We also think that hidden channels could help in this case maybe by storing some value. One other difference from <dt-cite key="mordvintsev2020growing"></dt-cite> is that our kernels are totally symmetric while theirs have the notion of up and down, right and left which might be helpful if we want the creature to have a prefered direction and know in which direction it is pointing.</p>
 <p>Surprisingly some creatures looked a lot like (in terms of morphology) creatures from <dt-cite key="chan2019lenia"></dt-cite> which were obtained by evolutionary algorithm or by hand made mutations but ours seem to be far more robust.</p>
 <p>Even if some basic creature with more or less good level of sensorimotor capabilities have already been found by random search and basic evolutionary algorithm in Lenia. This work still provides a method able to easily learn the update rule, from scratch in high dimensional parameters space, leading to different robust creatures with sensorimotor capabilities. We also think that the ideas presented here can be useful to learn parameters in other complex systems that can be very sensitive. Especially, using curriculum learning which seems to help a lot.</p>
-<p>We focused a lot on the responsive action in this paper and the robustness. But studying how the creature spots a deformation might be interesting to understand how our body knows when the growth isn't over. Studying how the computation of "decision" is made at a higher level (and scale) than just the CA rule (for exemple when encountering a wall) is a very interesting next step.</p>
+<p>We focused a lot on the responsive action in this paper and the robustness. But studying how the creature spots a deformation might be interesting to understand how our body knows when the growth isn't over. Studying how the computation of "decision" is made at a higher level (and scale) than just the CA rule (for example when encountering a wall) is a very interesting next step.</p>
 <p>One other interesting direction is to add even more constraints in the environment like food&#x2F;energy for example. We tried a little bit to add food in Lenia but we're not satisfied with the result. We think that adding food to the environment might be a great leap toward the search for more advanced behavior in Lenia. For example adding competition between individuals&#x2F;species for food. From this competition and new constraints, interesting strategies could emerge as in <dt-cite key="baker2020emergent"></dt-cite></p>
 </dt-article>
 <dt-appendix>
@@ -811,7 +816,14 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
     doi = {10.1103/PhysRevE.101.012407},
     url = {https://link.aps.org/doi/10.1103/PhysRevE.101.012407}
   }
-
+@article{Brambilla2012SwarmRA,
+  title={Swarm robotics: a review from the swarm engineering perspective},
+  author={M. Brambilla and E. Ferrante and M. Birattari and M. Dorigo},
+  journal={Swarm Intelligence},
+  year={2012},
+  volume={7},
+  pages={1-41}
+}
 
 
   @misc{barnett2021dynamical,
@@ -832,7 +844,18 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
   }
 
-  @article{Beer2015CharacterizingAI,
+  @article{couzin2005Effective,
+    title={Effective leadership and decision-making in animal groups on the move
+},
+    author={Couzin, I., Krause, J., Franks, N.,Levin, S.},
+    journal={Nature},
+    year={2005},
+    volume={433},
+    pages={513–516},
+   URL={https://doi.org/10.1038/nature03236}
+  }
+
+@article{Beer2015CharacterizingAI,
     title={Characterizing Autopoiesis in the Game of Life},
     author={R. Beer},
     journal={Artificial Life},
@@ -857,7 +880,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
   @article{Forestier2017IntrinsicallyMG,
     title={Intrinsically Motivated Goal Exploration Processes with Automatic Curriculum Learning},
-    author={Sebastien Forestier and Yoan Mollard and Pierre-Yves Oudeyer},
+    author={S{\'{e}}bastien Forestier and Yoan Mollard and Pierre-Yves Oudeyer},
     journal={ArXiv},
     year={2017},
     volume={abs/1708.02190}
