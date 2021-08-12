@@ -94,7 +94,6 @@
 
 <p>Spatially localized patterns in cellular automata have shown a lot of interesting behavior that led to new understanding of self-organizing system. While the notion of environment is a keypoint in Maturana and Varela biology of cognition, studies on cellular automata rarely introduced a well defined environment in their system. In this paper, we propose to add walls in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to learn the CA rule leading to such creature. The creature obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles in their way.</p>
 <h2 id='introduction'>Introduction</h2>
-
 <p>Behavior in living creatures is often seen as action output in response to sensory input, these sensorimotor capabilities seem crucial to behave better in their environment and therefore increase their chance of survival. When we think about output from sensory inputs, the first thing we often think of is neural computation. However, we can't deny that a lot of living thing without a brain are also having these sensorimotor capabilities like plant moving to get more sun, slime molds which seem to use mechanical cues of its environment to choose in which direction to expand  <dt-cite key="murugan2021mechano"></dt-cite> , using their body both for sensing and computing the decision. We also find sensorimotor capabilities at the macro scale in swarm of bacterias <dt-cite key="PhysRevE.101.012407"></dt-cite> where a group of bacteria seem to avoid a wall of antibiotics, making group decisions for obstacle avoidance.</p>
 <p>Furthermore, living beings with neural computation also seem to take advantage of some morphological computation. In fact, morphological computation theory states that the body also plays a role in this sensory to motor flow. ref . Cognition therefore isn't bounded to the brain.</p>
 <p>In Maturana and Varela work <dt-cite key="VarelaThompsonEmbo"></dt-cite><dt-cite key="Varela1997PatternsOL"></dt-cite>, cognition is centered around how an agent "reacts" to the perturbation induced by its environment, ie sensory stimulus. More precisely, they introduce the notion of cognitive domain of a self-organizing system which are all the perturbations induced by the environment which do not result in the destruction of the self-organizing system. Their notion of cognition is thus deeply linked with how a self-organizing creature will try to preserve its integrity in its environment.</p>
@@ -519,13 +518,17 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <p>Those soft robots have a separate controller&#x2F; motor which is either automatic contraction <dt-cite key="horibe2021regenerating"></dt-cite><dt-cite key="10.1145&#x2F;2739480.2754662"></dt-cite> or with a controller using feedback from the environment <dt-cite key="10.1162&#x2F;isal_a_00223"></dt-cite>. Other studies on automatic contraction robot focused on  shapeshift to recover from injury <dt-cite key="Kriegman2019AutomatedSF"></dt-cite>.</p>
 
 <h4 id='biology'><strong>BIOLOGY</strong></h4>
-<p>Preserving coherence through communication</p>
-<p>Slimemolds</p>
-<p>Cilia ? </p>
-<p>Bacteria with antibiotic walls</p>
 
-<p>Collective coherent behavior from individuals through communication, limited access to info   <dt-cite key="couzin2005Effective"></dt-cite></p>
+<p>Self organization in biology is an important topic studied at different scales, from cells to individuals in a society. Those groups of entities have to navigate in their environment in order to find food. Navigating in a group allows to more efficiently and safely move in a hostile environment taking advantage of the information gathered from an individual to benefit the group through communication. <dt-cite key="couzin2005Effective"></dt-cite></p>
+<p>Some swarms of bacteria avoid antibiotics making group decisions on where to go using information from  </p>
+<p>   Slime molds  explore their surroundings in every direction.And once a ramification finds cues of food, the growth will be directed to that food. </p>
 <p>Ants <dt-cite key="Detrain2006SelforganizedSI"></dt-cite> , bees  </p>
+
+
+<p>Cilia ? </p>
+
+
+<p>preserving a coherent herd through communication.</p>
 
 
 <h4 id='swarm-robotic'><strong>SWARM ROBOTIC</strong></h4>
