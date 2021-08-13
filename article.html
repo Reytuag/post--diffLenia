@@ -68,19 +68,19 @@
       <li><a href="#walls">Walls</a></li>
       <li><a href="#differentiable-lenia">Differentiable Lenia</a></li>
     </ul>
-    <h5><a href="#can-we-learn-moving-creature-in-lenia">Can we learn moving Creature in Lenia ? </a></h5>
+    <h5><a href="#can-we-learn-moving-creature-in-lenia-">Can we learn moving Creature in Lenia ? </a></h5>
     <ul>
-      <li><a href="#can-we-learn-moving-creature-in-lenia">Target shape</a></li>
+      <li><a href="#can-we-learn-moving-creature-in-lenia-">Target shape</a></li>
       <li><a href="#imgep-and-utility-of-curriculum">IMGEP and utility of curriculum</a></li>
     </ul>
-    <h5><a href="#can-we-learn-robust-creature-with-sensorimotor-capabilities-">Can we learn robust creatures with sensorimotor capabilities ?</a></h5>
+    <h5><a href="#can-we-learn-robust-creatures-with-sensorimotor-capabilities-">Can we learn robust creatures with sensorimotor capabilities ?</a></h5>
     <ul>
-      <li><a href="#can-we-learn-robust-creature-with-sensorimotor-capabilities-">Method</a></li>
+      <li><a href="#can-we-learn-robust-creatures-with-sensorimotor-capabilities-">Method</a></li>
       <li><a href="#overcoming-bad-initialization-problem">Overcoming bad initialization problem</a></li>
     </ul>
     <h5><a href="#results">Results</a></h5>
     <ul>
-      <li><a href="#how-well-do-the-creatures-obtaines-generalize-"> How well do the creatures obtained generalize ?</a></li>
+      <li><a href="#how-well-do-the-creatures-obtained-generalize-"> How well do the creatures obtained generalize ?</a></li>
       <li><a href="#multi-creature-setting">Multi creature setting</a></li>
     </ul>
     <h5><a href="#related-works">Related works</a></h5>
@@ -331,10 +331,11 @@ Update step in the Lenia System <br>
   <div style="position:absolute; left:25%; top:11%; width:16%; height:13%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP3.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
   <div style="position:absolute; left:58%; top:36%; width:14%; height:13%; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="changeImgIMGEP('IMGEP4.svg')" onmouseout="changeImgIMGEP('IMGEP.svg')"></div>
  </div>
- <p  style="font-size: 14px;color:#A0A0A0;text-align:center;" class="l-middle-outset">
-  Lenia Step (hover over gray area to show step by step)
- </p>
 
+ <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+IMGEP Step <br>
+ <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
+ </p><br><br>
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at the last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we randomly sample position in the grid biasing the sampling toward one edge of the grid. we use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by initializing the parameters by the one that achieved the closest goal.</p>
 <p>The overall method can be summarized as such:</p>
 <div class=l-body>
