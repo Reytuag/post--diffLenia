@@ -188,10 +188,7 @@
     <div class="column">
       $$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$
     </div>
-
   </div>
-
-
   <div class="row">
     <div class="column">
       $$ G_k= x \rightarrow 2*exp(-\frac{(x-\textcolor{#c80000}{m^k})^2}{2(\textcolor{#c80000}{s^k} )^2})-1  $$
@@ -252,13 +249,10 @@ T time scale </span><br>
 
  <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
   </div>
-
-
-
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Update step in the Lenia System <br>
  <span style="font-size: 14px;color:#A0A0A0;">(CLick on the Formulas button to see Lenia's equation)</span>
- </p><br><br>
+ </p><br>
 
 
 <p>In our experiments, we used the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we only used 1 channel for the creature and other ones for the environment.</p>
@@ -335,7 +329,7 @@ Update step in the Lenia System <br>
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
- </p><br><br>
+ </p><br>
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at the last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we randomly sample position in the grid biasing the sampling toward one edge of the grid. we use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by initializing the parameters by the one that achieved the closest goal.</p>
 <p>The overall method can be summarized as such:</p>
 <div class=l-body>
@@ -520,17 +514,11 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h4 id='biology'><strong>BIOLOGY</strong></h4>
 
-<p>Self organization in biology is an important topic studied at different scales, from cells to individuals in a society. Those groups of entities have to navigate in their environment in order to find food. Navigating in a group allows to more efficiently and safely move in a hostile environment taking advantage of the information gathered from an individual to benefit the group through communication. <dt-cite key="couzin2005Effective"></dt-cite></p>
-<p>Some swarms of bacteria avoid antibiotics making group decisions on where to go using information from  </p>
-<p>   Slime molds  explore their surroundings in every direction.And once a ramification finds cues of food, the growth will be directed to that food. </p>
-<p>Ants <dt-cite key="Detrain2006SelforganizedSI"></dt-cite> , bees  </p>
+<p>Self organization in biology is an important topic studied at different scales, from cells to individuals in a society. Those groups of entities have to navigate in their environment in order to find food. Navigating in a group allows one to more efficiently and safely move in a hostile environment taking advantage of the information gathered from an individual to benefit the group through communication. <dt-cite key="couzin2005Effective"></dt-cite></p>
+<p>Some swarms of bacteria avoid antibiotics making group decisions on where to go using surfactant and fluid dynamics to guid the group.<dt-cite key="PhysRevE.101.012407"></dt-cite>  Slime molds  explore their surroundings in every direction.And once a ramification finds cues of food, the growth will be directed to that food.  <dt-cite key="murugan2021mechano"></dt-cite>. Ants from few individuals having information, make group decisions on where to go <dt-cite key="Detrain2006SelforganizedSI"></dt-cite>.</p>
 
 
-<p>Cilia ? </p>
-
-
-<p>preserving a coherent herd through communication.</p>
-
+<p>Bees, cilia?</p>
 
 <h4 id='swarm-robotic'><strong>SWARM ROBOTIC</strong></h4>
 <p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in their environment.<dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Swarm robotic is inspired by nature and  covers various areas of navigation like collective exploration: , Coordinated motion, or even Collective decision-making.</p>
@@ -561,7 +549,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
        
 
 <p>       </p>
-<p>         However we tried with half circle, star and sharp star without success. For all of these shape we still obtained roundish morphologies. This may be due to the kernel shape which bias the shape of the creature. However as shown in the appendix, we can optimize the growth toward a complicated gecco shape. The failure of these optimisation may be due to the difficulty added by the fact that we want a moving creature.Thus When we optimize the MSE loss, before trying to make this complicated shape the optimization first learns to get the creature to where it should be, and trying to grow it into this star shape may not be well aligned with this.</p>
+<p>         However we tried with half circle, star and sharp star without success. For all of these shapes we still obtained roundish morphologies. This may be due to the kernel shape which bias the shape of the creature. However as shown in the appendix, we can optimize the growth toward a complicated gecco shape. The failure of these optimisation may be due to the difficulty added by the fact that we want a moving creature.Thus When we optimize the MSE loss, before trying to make this complicated shape the optimization first learns to get the creature to where it should be, and trying to grow it into this star shape may not be well aligned with this.</p>
        
 
 
@@ -665,7 +653,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
                   </video>
 
     
-<h2 id='----kernels-activity-visualization'>    Kernels activity visualization</h2>
+<h2 id='kernels-activity-visualization'>Kernels activity visualization</h2>
 
       <video id="kernels" width=85% controls="" muted="" class="videoShow" >
                     <source src="kernels.mp4" type="video/mp4">
@@ -676,7 +664,9 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
                     <source src="optiminit40Kvid.mp4" type="video/mp4">
                   </video>
 
-
+<h2 id='experimental-details'>Experimental details</h2>
+<p>Grid 256x256</p>
+<p>Timesteps 50</p>
 <h2 id='---soft-clip-sensorimotor-found-by-bert-chan-'>   Soft clip sensorimotor found by Bert Chan </h2>
       <div class="row l-page">
       <div class="column">
