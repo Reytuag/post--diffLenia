@@ -447,19 +447,19 @@ var playButton=document.getElementById("play-pause");
 playButton.onclick= ()=>{
   pause = ! pause;
   if(pause){
-    document.getElementById("play").style.display="none";
-    document.getElementById("pause").style.display="inline";
-  }
-  else{
     document.getElementById("play").style.display="inline";
     document.getElementById("pause").style.display="none";
+  }
+  else{
+    document.getElementById("play").style.display="none";
+    document.getElementById("pause").style.display="inline";
 
   }
 
 }
 var resetButton=document.getElementById("reset");
 resetButton.onclick=()=>{
-  pause = false;gen = 0;
+  gen = 0;
 }
 var isMouseDown = false;
 function set_iMouse(e, sx, sy) {
