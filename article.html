@@ -16,7 +16,13 @@
   <!--shadertoy at mac 840x472, at win 640x360-->
   <div id="showText" onclick="this.style.display='none';">initializing...</div>
   <p id="instructionDemo"class="l-gutter" style="font-size: 12px;color:#A0A0A0;"> Radius 0.5 is good to spawn creatures<br> Click on screen to spawn </p>
-  <p> press p to pause and enter to clear </p>
+<div>
+ <span id="play-pause">
+                <svg class="icon" id="play" style="display: none;"><svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></svg>
+                <svg class="icon" id="pause" style="display: inline;"> <svg id="pauseIcon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg> </svg>
+            </span>
+</div>
+
   <div class='l-body row'>
     <div class="column">
       <input type="range" min="0.1" max="1"  step="0.1" value="0.5" class="slider" id="rangeRadiusWall" >
