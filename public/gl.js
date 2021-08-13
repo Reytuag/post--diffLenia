@@ -209,7 +209,6 @@ function init() {
 
     if (useWindowSize)
         window.onresize = onResize;
-    window.onkeypress = onKeyPress;
 
     textbox.innerHTML = "loading shader files...";
     loadShaderFiles(['vertex.glsl', 'fragment_sim.glsl', 'fragment_draw.glsl', shadertoyFilename],
@@ -458,8 +457,10 @@ playButton.onclick= ()=>{
   }
 
 }
-var playButton=document.getElementById("play-pause");
-
+var resetButton=document.getElementById("reset");
+resetButton.onclick=()=>{
+  pause = false;gen = 0;
+}
 var isMouseDown = false;
 function set_iMouse(e, sx, sy) {
     var rect = canvas.getBoundingClientRect();
