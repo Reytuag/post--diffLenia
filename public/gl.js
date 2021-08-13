@@ -444,7 +444,7 @@ function onResize(e) {
 }
 
 
-var playButton=document.getElementById("play-pause")
+var playButton=document.getElementById("play-pause");
 playButton.onlick(){
   pause = ! pause;
   if(pause){
