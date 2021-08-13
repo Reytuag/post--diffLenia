@@ -445,7 +445,7 @@ function onResize(e) {
 
 
 var playButton=document.getElementById("play-pause");
-playButton.onlick()= ()=>{
+playButton.onclick()= ()=>{
   pause = ! pause;
   if(pause){
     document.getElementById("play").style.display="none";
@@ -458,6 +458,7 @@ playButton.onlick()= ()=>{
   }
 
 }
+var playButton=document.getElementById("play-pause");
 
 var isMouseDown = false;
 function set_iMouse(e, sx, sy) {
