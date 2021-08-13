@@ -47,8 +47,6 @@
 </div>
 
 <p><a href="https://colab.research.google.com/drive/11mYwphZ8I4aur8KuHRR1HEg6ST5TI0RW#scrollTo=7BPqqGJA8nC0" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a></p>
-<p><a href="https://colab.research.google.com/drive/11mYwphZ8I4aur8KuHRR1HEg6ST5TI0RW#scrollTo=XdVJ2aBJ5ze7" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a></p>
-<p>colab()</p>
 
   <script type="text/javascript" src="utils.js"></script>
   <script type="text/javascript" src="gl.js"></script>
@@ -508,7 +506,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h4 id='neural-ca'><strong>NEURAL CA</strong></h4>
 
-<p>Neural Cellular automata use the flexibility of neural networks to express the update rule. They greatly benefit from the differentiability of neural networks to learn the update rule for a diversity of specific tasks <dt-cite key="mordvintsev2020thread:"></dt-cite> .  Neural CA has been used to learn to grow and regenerate in case of damage a desired shape or texture  <dt-cite key="mordvintsev2020growing"></dt-cite>, classify handwritten digit in a decentralized way <dt-cite key="randazzo2020self-classifying"></dt-cite>, or even allow the CA to be the circuits computing the action from inputs in a task <dt-cite key="variengien2021selforganized"></dt-cite>.</p>
+<p>Neural Cellular automata use the flexibility of neural networks to express the update rule. They greatly benefit from the differentiability of neural networks to learn the update rule for a diversity of specific tasks <dt-cite key="mordvintsev2020thread:"></dt-cite> .  Neural CA has been used to learn to grow and regenerate in case of damage a desired shape <dt-cite key="mordvintsev2020growing"></dt-cite>, self organize in a texture <dt-cite key="niklasson2021self-organising"></dt-cite>, classify handwritten digit in a decentralized way <dt-cite key="randazzo2020self-classifying"></dt-cite>, or even allow the CA to be the circuits computing the action from inputs in a task <dt-cite key="variengien2021selforganized"></dt-cite>.</p>
 
 <p>Another study <dt-cite key="randazzo2021adversarial"></dt-cite> explores how we can perturb the cohesive communication between cells in order to change the behavior of the whole "entity" ,using adversarial attack either with transformation of some cell states or with rogue cells.</p>
 <h4 id='soft-robots'><strong>SOFT ROBOTS</strong></h4>
@@ -842,6 +840,15 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
         pages = {209–223},
 
   }
+@article{niklasson2021self-organising,
+  author = {Niklasson, Eyvind and Mordvintsev, Alexander and Randazzo, Ettore and Levin, Michael},
+  title = {Self-Organising Textures},
+  journal = {Distill},
+  year = {2021},
+  note = {https://distill.pub/selforg/2021/textures},
+  doi = {10.23915/distill.00027.003}
+}
+
 
   @article{couzin2005Effective,
     title={Effective leadership and decision-making in animal groups on the move
