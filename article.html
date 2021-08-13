@@ -256,7 +256,9 @@ Update step in the Lenia System <br>
 
 
 <p>In our experiments, we used the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we only used 1 channel for the creature and other ones for the environment.</p>
-<p>A lenia step is decomposed as such: for every cell c  in the grid, we look at it's neighbourhood in both channels. We then multiply those neighbourhoods with the kernels filters \((K)_k\) associated to each channel. (this multiplication on every neighbourhood is convolution). Then, for every kernel, we obtain a scalar which is then passed to the growth function \(G_k\) associated with the kernel. The scalars obtained  after the growth functions are all summed to get the growth at cell c. We finally add the total growth to the creature channel  and clip the value between 0 and 1.</p>
+<p>In Lenia, every cell c can take any value between 0 and 1. Cells at 0 are considered dead while others are alive. An initial pattern \( A^0\) is needed in order to begin a rollout.</p>
+<p>A lenia step is decomposed as such: for every cell c  in the grid, we look at it's neighbourhood in all channels. We then multiply those neighbourhoods with the kernels filters \((K)_k\) associated to each channel. (this multiplication on every neighbourhood is convolution). Then, for every kernel, we obtain a scalar which is then passed to the growth function \(G_k\) associated with the kernel. The scalars obtained  after the growth functions are all summed (with a weight) to get the growth at cell c. We finally add the total growth to the creature channel  and clip the value between 0 and 1.</p>
+<p>The parameters of the update rule are thus those controlling the kernel shape (R,r,rk,w,b), those controlling the growth function (m,s,h) and a time controlling parameter (T). (R and T in our experiment are chosen randomly and fixed while all the other parameters will be optimized)</p>
 
 
 <h3 id='walls'>Walls</h3>
