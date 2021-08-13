@@ -443,13 +443,20 @@ function onResize(e) {
     resetTime();
 }
 
-function onKeyPress(e) {
-    switch (e.key) {
-        case "p": pause = ! pause; break;
-    }
-    switch (e.keyCode) {
-        case 13: pause = false;gen = 0; break;
-    }
+
+var playButton=document.getElementById("play-pause")
+playButton.onlick(){
+  pause = ! pause;
+  if(pause){
+    document.getElementById("play").style.display="none";
+    document.getElementById("pause").style.display="inline";
+  }
+  else{
+    document.getElementById("play").style.display="inline";
+    document.getElementById("pause").style.display="none";
+
+  }
+
 }
 
 var isMouseDown = false;
