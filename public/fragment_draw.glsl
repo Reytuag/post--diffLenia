@@ -11,8 +11,10 @@ out vec4 fragColor;
 void main() {
   if(iMouse[2]<0.){
     fragColor = texelFetch(iChannel0, ivec2(gl_FragCoord), 0);
+
   }
   else{
     fragColor = texelFetch(iChannel0, ivec2(mod(((gl_FragCoord.xy-vec2(iResolution.x,iResolution.y)/2.0)*zoom+vec2(iMouse[0],iMouse[1])),vec2(iResolution.x,iResolution.y))), 0);
   }
+  fragColor[1]=fragColor[0];
 }
