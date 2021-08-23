@@ -3,13 +3,9 @@
 <h1>Learning Sensorimotor Capabilities in Cellular Automata</h1>
 <h2 id='learning-robust-selforganizing-creatures-with-gradient-descent'>Learning robust self-organizing creatures with gradient descent</h2>
 
-
-
   <video id="robust" width="95%"  autoplay loop muted="" class="l-middle-outset videoShow">
                 <source src="demo.mp4" type="video/mp4">
               </video>
-
-
   <dt-byline></dt-byline>
 
   <canvas id="glCanvas" width="640" height="360" class='l-body'></canvas>
@@ -674,8 +670,26 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
                   </video>
 
 <h2 id='experimental-details'>Experimental details</h2>
+
+
+<p>Total timesteps : 400 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
+
+<p>1 out of five timesteps has no mutation and optimized with 115 optimization steps. The rest have mutation before optimization and only 15 optimization steps.</p>
+
+
 <p>Grid 256x256</p>
-<p>Timesteps 50</p>
+<p>Size of initialization : 40x40 </p>
+<p>Timesteps  in a lenia Rollout 50</p>
+<p>Number of kernels in Lenia: 10</p>
+
+<p>Optimizer : Adam learning rate : for lenia param &#x3D;0.8e-3 , for initialization &#x3D; 0.8 e-2 (on purpose order of magnitude higher in order to "stabilize" it fast so that both don't change at the same time)</p>
+
+<p>Number of obstacles disks : 8</p>
+
+
+
+
+
 <h2 id='---soft-clip-sensorimotor-found-by-bert-chan-'>   Soft clip sensorimotor found by Bert Chan </h2>
       <div class="row l-page">
       <div class="column">
