@@ -196,3 +196,24 @@ tab-size: 4;
     });
   </script>
 
+<script type="text/javascript">
+  "use strict";
+  var sliderSpeed = document.getElementById("rangeSpeed");
+  var outputSpeed = document.getElementById("valueSpeed");
+  var videos=document.getElementsByClassName("videoShow");
+  outputSpeed.innerHTML = sliderSpeed.value; // Display the default slider value
+
+  // Update the current slider value (each time you drag the slider handle)
+  sliderSpeed.oninput = function() {
+  outputSpeed.innerHTML = this.value;
+  for (var i = 0; i < videos.length; i++) {
+  	videos[i].playbackRate = this.value;
+  }}
+  function changeImgIMGEP(img)
+        {
+            var schemeIMGEP=document.getElementById("schemeIMGEP");
+            schemeIMGEP.src=img;
+        }
+
+
+</script>
