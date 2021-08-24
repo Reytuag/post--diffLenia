@@ -666,11 +666,14 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
     
 <h2 id='kernels-activity-visualization'>Kernels activity visualization</h2>
 
+<p>We can visualize the growth induced by each kernels (all square at the exterior of the figure). The square at the bottom center is the weighted sum of all those growth (+ the growth of the wall) ie the total growth of the step. The center top square is the creature channel after the update.</p>
+
       <video id="kernels" width=85% controls="" muted="" class="videoShow" >
                     <source src="kernels.mp4" type="video/mp4">
                   </video>
 
 <h2 id='gecko-experiment'>Gecko experiment</h2>
+<p>To test our model differentiability and "power". We tried to reproduce the experiment from <dt-cite key="mordvintsev2020growing"></dt-cite> trying to grow a gecko shape. In our case, the gecko was  1 channel and the initialization was a 40x40 square optimized. The example displayed here needed 1 hidden channel(with also a 40x40 square optimized) and 40 kernels, and was optimized for 2000 steps. Using less kernel really decreases the performance, especially on the tail. Not optimizing the initialization drastically decreases the performance, leading to oval shape far from the gecko shape.</p>
       <video id="kernels" width=85% controls="" muted="" class="videoShow" >
                     <source src="optiminit40Kvid.mp4" type="video/mp4">
                   </video>
