@@ -17,10 +17,11 @@
  
   </nav>
     </d-content>
-
-  <canvas id="glCanvas" width="640" height="360" class='l-body' style="background-color:#000000;"></canvas>
+<div class='l-body'>
+  <canvas id="glCanvas" width="640" height="360" style="background-color:#000000;"></canvas>
   <!--shadertoy at mac 840x472, at win 640x360-->
   <div id="showText" onclick="this.style.display='none';">initializing...</div>
+</div>
   <p id="instructionDemo"class="l-gutter" style="font-size: 12px;color:#A0A0A0;"> Radius 0.5 is good to spawn creatures<br> Click on screen to spawn </p>
 <div>
  <span id="play-pause">
@@ -458,7 +459,7 @@ IMGEP Step <br>
 </div>
 </div>
 
-<p>In this section, we test the creature to explore its sensorimotor capabilities and robustness. We also test the creatures obtained in situations that it has not encountered during training.</p>
+<p>In this section, we test the creature to explore its sensorimotor capabilities and robustness. We also test the creatures obtained in situations that it has not encountered during training. To better display the versatility of some of the creature obtained, we keep the same creature for all the demo below except stated otherwise.</p>
 <h3 id='how-well-do-the-creatures-obtained-generalize-'><i>How well do the creatures obtained generalize ?</i></h3>
 <h4 id='are-the-creature-long-term-stable-'><strong>ARE THE CREATURE LONG TERM STABLE ?</strong></h4>
 <p>Even if we can not know if the creature is indefinitely stable, we can test for a reasonable number of timesteps. The result is that the creature obtained with IMGEP with obstacles seems stable for 2000 timesteps while it has only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, Training a creature only for movement(without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in <dt-cite key="mordvintsev2020growing"></dt-cite> where training to grow a creature from the same initialization (a pixel) led to patterns that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability by making the target shape a stronger attractor.</p>
@@ -509,9 +510,9 @@ IMGEP Step <br>
                  <source src="demo.mp4" type="video/mp4">
                </video>
 <p class="l-gutter"  style="font-size: 13px;color:#A0A0A0;  "> 
-For this creature displayed here, we had to tune by hand the kernel after the training in order to get individuality.
+For this creature displayed here, we had to tune by hand the kernel after the training in order to get individuality. But we sometimes obtain individuality directly from the training.
 </p>
-<p>The creatures obtained show strong individuality preservation. In fact, creatures go in non destructive interactions most of the time without merging. As said before, we can tune the weight of the kernels (especially the limiting growth one) to make the merge of two creatures harder. By increasing those limiting growth kernels, the repeal of two entities gets stronger and they will simply change direction. (Individuality has also been observed in the "orbium" creature in Lenia for example but much more fragile, a lot of collision led to destruction or explosion)</p>
+<p>Some creatures obtained show strong individuality preservation. In fact, creatures go in non destructive interactions most of the time without merging. If individuality isn't obtained during training, we can tune the weight of the kernels (especially the limiting growth one) to make the merge of two creatures harder. By increasing those limiting growth kernels, the repeal of two entities gets stronger and they will simply change direction. (Individuality has also been observed in the "orbium" creature in Lenia for example but much more fragile, a lot of collision led to destruction or explosion)</p>
 <h4 id='attraction'><strong>ATTRACTION</strong></h4>
 <video id="robust" width="95%"  autoplay controls="" loop muted="" class="l-middle side videoShow">
                  <source src="stick.mp4" type="video/mp4">
@@ -524,7 +525,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
        If they are too far from each other no attraction.
      </p>
 
-<p>One other type of interaction between two creatures of the same species (governed by the same update rule&#x2F;physic) is creatures getting stuck together. The two creatures seem to attract each other a little bit when they are close enough, leading to the two creatures stuck together going in the same direction. When they encounter an obstacle and separate briefly, their attraction reassembles them together. Even when they're stuck together, from a human point of view seeing this system, we can still see 2 distinct creatures. This type of behavior is studied in the game of life in <dt-cite key="PMID:24494612"></dt-cite> with the notion of consensual domain.</p>
+<p>One other type of interaction between two creatures of the same species (governed by the same update rule&#x2F;physic) is creatures getting stuck together. The two creatures (here it's a different creature than the one shown above) seem to attract each other a little bit when they are close enough, leading to the two creatures stuck together going in the same direction. When they encounter an obstacle and separate briefly, their attraction reassembles them together. Even when they're stuck together, from a human point of view seeing this system, we can still see 2 distinct creatures. This type of behavior is studied in the game of life in <dt-cite key="PMID:24494612"></dt-cite> with the notion of consensual domain.</p>
 
 <h4 id='reproduction'><strong>REPRODUCTION</strong></h4>
 <video id="robust" width="95%"  autoplay  controls="" loop muted="" class="l-middle side videoShow">
