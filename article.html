@@ -6,9 +6,18 @@
                 <source src="demo.mp4" type="video/mp4">
               </video>
   <dt-byline></dt-byline>
-<div style="left :-175px;">
-  <p> Instructions</p>
-</div>
+<d-content>
+<nav style="margin-left:2em">
+      <li> Press play to begin </li>
+      <li>Place creature by clicking on the dark screen ( place creature mode should be selected)</li>
+      <li>Now place walls by selecting walls and then clicking or dragging  on the screen  </li>
+      <li>You can clear by selecting the clear mode and then clicking or dragging on the screen  </li>
+      <li> You can choose the brush size to draw bigger walls/ clear bigger areas etc</li>
+      <li> To zoom, select zoom mode, select zoom magnitude with the slider and then click where you wan't to zoom<br> keep the click and drag to follow the creature </li>
+ 
+  </nav>
+    </d-content>
+
   <canvas id="glCanvas" width="640" height="360" class='l-body' style="background-color:#000000;"></canvas>
   <!--shadertoy at mac 840x472, at win 640x360-->
   <div id="showText" onclick="this.style.display='none';">initializing...</div>
@@ -46,7 +55,7 @@
     <input type="radio" id="radioZoom" name='option'  value="zoom" >
     <label for="radioZoom">Zoom</label>
 
-    <input type="radio" id="radioAttract" name='option'  value="attract" >
+    <input type="radio" id="radioAttract" name='option'  value="attract" style="display:none;">
     <label for="radioAttract">Attractor</label>
 </div>
 
@@ -1357,17 +1366,6 @@ tab-size: 4;
 }*/
 
 
-.leftColumn{
-    clear: both;
-    float: right;
-    line-height:1.4;
-    padding-top: 1em;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-    margin-top: 0;
-    margin-left: 10px;
-    margin-right: calc((100vw - 1500px) / 2 + 168px);
-    width: calc((1500px - 648px) / 2 - 24px);
-}
 
 
 </style>
