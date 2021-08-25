@@ -1,5 +1,4 @@
 <dt-article>
-
 <h1>Learning Sensorimotor Capabilities in Cellular Automata</h1>
 <h2 id='learning-robust-selforganizing-creatures-with-gradient-descent'>Learning robust self-organizing creatures with gradient descent</h2>
 
@@ -111,14 +110,23 @@
 <p>Finding moving creatures in Cellular automata also differ from most classic RL experiments which evolve a body and train a separate controller, as in cellular automata the body and its update rule are the "controler".</p>
 <p>Other studies, taking inspiration from biological regrowth in some animals and morphogenesis, focused on the recovery from Deformation&#x2F; damage <dt-cite key="horibe2021regenerating"></dt-cite> <dt-cite key="mordvintsev2020growing"></dt-cite>, applying Cellular automata to build and regenerate damaged parts. But none of them use the CA rule to move the creature.</p>
 
-  <video id="robust" width="100%" autoplay loop muted="" class="videoShow l-body side">
-                <source src="pacman.mp4" type="video/mp4">
-              </video>
+<p>  &lt;video id&#x3D;&quot;robust&quot; width&#x3D;&quot;100%&quot; autoplay loop muted&#x3D;&quot;&quot; class&#x3D;&quot;videoShow l-body side&quot;&gt;</p>
+<p>                &lt;source src&#x3D;&quot;pacman.mp4&quot; type&#x3D;&quot;video&#x2F;mp4&quot;&gt;</p>
+<p>              &lt;&#x2F;video&gt;</p>
 
 
 <p>In Lenia <dt-cite key="chan2020lenia"></dt-cite> <dt-cite key="chan2019lenia"></dt-cite> which is a continuous cellular automata, we can already observe sensorimotor capabilities(see section Lenia). However, even if there is interaction between some entities, there is no well defined environment. Moreover the search for new creatures in Lenia was first done manually testing parameters and mutating it or with a simple evolutionary algorithm, which might take time and luck to find the type of creature we really expect. Other studies <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite> focused on exploring as much as possible the space of morphology in Lenia using an intrinsically motivated explorer . However these last techniques didn't focus much on finding moving creatures.</p>
 
 <p>In this work, we chose to add walls in Lenia to study the sensorimotor behavior of a self organizing agent. We propose a method based on gradient descent to learn the CA update rule leading to robustness and sensorimotor capabilities with walls. The creature we obtain, from the deformation induced by the walls on some part of it, makes new decisions at the macro level on where to go&#x2F;how to react. What's even more interesting is that the computations made for the decision are all made in the creature itself, at the morphology level. In this study, to characterize creatures as "creature with sensorimotor capabilities", we look if this creature can pass some basic test of robustness to a diversity of obstacles.</p>
+
+
+
+<p>Embodied cognition is a widely discussed topic in artificial intelligence (AI) and artificial life (ALife), yet it seems that orthogonal standpoints are taken on what is considered as &quot;embodiment&quot; and on how to reach sensorimotor &quot;agency&quot; within those.</p>
+<p>On the one hand, embodied AI researchers typically refer to robots and other virtual agents as &quot;embodied&quot; in the sense that they can ground their sensorimotor capabilities in the environment (the external world) via a physical interface (the body) allowing to experience the world directly (sensory inputs) and to act upon it (motor outputs) using their internal computational processing  (the brain).  Embodiment, in that sense, is often taken for granted in opposition to the traditional AI perspective where internal representations, either symbolic-based in &quot;good-old fashion AI&quot; or neural-network-based in the &quot;internet AI&quot;, are decoupled from the external world and lack <i>situatedness</i> [[brooks1991intelligence]]. While embodied AI embeds the representational information processing &quot;brains&quot; inside robotic &quot;bodies&quot;, the environment is clearly separated from the agent and the dynamical equations governing their interactions are hand-defined and centralized, the agent itself have a clear separation between its brain and its body which bares little resemblances with the self-organized dynamics of living organisms. </p>
+<p>On the other hand, ALife researchers typically emphasize the biological nature of &quot;embodiment&quot; and argue in favor of a new set of tools from dynamical and complex systems theory for representing embodiment. Moving away from the representational tools used in embodied AI, ALife researchers rather advocate for physical information processing (via flow of matters and energy within dynamical systems) as a computational decision tool. Pfeifer and colleagues coined the term morphological computation [[pfeifer2006body]], arguing that cognition should not be bounded to neural circuits but integrate morphological growth and body reconfiguration. One famous example in hard ALife is the Cornell biped passive walker [[collins2001three]] [[muller2017morphological]] which exploits the natural dynamics of the robot mechanical system to perform walking. In soft Alife, considerable effort have been made to provide computational models of self-organized dynamical systems. One of the main family of such models is cellular automata, which consist of a grid of states where only local updates are allowed, and yet where very complex self organizing patterns can emerge. But while those computational systems offer promising avenues for modeling life and cognition [cite], understanding and formalizing what makes a certain dynamical system cognitive remains a debated question to date [[beer2000dynamical]][[barandiaran2006makes]][[manicka2019cognitive]]. One seminal attempt to define cognition in self-organizing systems is the work of Maturana and Varela [[maturana1980autopoiesis]] and their theory of <i>autopoiesis</i>. For Maturana and Varela, &quot;all living systems consist of cognitive systems, and living as a process is a process of cognition&quot;. While very controversial at that time as cognition is preferably reserved to higher-level psychological processes [[levin2020cognition]], this theory is becoming more and more accepted due to the many evidences of basal cognition in living entities using their body both for sensing and computing the decision such as plant moving to get more sun, slime molds using mechanical cues of their environment to choose in which direction to expand  <dt-cite key="murugan2021mechano"></dt-cite> , and at the macro scale where a swarm of bacterias seem to avoid a wall of antibiotics  <dt-cite key="PhysRevE.101.012407"></dt-cite>, making group decisions for obstacle avoidance. More precisely, Maturana and Varela introduce the notion of cognitive domain of a self-organizing system which are all the perturbations induced by the environment which do not result in the destruction of the self-organizing system. Their notion of cognition is thus deeply linked with <i>self-maintenance</i> i.e. how a self-organizing creature will try to preserve its integrity in its environment. Ruiz-Mirazo and Moreno [[ruiz2004basic]] further emphasized the notion of <i>basic autonomy</i> as the capacity of a cognitive system to modify its internal and interactive exchanges of matter and energy with the environment (action) when facing with external changes in the state or rule of the dynamical system (perturbations) for achieving self-maintenance (goal).</p>
+<p>Whereas embodied AI and ALife both agree on some form of goal-directedness and action response to external perturbations, we can see how the characterization and identification of such structures in self-organizing systems is conceptually non-intuitive and very challenging in practice. Among the work that attempted to explicit the intuitions of autopoiesis as formulated by Maturena and Varela,  we distinguish R.D. Beer work that characterizes the cognitive domain of a glider in the game of life  <dt-cite key="autopoiesisBeer1754"></dt-cite>, and of a protocell model [[agmon2015ontogeny]] by enumerating its reaction to all possible perturbations that it can receive from its immediate environment. Other works propose rigorous quantitative measures of individuality based on information theory tools <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite>. However, the application of those approaches has so far been limited to toy models with small state grids and simple dynamics, as their algorithmic implementation requires exhaustive search and difficulty scales to dynamical systems with more complex state spaces. In embodied AI by contrast, reinforcement learning has exploded within the last 10 years reaching super-human performances in a wide variety of domains[cite]. While also historically based on theoretical ideas rather than practical ones, it is the combination of  the RL framework with deep learning tools that led to the deployment to domains with complex exploration spaces.</p>
+<p>Similarly, the transition toward differentiable self-organizing dynamics has recently been proposed in the context of cellular automata <dt-cite key="mordvinstev2020growing"></dt-cite>, which have been reformulated as "Recurrent Residual Convolutional Networks &quot; or so-called neural CA (NCA). By unrolling the dynamics of the CA over time and backpropagating through it, the use of deep-learning and differentiable programming tools allowed to efficiently find CA rules leading to complex patterns. Different training losses such as image<dt-cite key="mordvinstev2020growing"></dt-cite>, style-content <dt-cite key="niklasson2021self-organising"></dt-cite>  and classification <dt-cite key="randazzo2020self-classifying"></dt-cite> losses have been proposed. Inspired from a more traditional (non-embodied) deep learning framework, they have shown how complex pattern-generation (morphogenesis) and computation (self-classifying) processes could emerge in those systems. However, the use of such tools to efficiently search the parameterizations leading to the emergence of &quot;cognitive agents&quot; with sensorimotor capabilities remains, to our knowledge, an unexplored research direction to date. We believe that taking advantage of both the dynamicist set of tools for simulating agency-environment embodiment and of the differentiable programming set of tools for better exploring in practice and understanding those systems opens many exciting opportunities to the development of embodied approaches in AI in general. Contrary to their RL counterpart, biologically-inspired embodiment could pave the way toward agents with strong coherence and generalization to out-of-distribution changes, mimicking the remarkable robustness of living systems to environmental perturbations[cite], adversarial attacks[cite], body damages[cite], etc.</p>
+<p>In this work, we use a continuous cellular automaton, called Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> that extends traditional CA with continuous state spaces and rules generalized to higher dimensions, multiple kernels and multiple channels. Lenia can generate a wide range of complex behaviors and life-like structures, as testified by the library of creatures and &quot;species&quot; that have been manually discovered. While complex sensorimotor behaviors seem possible in Lenia, thay have so far only been observed &quot;by chance&quot; as the result of manual search  or with a simple evolutionary algorithm, which might take time and luck to find the type of creature we are interested in.</p>
 
 <h2 id='the-system'>The system</h2>
 
@@ -304,7 +312,7 @@ Update step in the Lenia System <br>
 
 <p>To learn these parameters we chose to use gradient descent method. Thus we tried to make Lenia as Differentiable friendly as possible. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(x-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
 <img src="freeK.png" alt="schemeK" class='l-body'>
-<p>We did this shift because in the vanilla version of Lenia, the shape of the kernel was only given by a vector b of arbitrary size (but often max size 4). The number of bumps was given by the number of coefficient in b&gt;0. However, the fact that the number of bumps depends on the number of coefficient &gt; 0 prevents proper differentiation. (if a coefficient is at 0 then it won't change with gradient descent as it doesn't play a role, and if a coefficient is &gt;0 a gradient step can put it &lt;0 which will make a strong unexpected change). We could have left the number of bumps to an arbitrary value like 3, and only optimizing the height such that they stay &gt;0 but this would have been a strong limitation on the shape. The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
+<p>We did this shift because in the vanilla version of Lenia, the shape of the kernel was only given by a vector b of arbitrary size (but often max size 4). The number of bumps was given by the number of coefficients in b&gt;0. However, the fact that the number of bumps depends on the number of coefficient &gt; 0 prevents proper differentiation. (if a coefficient is at 0 then it won't change with gradient descent as it doesn't play a role, and if a coefficient is &gt;0 a gradient step can put it &lt;0 which will make a strong unexpected change). We could have left the number of bumps to an arbitrary value like 3, and only optimizing the height such that they stay &gt;0 but this would have been a strong limitation on the shape. The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
 <p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations and each iteration has it's result clipped between 0 and 1. We should thus limit ourselves to a few iterations when training.</p>
 <h2 id='can-we-learn-moving-creatures-in-lenia-'>Can we learn Moving Creatures in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. This will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
@@ -683,7 +691,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <h2 id='experimental-details'>Experimental details</h2>
 
 
-<p>Total timesteps : 400 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
+<p>Total timesteps : 160 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
 
 <p>1 out of five timesteps has no mutation and optimized with 115 optimization steps. The rest have mutation before optimization and only 15 optimization steps.</p>
 
@@ -1031,6 +1039,140 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
   volume={3},
   pages={162-187}
 }
+
+<p>@book{brooks1991intelligence,</p>
+<p>  title&#x3D;{Intelligence without reason},</p>
+<p>  author&#x3D;{Brooks, Rodney A},</p>
+<p>  year&#x3D;{1991},</p>
+<p>}</p>
+
+<p>@book{pfeifer2006body,</p>
+<p>  title&#x3D;{How the body shapes the way we think: a new view of intelligence},</p>
+<p>  author&#x3D;{Pfeifer, Rolf and Bongard, Josh},</p>
+<p>  year&#x3D;{2006},</p>
+<p>  publisher&#x3D;{MIT press}</p>
+<p>}</p>
+
+<p>@article{collins2001three,</p>
+<p>  title&#x3D;{A three-dimensional passive-dynamic walking robot with two legs and knees},</p>
+<p>  author&#x3D;{Collins, Steven H and Wisse, Martijn and Ruina, Andy},</p>
+<p>  journal&#x3D;{The International Journal of Robotics Research},</p>
+<p>  volume&#x3D;{20},</p>
+<p>  number&#x3D;{7},</p>
+<p>  pages&#x3D;{607--615},</p>
+<p>  year&#x3D;{2001},</p>
+<p>  publisher&#x3D;{SAGE Publications}</p>
+<p>}</p>
+
+<p>@article{muller2017morphological,</p>
+<p>  title&#x3D;{What is morphological computation? On how the body contributes to cognition and control},</p>
+<p>  author&#x3D;{M{\&quot;u}ller, Vincent C and Hoffmann, Matej},</p>
+<p>  journal&#x3D;{Artificial life},</p>
+<p>  volume&#x3D;{23},</p>
+<p>  number&#x3D;{1},</p>
+<p>  pages&#x3D;{1--24},</p>
+<p>  year&#x3D;{2017},</p>
+<p>  publisher&#x3D;{MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}</p>
+<p>}</p>
+
+<p>@article{barandiaran2006makes,</p>
+<p>  title&#x3D;{On what makes certain dynamical systems cognitive: A minimally cognitive organization program},</p>
+<p>  author&#x3D;{Barandiaran, Xabier and Moreno, Alvaro},</p>
+<p>  journal&#x3D;{Adaptive Behavior},</p>
+<p>  volume&#x3D;{14},</p>
+<p>  number&#x3D;{2},</p>
+<p>  pages&#x3D;{171--185},</p>
+<p>  year&#x3D;{2006},</p>
+<p>  publisher&#x3D;{Sage Publications Sage CA: Thousand Oaks, CA}</p>
+<p>}</p>
+
+<p>@article{beer2000dynamical,</p>
+<p>  title&#x3D;{Dynamical approaches to cognitive science},</p>
+<p>  author&#x3D;{Beer, Randall D},</p>
+<p>  journal&#x3D;{Trends in cognitive sciences},</p>
+<p>  volume&#x3D;{4},</p>
+<p>  number&#x3D;{3},</p>
+<p>  pages&#x3D;{91--99},</p>
+<p>  year&#x3D;{2000},</p>
+<p>  publisher&#x3D;{Elsevier}</p>
+<p>}</p>
+
+<p>@article{manicka2019cognitive,</p>
+<p>  title&#x3D;{The Cognitive Lens: a primer on conceptual tools for analysing information processing in developmental and regenerative morphogenesis},</p>
+<p>  author&#x3D;{Manicka, Santosh and Levin, Michael},</p>
+<p>  journal&#x3D;{Philosophical Transactions of the Royal Society B},</p>
+<p>  volume&#x3D;{374},</p>
+<p>  number&#x3D;{1774},</p>
+<p>  pages&#x3D;{20180369},</p>
+<p>  year&#x3D;{2019},</p>
+<p>  publisher&#x3D;{The Royal Society}</p>
+<p>}</p>
+
+
+<p>@book{maturana1980autopoiesis,</p>
+<p>  title&#x3D;{Autopoiesis and cognition: The realization of the living},</p>
+<p>  author&#x3D;{Maturana, Humberto R and Varela, Francisco J},</p>
+<p>  year&#x3D;{1980},</p>
+<p>}</p>
+
+<p>@article{ruiz2004basic,</p>
+<p>  title&#x3D;{Basic autonomy as a fundamental step in the synthesis of life},</p>
+<p>  author&#x3D;{Ruiz-Mirazo, Kepa and Moreno, Alvaro},</p>
+<p>  journal&#x3D;{Artificial life},</p>
+<p>  volume&#x3D;{10},</p>
+<p>  number&#x3D;{3},</p>
+<p>  pages&#x3D;{235--259},</p>
+<p>  year&#x3D;{2004},</p>
+<p>  publisher&#x3D;{MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}</p>
+<p>}</p>
+
+<p>@inproceedings{agmon2015ontogeny,</p>
+<p>  title&#x3D;{Ontogeny and adaptivity in a model protocell},</p>
+<p>  author&#x3D;{Agmon, Eran and Gates, Alexander J and Beer, Randall D},</p>
+<p>  booktitle&#x3D;{Artificial Life Conference Proceedings 13},</p>
+<p>  pages&#x3D;{216--223},</p>
+<p>  year&#x3D;{2015},</p>
+<p>  organization&#x3D;{MIT Press}</p>
+<p>}</p>
+
+<p>@article{krakauer2020information,</p>
+<p>  title&#x3D;{The information theory of individuality},</p>
+<p>  author&#x3D;{Krakauer, David and Bertschinger, Nils and Olbrich, Eckehard and Flack, Jessica C and Ay, Nihat},</p>
+<p>  journal&#x3D;{Theory in Biosciences},</p>
+<p>  volume&#x3D;{139},</p>
+<p>  number&#x3D;{2},</p>
+<p>  pages&#x3D;{209--223},</p>
+<p>  year&#x3D;{2020},</p>
+<p>  publisher&#x3D;{Springer}</p>
+<p>}</p>
+
+
+<p>@inproceedings{biehlInformationBasedSpatiotemporal2016,</p>
+<p>  title &#x3D; {Towards Information Based Spatiotemporal Patterns as a Foundation for Agent Representation in Dynamical Systems},</p>
+<p>  booktitle &#x3D; {Proceedings of the {{Artificial Life Conference}} 2016},</p>
+<p>  author &#x3D; {Biehl, Martin and Ikegami, Takashi and Polani, Daniel},</p>
+<p>  year &#x3D; {2016},</p>
+<p>  pages &#x3D; {722--729},</p>
+<p>  publisher &#x3D; {{MIT Press}},</p>
+<p>  address &#x3D; {{Cancun, Mexico}},</p>
+<p>  doi &#x3D; {10.7551&#x2F;978-0-262-33936-0-ch115},</p>
+<p>  abstract &#x3D; {We present some arguments why existing methods for representing agents fall short in applications crucial to artificial life. Using a thought experiment involving a fictitious dynamical systems model of the biosphere we argue that the metabolism, motility, and the concept of counterfactual variation should be compatible with any agent representation in dynamical systems. We then propose an information theoretic notion of integrated spatiotemporal patterns which we believe can serve as the basic building block of an agent definition. We argue that these patterns are capable of solving the problems mentioned before. We also test this in some preliminary experiments.}</p>
+<p>}</p>
+
+<p>@article{levin2020cognition,</p>
+<p>  title&#x3D;{Cognition all the way down},</p>
+<p>  author&#x3D;{Levin, Michael and Dennett, Daniel C},</p>
+<p>  journal&#x3D;{Aeon Essays. Retrieved},</p>
+<p>  year&#x3D;{2020}</p>
+<p>}</p>
+
+
+
+
+
+
+
+
 
 
 
