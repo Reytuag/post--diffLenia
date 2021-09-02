@@ -1299,7 +1299,9 @@ function changeVideo(className,nb)
        vids[i].style.display="none";
 }
 console.log(className+nb);
-document.getElementById(className+nb).style.display="block";
+var vid=document.getElementById(className+nb);
+console.log(vid);
+vid.style.display="block";
  }
 
 </script>
