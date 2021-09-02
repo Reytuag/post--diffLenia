@@ -486,18 +486,17 @@ IMGEP Step <br>
      
        <div class="column">
          <div class="radio-toolbar" id="optionDiv">
-    <input type="radio" id="demoObstacleButton1" name='option'  value="1" checked onclick='changeVideo("demoObstacle","1")'>
-    <label for="demoObstacleButton1">1</label><br>
+    <input type="radio" id="demoObstacleButton1" name='option'  value="1" checked>
+    <label for="demoObstacleButton1" onclick='changeVideo("demoObstacle","1")'>1</label><br>
 
-    <input type="radio"  id="demoButtonObstacleButton2" name='option'  value="2" onclick='changeVideo("demoObstacle","2")'>
-    <label for="demoObstacleButton2">2</label><br>
+    <input type="radio"  id="demoButtonObstacleButton2" name='option'  value="2" >
+    <label for="demoObstacleButton2" onclick='changeVideo("demoObstacle","2")'>2</label><br>
 
-    <input type="radio"  id="demoButtonObstacleButton3" name='option'  value="3" onclick='changeVideo("demoObstacle","3")'>
-    <label for="demoObstacleButton3">3</label><br>
+    <input type="radio"  id="demoButtonObstacleButton3" name='option'  value="3">
+    <label for="demoObstacleButton3" onclick='changeVideo("demoObstacle","3")'>3</label><br>
 
-    <input type="radio"  id="demoButtonObstacleButton4" name='option'  value="4" onclick='changeVideo("demoObstacle","4")'>
-    <label for="demoObstacleButton4">4</label>
-
+    <input type="radio"  id="demoButtonObstacleButton4" name='option'  value="4">
+    <label for="demoObstacleButton4" onclick='changeVideo("demoObstacle","4")'>4</label>
 
 </div>
 
@@ -1299,6 +1298,7 @@ function changeVideo(className,nb)
 	for(var i=0;i<vids.length;i++){
        vids[i].style.display="none";
 }
+console.log(className+nb);
 document.getElementById(className+nb).style.display="block";
  }
 
