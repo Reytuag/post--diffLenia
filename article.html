@@ -142,7 +142,7 @@ In this work, we chose to add walls in Lenia to study the sensorimotor behavior 
 <p>On the one hand, embodied AI researchers typically refer to robots and other virtual agents as &quot;embodied&quot; in the sense that they can ground their sensorimotor capabilities in the environment (the external world) via a physical interface (the body) allowing to experience the world directly (sensory inputs) and to act upon it (motor outputs) using their internal computational processing  (the brain).  Embodiment, in that sense, is often taken for granted in opposition to the traditional AI perspective where internal representations, either symbolic-based in &quot;good-old fashion AI&quot; or neural-network-based in the &quot;internet AI&quot;, are decoupled from the external world and lack situatedness <dt-cite key="brooks1991intelligence"></dt-cite>. While embodied AI embeds the representational information processing &quot;brains&quot; inside robotic &quot;bodies&quot;, the environment is clearly separated from the agent and the dynamical equations governing their interactions are hand-defined and centralized, the agent itself have a clear separation between its brain and its body which bares little resemblances with the self-organized dynamics of living organisms. </p>
 
 
-<p>On the other hand, ALife researchers typically emphasize the biological nature of &quot;embodiment&quot; and argue in favor of a new set of tools from dynamical and complex systems theory for representing embodiment. Moving away from the representational tools used in embodied AI, ALife researchers rather advocate for physical information processing (via flow of matters and energy within dynamical systems) as a computational decision tool. Pfeifer and colleagues coined the term morphological computation <dt-cite key="pfeifer2006body"></dt-cite>, arguing that cognition should not be bounded to neural circuits but integrate morphological growth and body reconfiguration. One famous example in hard ALife is the Cornell biped passive walker <dt-cite key="collins2001three"></dt-cite> <dt-cite key="muller2017morphological"></dt-cite> which exploits the natural dynamics of the robot mechanical system to perform walking. In soft Alife, considerable effort have been made to provide computational models of self-organized dynamical systems. One of the main family of such models is cellular automata, which consist of a grid of states where only local updates are allowed, and yet where very complex self organizing patterns can emerge. But while those computational systems offer promising avenues for modeling life and cognition [cite], understanding and formalizing what makes a certain dynamical system cognitive remains a debated question to date <dt-cite key="beer2000dynamical"></dt-cite><dt-cite key="barandiaran2006makes"></dt-cite><dt-cite key="manicka2019cognitive"></dt-cite>. One seminal attempt to define cognition in self-organizing systems is the work of Maturana and Varela <dt-cite key="maturana1980autopoiesis"></dt-cite> and their theory of autopoiesis. For Maturana and Varela, &quot;all living systems consist of cognitive systems, and living as a process is a process of cognition&quot;. While very controversial at that time as cognition is preferably reserved to higher-level psychological processes <dt-cite key="levin2020cognition"></dt-cite>, this theory is becoming more and more accepted due to the many evidences of basal cognition in living entities using their body both for sensing and computing the decision such as plant moving to get more sun, slime molds using mechanical cues of their environment to choose in which direction to expand  <dt-cite key="murugan2021mechano"></dt-cite> , and at the macro scale where a swarm of bacterias seem to avoid a wall of antibiotics  <dt-cite key="PhysRevE.101.012407"></dt-cite>, making group decisions for obstacle avoidance. More precisely, Maturana and Varela introduce the notion of cognitive domain of a self-organizing system which are all the perturbations induced by the environment which do not result in the destruction of the self-organizing system. Their notion of cognition is thus deeply linked with self-maintenance i.e. how a self-organizing creature will try to preserve its integrity in its environment. Ruiz-Mirazo and Moreno <dt-cite key="ruiz2004basic"></dt-cite> further emphasized the notion of basic autonomy as the capacity of a cognitive system to modify its internal and interactive exchanges of matter and energy with the environment (action) when facing with external changes in the state or rule of the dynamical system (perturbations) for achieving self-maintenance (goal).</p>
+<p>On the other hand, ALife researchers typically emphasize the biological nature of &quot;embodiment&quot; and argue in favor of a new set of tools from dynamical and complex systems theory for representing embodiment. Moving away from the representational tools used in embodied AI, ALife researchers rather advocate for physical information processing (via flow of matters and energy within dynamical systems) as a computational decision tool. Pfeifer and colleagues coined the term morphological computation <dt-cite key="pfeifer2006body"></dt-cite>, arguing that cognition should not be bounded to neural circuits but integrate morphological growth and body reconfiguration. One famous example in hard ALife is the Cornell biped passive walker <dt-cite key="collins2001three"></dt-cite> <dt-cite key="muller2017morphological"></dt-cite> which exploits the natural dynamics of the robot mechanical system to perform walking. In soft Alife, considerable effort have been made to provide computational models of self-organized dynamical systems. One of the main family of such models is cellular automata, which consist of a grid of states where only local updates are allowed, and yet where very complex self organizing patterns can emerge. But while those computational systems offer promising avenues for modeling life and cognition [[langton1984self]]<dt-cite key="autopoiesisBeer1754"></dt-cite>, understanding and formalizing what makes a certain dynamical system cognitive remains a debated question to date <dt-cite key="beer2000dynamical"></dt-cite><dt-cite key="barandiaran2006makes"></dt-cite><dt-cite key="manicka2019cognitive"></dt-cite>. One seminal attempt to define cognition in self-organizing systems is the work of Maturana and Varela <dt-cite key="maturana1980autopoiesis"></dt-cite> and their theory of autopoiesis. For Maturana and Varela, &quot;all living systems consist of cognitive systems, and living as a process is a process of cognition&quot;. While very controversial at that time as cognition is preferably reserved to higher-level psychological processes <dt-cite key="levin2020cognition"></dt-cite>, this theory is becoming more and more accepted due to the many evidences of basal cognition in living entities using their body both for sensing and computing the decision such as plant moving to get more sun, slime molds using mechanical cues of their environment to choose in which direction to expand  <dt-cite key="murugan2021mechano"></dt-cite> , and at the macro scale where a swarm of bacterias seem to avoid a wall of antibiotics  <dt-cite key="PhysRevE.101.012407"></dt-cite>, making group decisions for obstacle avoidance. More precisely, Maturana and Varela introduce the notion of cognitive domain of a self-organizing system which are all the perturbations induced by the environment which do not result in the destruction of the self-organizing system. Their notion of cognition is thus deeply linked with self-maintenance i.e. how a self-organizing creature will try to preserve its integrity in its environment. Ruiz-Mirazo and Moreno <dt-cite key="ruiz2004basic"></dt-cite> further emphasized the notion of basic autonomy as the capacity of a cognitive system to modify its internal and interactive exchanges of matter and energy with the environment (action) when facing with external changes in the state or rule of the dynamical system (perturbations) for achieving self-maintenance (goal).</p>
 
 
 <p>Whereas embodied AI and ALife both agree on some form of goal-directedness and action response to external perturbations, we can see how the characterization and identification of such structures in self-organizing systems is conceptually non-intuitive and very challenging in practice. Among the work that attempted to explicit the intuitions of autopoiesis as formulated by Maturena and Varela,  we distinguish R.D. Beer work that characterizes the cognitive domain of a glider in the game of life  <dt-cite key="autopoiesisBeer1754"></dt-cite>, and of a protocell model <dt-cite key="agmon2015ontogeny"></dt-cite> by enumerating its reaction to all possible perturbations that it can receive from its immediate environment. Other works propose rigorous quantitative measures of individuality based on information theory tools <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite>. However, the application of those approaches has so far been limited to toy models with small state grids and simple dynamics, as their algorithmic implementation requires exhaustive search and difficulty scales to dynamical systems with more complex state spaces. In embodied AI by contrast, reinforcement learning has exploded within the last 10 years reaching super-human performances in a wide variety of domains[cite]. While also historically based on theoretical ideas rather than practical ones, it is the combination of  the RL framework with deep learning tools that led to the deployment to domains with complex exploration spaces.</p>
@@ -154,7 +154,7 @@ In this work, we chose to add walls in Lenia to study the sensorimotor behavior 
 <p>In this work, we use a continuous cellular automaton, called Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> that extends traditional CA with continuous state spaces and rules generalized to higher dimensions, multiple kernels and multiple channels. Lenia can generate a wide range of complex behaviors and life-like structures, as testified by the library of creatures and &quot;species&quot; that have been manually discovered. While complex sensorimotor behaviors seem possible in Lenia, they have so far only been observed &quot;by chance&quot; as the result of manual search  or with a simple evolutionary algorithm, which might take time and luck to find the type of creature we are interested in. </p>
 
 
-<p>Contrary to previous work on Lenia and most cellular automata,we clearly separates what belongs to the environment and what does not. In fact, as proposed in <dt-cite key="autopoiesisBeer1754"></dt-cite>, an agent is a (subjective choice of)  unity, while the rest of the system constitutes its environment. Agent and environment are dynamically coupled as each perturbates the other. With this definition, the boundary between an agent and its environment can be fuzzy and hard to tell in cellular automata. Like in the example above, the green dot can be seen as the environment of  the blue and red creature but it can also be seen as part of the creature.  </p>
+<p>Contrary to previous work on Lenia and most cellular automata, we clearly separate what belongs to the environment and what does not. In fact, as proposed in <dt-cite key="autopoiesisBeer1754"></dt-cite>, an agent is a (subjective choice of)  unity, while the rest of the system constitutes its environment. Agent and environment are dynamically coupled as each perturbates the other. With this definition, the boundary between an agent and its environment can be fuzzy and hard to tell in cellular automata. For instance in the above videoLike in the example above, the green dot can be seen as the environment of  the blue and red creatures but it can also be seen as part of the creature.  </p>
 
 <p>In this work, taking inspiration from classic RL, we chose to add walls as a separated hand-defined environment  in Lenia to study the sensorimotor behavior of a self organizing agent. We also propose a method based on gradient descent and curriculum learning to learn the CA update rule of the creature (how each cell communicates) leading to robustness and sensorimotor capabilities with walls. The creature we obtain, from the deformation induced by the walls on some part of it, makes new decisions at the macro level on where to go&#x2F;how to react. What's even more interesting is that the computations made for the decision are all made in the creature itself, at the morphology level. We finally test the capabilities of the obtained creatures.</p>
 
@@ -464,9 +464,46 @@ IMGEP Step <br>
 
 <h4 id='are-the-creatures-robust-to-new-obstacles-'><strong>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</strong></h4>
 
-<video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
+<div class="l-middle side">
+ 
+ <div class="row l-page">
+       <div class="column">
+          <video id="model-editing-level-1-video-1" autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block" id="demoObstacle1">
               <source src="demoObstacle.mp4" type="video/mp4">
             </video>
+<video id="model-editing-level-1-video-1" autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block" id="demoObstacle2">
+              <source src="demoObstacle.mp4" type="video/mp4">
+            </video>
+<video id="model-editing-level-1-video-1" autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block " id="demoObstacle3">
+              <source src="demoObstacle.mp4" type="video/mp4">
+            </video>
+<video id="model-editing-level-1-video-1" autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block" id="demoObstacle4">
+              <source src="demoObstacle.mp4" type="video/mp4">
+            </video>
+       </div>
+     
+       <div class="column">
+         <div class="radio-toolbar" id="optionDiv">
+    <input type="radio" id="demoButtonObstacle1" name='option'  value="1" checked>
+    <label for="radioErase">1</label><br>
+
+    <input type="radio"  id="demoButtonObstacle2" name='option'  value="2">
+    <label for="radioCircle">2</label><br>
+
+    <input type="radio"  id="demoButtonObstacle3" name='option'  value="3">
+    <label for="demoButtonObstacle3">3</label><br>
+
+    <input type="radio"  id="demoButtonObstacle4" name='option'  value="4" >
+    <label for="demoButtonObstacle4">4</label>
+
+
+</div>
+
+       </div>
+      
+ </div> 
+</div>
+
 <p>The resulting creatures are very robust to wall perturbations and able to navigate in difficult environments. The resulting creature seems to be able to recover from perturbation induced by various shapes of walls including vertical walls.(see interactive demo) One very surprising emerging behavior is that the creature is sometimes able to come out of dead ends showing how well this technique generalizes. There are still some failure cases, with creatures obtained that can get unstable after some perturbation, but the creatures are most of the time robust to a lot of different obstacles. The generalization is due to the large diversity of obstacles encountered by the creature during the learning because 8 circles randomly placed can lead to a very diverse set of obstacles. Moreover as it learns to go further, the creature has to learn to collide with several obstacles one after the other and so be able to recover fast but also still be able to resist&#x2F;sense a second obstacle while not having fully recovered.</p>
 <h4 id='are-the-creatures-robust-to-moving-obstacles-'><strong>ARE THE CREATURES ROBUST TO MOVING OBSTACLES ?</strong></h4>
 <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
@@ -1207,6 +1244,18 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
   journal={Aeon Essays. Retrieved},
   year={2020}
 }
+
+<p>@article{langton1984self,</p>
+<p>  title&#x3D;{Self-reproduction in cellular automata},</p>
+<p>  author&#x3D;{Langton, Christopher G},</p>
+<p>  journal&#x3D;{Physica D: Nonlinear Phenomena},</p>
+<p>  volume&#x3D;{10},</p>
+<p>  number&#x3D;{1-2},</p>
+<p>  pages&#x3D;{135--144},</p>
+<p>  year&#x3D;{1984},</p>
+<p>  publisher&#x3D;{Elsevier}</p>
+<p>}</p>
+
 
 
 
