@@ -1295,8 +1295,9 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
         }
 function changeVideo(className,nb)
    {
-	for vid in document.getElementsByClassName(className){
-       vid.style.display="none";
+ 	var vids=document.getElementsByClassName(className);
+	for(var i=0;i<vids.length;i++){
+       vids[i].style.display="none";
 }
 document.getElementById(class+nb).style.display="block;
  }
