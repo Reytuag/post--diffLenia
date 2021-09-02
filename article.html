@@ -468,6 +468,7 @@ IMGEP Step <br>
  
  <div class="row l-page">
        <div class="column">
+<div>
           <video id="model-editing-level-1-video-1" autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block" id="demoObstacle1">
               <source src="demoObstacle.mp4" type="video/mp4">
             </video>
@@ -480,21 +481,22 @@ IMGEP Step <br>
 <video id="model-editing-level-1-video-1" autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:none" id="demoObstacle4">
               <source src="demoObstacle.mp4" type="video/mp4">
             </video>
+</div>
        </div>
      
        <div class="column">
          <div class="radio-toolbar" id="optionDiv">
-    <input type="radio" id="demoButtonObstacle1" name='option'  value="1" checked>
-    <label for="radioErase">1</label><br>
+    <input type="radio" id="demoObstacleButton1" name='option'  value="1" checked onclick='changeVideo("demoObstacle","1")'>
+    <label for="demoObstacleButton1">1</label><br>
 
-    <input type="radio"  id="demoButtonObstacle2" name='option'  value="2">
-    <label for="radioCircle">2</label><br>
+    <input type="radio"  id="demoButtonObstacleButton2" name='option'  value="2" onclick='changeVideo("demoObstacle","2")'>
+    <label for="demoObstacleButton2">2</label><br>
 
-    <input type="radio"  id="demoButtonObstacle3" name='option'  value="3">
-    <label for="demoButtonObstacle3">3</label><br>
+    <input type="radio"  id="demoButtonObstacleButton3" name='option'  value="3" onclick='changeVideo("demoObstacle","3")'>
+    <label for="demoObstacleButton3">3</label><br>
 
-    <input type="radio"  id="demoButtonObstacle4" name='option'  value="4" >
-    <label for="demoButtonObstacle4">4</label>
+    <input type="radio"  id="demoButtonObstacleButton4" name='option'  value="4" onclick='changeVideo("demoObstacle","4")'>
+    <label for="demoObstacleButton4">4</label>
 
 
 </div>
@@ -1245,16 +1247,16 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
   year={2020}
 }
 
-<p>@article{langton1984self,</p>
-<p>  title&#x3D;{Self-reproduction in cellular automata},</p>
-<p>  author&#x3D;{Langton, Christopher G},</p>
-<p>  journal&#x3D;{Physica D: Nonlinear Phenomena},</p>
-<p>  volume&#x3D;{10},</p>
-<p>  number&#x3D;{1-2},</p>
-<p>  pages&#x3D;{135--144},</p>
-<p>  year&#x3D;{1984},</p>
-<p>  publisher&#x3D;{Elsevier}</p>
-<p>}</p>
+@article{langton1984self,
+  title={Self-reproduction in cellular automata},
+  author={Langton, Christopher G},
+  journal={Physica D: Nonlinear Phenomena},
+  volume={10},
+  number={1-2},
+  pages={135--144},
+  year={1984},
+  publisher={Elsevier}
+}
 
 
 
@@ -1272,8 +1274,8 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 </script>
 <script type="text/javascript">
+ "use strict";
 /*
-  "use strict";
   var sliderSpeed = document.getElementById("rangeSpeed");
   var outputSpeed = document.getElementById("valueSpeed");
   var videos=document.getElementsByClassName("videoShow");
@@ -1291,7 +1293,13 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
             var schemeIMGEP=document.getElementById("schemeIMGEP");
             schemeIMGEP.src=img;
         }
-
+function changeVideo(class,nb)
+   {
+	For vid in document.getElementsByClassName(class){
+       vid.style.display="none";
+}
+document.getElementById(class+nb).style.display="block;
+ }
 
 </script>
 <style>
