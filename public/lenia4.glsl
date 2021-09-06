@@ -26,10 +26,27 @@ const vec4 v1 = vec4(1.);
 const mat4 m0 = mat4(v0, v0, v0, v0);
 const mat4 m1 = mat4(v1, v1, v1, v1);
 
-const float baseNoise = 0.1;
-uniform float R;  // space resolution = kernel radius
-  // time resolution = number of divisions per unit time
 
+uniform float R;  // space resolution = kernel radius
+uniform float T ;  // time resolution = number of divisions per unit time
+
+uniform mat4 b0;
+uniform mat4 b1;
+uniform mat4 b2;
+uniform mat4 w0;
+uniform mat4 w1;
+uniform mat4 w2;
+uniform mat4 rk0;
+uniform mat4 rk1;
+uniform mat4 rk2;
+uniform mat4 mu;  // growth center
+uniform mat4 sigma;  // growth width
+uniform mat4 eta;  // growth strength
+uniform mat4 relR;  // relative kernel radius
+const mat4        src = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 1, 1 );   // source channels
+const mat4        dst = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 0, 0 );   // destination channels
+
+/*
 const float T = 7.25;
 const mat4      b0 = mat4( 0.995, 0.675, 0.675, 0.130, 0.090, 0.565, 0.795, 0.725, 0.635, 0.909, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068);  // kernel ring heights
 const mat4      b1 = mat4( 0.330,0.195, 0.250, 0.405, 0.525, 0.495, 0.745, 0.025, 0.525, 0.300, 0.0,0.0 , 0.0, 0.0, 0.1345, 0.3537 );
@@ -46,6 +63,27 @@ const mat4        eta = mat4( 0.222, 0.286, 0.098, 0.150, 0.38, 0.597, 0.391, 0.
 const mat4       relR = mat4( 0.887, 0.516, 0.751, 0.893, 0.870, 0.995, 0.818, 0.326, 0.986, 0.716,1., 1., 1., 1., 0.7687, 0.4324 );  // relative kernel radius
 const mat4        src = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 1, 1 );   // source channels
 const mat4        dst = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 0, 0 );   // destination channels
+*/
+ //test long dist
+ /*
+const float T = 7.25;
+const mat4      b0 = mat4( 0.995, 0.675, 0.675, 0.130, 0.090, 0.565, 0.795, 0.725, 0.635, 0.909,-0.0108,  0.5539,  0.7685,  0.0559,  0.6376,  0.2430);  // kernel ring heights
+const mat4      b1 = mat4( 0.330,0.195, 0.250, 0.405, 0.525, 0.495, 0.745, 0.025, 0.525, 0.300, 0.5587,  0.1225,  0.8691,  0.8871,  0.1579,  0.8240);
+const mat4      b2 = mat4( 0.275, 0.730, 0.515, 0.800, 0.465, 0.353, 0.720, 0.615, 0.125, 0.672,  0.0512,  0.8729,  0.0730,  0.7440,  0.1877,  0.2447);
+const mat4      w0 = mat4( 0.476, 0.207, 0.186, 0.021, 0.377, 0.174, 0.383, 0.220, 0.130, 0.122,0.4541, 0.2525, 0.4049, 0.2841, 0.3108, 0.1010);  // kernel ring heights
+const mat4      w1 = mat4( 0.496, 0.322, 0.018, 0.343, 0.179, 0.095, 0.207, 0.493, 0.017, 0.417, 0.1037, 0.5326, 0.1926, 0.3112, 0.1147, 0.4140);
+const mat4      w2 = mat4( 0.498, 0.344, 0.375, 0.303, 0.126, 0.074, 0.349, 0.043, 0.307, 0.210, 0.1116, 0.0727, 0.3379, 0.1838, 0.2942, 0.0820);
+const mat4      rk0 = mat4( 0.735, 0.017, 0.356, 0.011, 0.915, 0.727, 0.383, 0.095, 0.455, 0.671,  0.4612, 0.7964, 0.0343, 1.0467, 0.4484, 0.2670);   // kernel ring heights
+const mat4      rk1 = mat4( 0.027, 0.313, 0.668, 0.386, 0.678, 0.880, 0.755, 0.841, 0.186, 0.054,  0.9963, 0.5667, 0.9864, 0.0064, 0.1963, 0.7053);
+const mat4      rk2 = mat4( 0.284, 0.137, 0.605, 0.292, 0.875, 0.139, 0.490, 0.931, 0.782, 0.681,  0.7076, 0.3873, 0.9505, 0.4049, 0.9194, 0.3250 );
+const mat4         mu = mat4( 0.222, 0.149, 0.373, 0.356, 0.188, 0.155, 0.284, 0.134, 0.2890, 0.327,  0.0985, 0.2306, 0.2627, 0.2488, 0.2151, 0.2432);   // growth center
+const mat4      sigma = mat4( 0.0990, 0.0955, 0.0855, 0.0960, 0.0145, 0.0080, 0.0985, 0.0955, 0.0985, 0.0970,0.2292, 0.1659, 0.1658, 0.0648, 0.0394, 0.0267);  // growth width
+const mat4        eta = mat4( 0.222, 0.286, 0.098, 0.150, 0.38, 0.597, 0.391, 0.225, 0.319, 0.157,   0.0386, -0.0063, -0.0345, -0.1119, -0.0678,  0.2182);   // growth strength
+const mat4       relR = mat4( 0.887, 0.516, 0.751, 0.893, 0.870, 0.995, 0.818, 0.326, 0.986, 0.716,1.0642, 1.0693, 0.9816, 0.5126, 0.4914, 0.9775);  // relative kernel radius
+const mat4        src = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 1, 1, 1, 1 );   // source channels
+const mat4        dst = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 0, 0 );   // destination channels
+*/
+
 /*
 
 
@@ -83,11 +121,11 @@ const mat4       relR = mat4( 1., 0.516, 0.751, 0.893, 0.870, 0.995, 0.818, 0.32
 const mat4        src = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 0.0, 2.0 );   // source channels
 const mat4        dst = mat4( 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.0,0.0 , 0.0, 0.0, 0.0, 0.0 );   // destination channels
 */
-const mat4 relRinv=1.0/relR;
+
 
 // precalculate
 
-const float dt = 1./T;       // time step
+       // time step
 
 const vec4 kmv = vec4(0.5);    // kernel ring center
 const mat4 kmu = mat4(kmv, kmv, kmv, kmv);
@@ -98,34 +136,6 @@ const ivec4 src0 = ivec4(src[0]), src1 = ivec4(src[1]), src2 = ivec4(src[2]), sr
 const ivec4 dst0 = ivec4(dst[0]), dst1 = ivec4(dst[1]), dst2 = ivec4(dst[2]), dst3 = ivec4(dst[3]);
 
 
-// Noise simplex 2D by iq - https://www.shadertoy.com/view/Msf3WH
-
-vec2 hash( vec2 p )
-{
-	p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)) );
-	return -1.0 + 2.0*fract(sin(p)*43758.5453123);
-}
-
-float noise( in vec2 p )
-{
-    const float K1 = 0.366025404; // (sqrt(3)-1)/2;
-    const float K2 = 0.211324865; // (3-sqrt(3))/6;
-
-	vec2  i = floor( p + (p.x+p.y)*K1 );
-    vec2  a = p - i + (i.x+i.y)*K2;
-    float m = step(a.y,a.x);
-    vec2  o = vec2(m,1.0-m);
-    vec2  b = a - o + K2;
-	vec2  c = a - 1.0 + 2.0*K2;
-    vec3  h = max( 0.5-vec3(dot(a,a), dot(b,b), dot(c,c) ), 0.0 );
-	vec3  n = h*h*h*h*vec3( dot(a,hash(i+0.0)), dot(b,hash(i+o)), dot(c,hash(i+1.0)));
-    return dot( n, vec3(70.0) );
-}
-
-// code forked from https://www.shadertoy.com/view/7lsGDr#
-
-
-// Noise simplex 2D by iq - https://www.shadertoy.com/view/Msf3WH
 
 
 
@@ -286,9 +296,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		growthDst[0]=growthDst[0]-2.*val[2];
     //lazy trick for attract /non attract mode
     if(color[1]<0.5){
-    growthDst[0]=growthDst[0]-growth[3][3]-growth[3][2];
+    growthDst[0]=growthDst[0]-growth[3][3]-growth[3][2] -growth[3][1]-growth[3][0]-growth[2][3]-growth[2][2];
     }
-    rgb = clamp(dt * growthDst + val, 0., 1.);
+    rgb = clamp(1./T * growthDst + val, 0., 1.);
     rgb[1]=0.;
 		//rgb[2]=getVal(fragCoord + vec2(+1, 0)*samplingDist)[3][3];
 
@@ -299,11 +309,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     if (iFrame == 0 )
     {
         vec3 base = drawInit(fragCoord / iResolution.y);
-        vec3 noiseRGB = vec3(
-            noise(fragCoord/R/samplingDist + mod(iDate.w,1.)*100.),
-            noise(fragCoord/R/samplingDist + sin(iDate.w)*100.),
-            noise(fragCoord/R/samplingDist + cos(iDate.w)*100.) );
-        //rgb = base+ 0.5*noiseRGB;
 				rgb=vec3(0.);
     }
 		if(iMouse.z > 0.)
@@ -320,6 +325,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     float mouse_pct = length(dist);
     if(color[1]>0.5){
      mouse_pct = step(0.4/80., mouse_pct);
+     float mask=1.-step(0.05,mouse_pct);
+     //float mask=1.;
+     //mouse_pct=1.-(mask*1./(mouse_pct*60.+1.));
     }
     else{
       mouse_pct = step(radius/10., mouse_pct);

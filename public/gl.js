@@ -43,142 +43,79 @@ var speciesName = "";
 
 function setSpecies(species) {
   //gl.uniform1f(params.R, 12.);  // space resolution = kernel radius
-  gl.uniform1f(params.T, 2.);  // time resolution = number of divisions per unit time
+  console.log(species);
+  gl.useProgram(simProgram);
   switch (species) {
     case 0:
     speciesName = "VT049W fission";  // Tessellatium (sometimes reproductive)
-    gl.uniform1f(params.baseNoise, 0.10);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 2., 2., 1., 2., 1., 1., 1., 2., 2., 2., 1., 2., 1., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 0., 1., 5./6., 1., 1., 1., 11./12., 3./4., 11./12., 1., 1./6., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 1./4., 1., 0., 1., 0., 0., 0., 1., 1., 1., 0., 1., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.272, 0.349, 0.2, 0.114, 0.447, 0.247, 0.21, 0.462, 0.446, 0.327, 0.476, 0.379, 0.262, 0.412, 0.201, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.0595, 0.1585, 0.0332, 0.0528, 0.0777, 0.0342, 0.0617, 0.1192, 0.1793, 0.1408, 0.0995, 0.0697, 0.0877, 0.1101, 0.0786, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.19, 0.66, 0.39, 0.38, 0.74, 0.92, 0.59, 0.37, 0.94, 0.51, 0.77, 0.92, 0.71, 0.59, 0.41, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.91, 0.62, 0.5, 0.97, 0.72, 0.8, 0.96, 0.56, 0.78, 0.79, 0.5, 0.72, 0.68, 0.55, 0.82, 1.] );  // relative kernel radius
+    gl.uniform1f(params.T,7.25);
+    gl.uniformMatrix4fv(params.b0, false, [0.995, 0.675, 0.675, 0.130, 0.090, 0.565, 0.795, 0.725, 0.635, 0.909, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
+    gl.uniformMatrix4fv(params.b1, false, [0.330,0.195, 0.250, 0.405, 0.525, 0.495, 0.745, 0.025, 0.525, 0.300, 0.0,0.0 , 0.0, 0.0, 0.1345, 0.3537 ] );
+    gl.uniformMatrix4fv(params.b2, false, [0.275, 0.730, 0.515, 0.800, 0.465, 0.353, 0.720, 0.615, 0.125, 0.672,  0.0,0.0 , 0.0, 0.0, 0.5695, 0.7907 ] );
+    gl.uniformMatrix4fv(params.w0, false, [0.476, 0.207, 0.186, 0.021, 0.377, 0.174, 0.383, 0.220, 0.130, 0.122, 1., 1., 1., 1., 0.2602, 0.4109 ] );
+    gl.uniformMatrix4fv(params.w1, false, [0.496, 0.322, 0.018, 0.343, 0.179, 0.095, 0.207, 0.493, 0.017, 0.417, 1., 1., 1., 1., 0.1362, 0.2186 ] );
+    gl.uniformMatrix4fv(params.w2, false, [0.498, 0.344, 0.375, 0.303, 0.126, 0.074, 0.349, 0.043, 0.307, 0.210, 1., 1., 1., 1., 0.2717, 0.1765] );
+    gl.uniformMatrix4fv(params.rk0,   false, [0.735, 0.017, 0.356, 0.011, 0.915, 0.727, 0.383, 0.095, 0.455, 0.671,  0.0,0.0 , 0.0, 0.0, 0.5257, 0.3147] );  // kernel ring heights
+    gl.uniformMatrix4fv(params.rk1,   false, [0.027, 0.313, 0.668, 0.386, 0.678, 0.880, 0.755, 0.841, 0.186, 0.054,  0.0,0.0 , 0.0, 0.0, 0.9010, 0.1560] );
+    gl.uniformMatrix4fv(params.rk2,   false, [0.284, 0.137, 0.605, 0.292, 0.875, 0.139, 0.490, 0.931, 0.782, 0.681,  0.0,0.0 , 0.0, 0.0, 0.0872, 0.7179] );
+    gl.uniformMatrix4fv(params.mu,      false, [0.222, 0.149, 0.373, 0.356, 0.188, 0.155, 0.284, 0.134, 0.2890, 0.327,  0.0,0.0 , 0.0, 0.0, 0.1973, 0.2002] );  // growth center
+    gl.uniformMatrix4fv(params.sigma,   false, [0.0990, 0.0955, 0.0855, 0.0960, 0.0145, 0.0080, 0.0985, 0.0955, 0.0985, 0.0970,1., 1., 1., 1., 0.1543, 0.1587] );  // growth width
+    gl.uniformMatrix4fv(params.eta,     false, [0.222, 0.286, 0.098, 0.150, 0.38, 0.597, 0.391, 0.225, 0.319, 0.157,  0.0,0.0 , 0.0, 0.0, 0.3687, 0.4677 ] );  // growth strength
+    gl.uniformMatrix4fv(params.relR,    false, [0.887, 0.516, 0.751, 0.893, 0.870, 0.995, 0.818, 0.326, 0.986, 0.716,1., 1., 1., 1., 0.7687, 0.4324] );  // relative kernel radius
     break;
     case 1:
     speciesName = "Z18A9R reproductive";  // Tessellatium (highly reproductive) (modified for lower reproduction)
-    gl.uniform1f(params.baseNoise, 0.07);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 2., 2., 1., 2., 1., 1., 1., 2., 2., 2., 1., 2., 1., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 0., 1., 3./4., 1., 1., 1., 11./12., 3./4., 1., 1., 1./4., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 1./4., 1., 0., 1., 0., 0., 0., 1., 1., 11./12., 0., 1., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.175, 0.382, 0.231, 0.123, 0.398, 0.224, 0.193, 0.512, 0.427, 0.286, 0.508, 0.372, 0.196, 0.371, 0.246, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.0682, 0.1568, 0.034, 0.0484, 0.0816, 0.0376, 0.063, 0.1189, 0.1827, 0.1422, 0.1079, 0.0724, 0.0934, 0.1107, 0.0672, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.138, 0.544, 0.326, 0.256, 0.544, 0.544, 0.442, 0.198, 0.58, 0.282, 0.396, 0.618, 0.382, 0.374, 0.376, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.78, 0.56, 0.6, 0.84, 0.76, 0.82, 1.0, 0.68, 0.99, 0.72, 0.56, 0.65, 0.85, 0.54, 0.82, 1.] );  // relative kernel radius
+    gl.uniform1f(params.T,7.5117);
+    gl.uniformMatrix4fv(params.b0, false, [0.3500, 0.8950, 0.6000, 0.5450, 0.9200, 0.7000, 0.8450, 0.4800, 0.9650,0.7650, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
+    gl.uniformMatrix4fv(params.b1, false, [0.1350, 0.3400, 0.6950, 0.5000, 0.0600, 0.7200, 0.0050, 1.0000, 0.8150,0.5850, 0.0,0.0 , 0.0, 0.0, 0.1345, 0.3537 ] );
+    gl.uniformMatrix4fv(params.b2, false, [0.0500, 1.0000, 0.6100, 0.8650, 0.1750, 0.9000, 0.6700, 0.1400, 0.1450,0.1400,  0.0,0.0 , 0.0, 0.0, 0.5695, 0.7907 ] );
+    gl.uniformMatrix4fv(params.w0, false, [0.1110, 0.2690, 0.4620, 0.0160, 0.0370, 0.0750, 0.0170, 0.3480, 0.1340,0.1100, 1., 1., 1., 1., 0.2602, 0.4109 ] );
+    gl.uniformMatrix4fv(params.w1, false, [0.4910, 0.0120, 0.2970, 0.4170, 0.4420, 0.2650, 0.1320, 0.1780, 0.2960,0.0430, 1., 1., 1., 1., 0.1362, 0.2186 ] );
+    gl.uniformMatrix4fv(params.w2, false, [0.3640, 0.1980, 0.3250, 0.2240, 0.3580, 0.2020, 0.0100, 0.4100, 0.2390,0.0110, 1., 1., 1., 1., 0.2717, 0.1765] );
+    gl.uniformMatrix4fv(params.rk0,   false, [0.1150, 0.9410, 0.5390, 0.1990, 0.0250, 0.5040, 0.2980, 0.5210, 0.8040,0.0230,  0.0,0.0 , 0.0, 0.0, 0.5257, 0.3147] );  // kernel ring heights
+    gl.uniformMatrix4fv(params.rk1,   false, [0.6420, 0.6850, 0.0860, 0.0000, 0.4780, 0.8120, 0.8460, 0.7600, 0.4370,0.9440,  0.0,0.0 , 0.0, 0.0, 0.9010, 0.1560] );
+    gl.uniformMatrix4fv(params.rk2,   false, [0.4020, 0.9080, 0.2120, 0.4110, 0.3680, 0.6950, 0.0460, 0.4420, 0.5190,0.7860,  0.0,0.0 , 0.0, 0.0, 0.0872, 0.7179] );
+    gl.uniformMatrix4fv(params.mu,      false, [0.1550, 0.4970, 0.1700, 0.2520, 0.2210, 0.4920, 0.4980, 0.1040, 0.1780,0.0510,  0.0,0.0 , 0.0, 0.0, 0.1973, 0.2002] );  // growth center
+    gl.uniformMatrix4fv(params.sigma,   false, [0.0995, 0.1115, 0.0660, 0.1670, 0.0890, 0.0190, 0.0645, 0.0050, 0.0310,0.0300,1., 1., 1., 1., 0.1543, 0.1587] );  // growth width
+    gl.uniformMatrix4fv(params.eta,     false, [0.2590, 0.0560, 0.0390, 0.4490, 0.1560, 0.1060, 0.1130, 0.4750, 0.1870,0.3420,  0.0,0.0 , 0.0, 0.0, 0.3687, 0.4677 ] );  // growth strength
+    gl.uniformMatrix4fv(params.relR,    false, [0.7590, 0.6970, 0.2030, 0.8580, 0.7000, 0.5120, 0.5290, 0.9890, 0.7080,0.9980,1., 1., 1., 1., 0.7687, 0.4324] );  // relative kernel radius
     //gl.uniformMatrix4fv(params.sigma,   false, 0.0682, 0.1568, 0.034, 0.0484, 0.0816, 0.0376, 0.063, 0.1189, 0.1827, 0.1422, 0.1079, 0.0724, 0.0934, 0.1107, 0.0712, 1.] );  // growth width
     break;
     case 2:
     speciesName = "G6G6CR ciliates";  // Ciliatium (immune system) (modified for higher cilia production)
-    gl.uniform1f(params.baseNoise, 0.09);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 1., 2., 1., 2., 1., 1., 1., 1., 1., 2., 1., 1., 2., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 1./12., 1., 5./6., 1., 1., 1., 1., 1., 1., 1., 1., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 0., 1., 0., 1., 0., 0., 0., 0., 0., 11./12., 1., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.118, 0.174, 0.244, 0.114, 0.374, 0.222, 0.306, 0.449, 0.498, 0.295, 0.43, 0.353, 0.238, 0.39, 0.1, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.0639, 0.159, 0.0287, 0.0469, 0.0822, 0.0294, 0.0775, 0.124, 0.1836, 0.1373, 0.0999, 0.0954, 0.0995, 0.1114, 0.0601, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.082, 0.462, 0.496, 0.27, 0.518, 0.576, 0.324, 0.306, 0.544, 0.374, 0.33, 0.528, 0.498, 0.43, 0.26, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.85, 0.61, 0.5, 0.81, 0.85, 0.93, 0.88, 0.74, 0.97, 0.92, 0.56, 0.56, 0.95, 0.59, 0.58, 1.] );  // relative kernel radius
-    //gl.uniformMatrix4fv(params.sigma,   false, [0.0639, 0.159, 0.0287, 0.0469, 0.0822, 0.0294, 0.0775, 0.124, 0.1836, 0.1373, 0.0999, 0.0754, 0.0995, 0.1144, 0.0601, 1.] );  // growth width
+    gl.uniform1f(params.T,4.67);
+    gl.uniformMatrix4fv(params.b0, false, [0.1250, 0.8150, 0.5050, 0.0900, 0.1300, 0.8250, 0.9750, 0.1400, 0.9000,0.9950, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
+    gl.uniformMatrix4fv(params.b1, false, [0.6800, 0.7100, 0.9300, 0.3600, 0.1500, 0.3750, 0.2900, 0.8950, 0.5550,0.2200, 0.0,0.0 , 0.0, 0.0, 0.1345, 0.3537 ] );
+    gl.uniformMatrix4fv(params.b2, false, [0.8100, 0.8700, 0.7600, 0.0050, 0.4500, 0.0150, 0.5300, 0.3950, 0.7050,0.0100,  0.0,0.0 , 0.0, 0.0, 0.5695, 0.7907 ] );
+    gl.uniformMatrix4fv(params.w0, false, [0.3510, 0.2630, 0.1710, 0.0530, 0.0570, 0.1290, 0.2620, 0.0580, 0.0110,0.1650, 1., 1., 1., 1., 0.2602, 0.4109 ] );
+    gl.uniformMatrix4fv(params.w1, false, [0.4030, 0.3380, 0.2500, 0.0290, 0.0100, 0.0200, 0.3110, 0.0760, 0.0110,0.2150, 1., 1., 1., 1., 0.1362, 0.2186 ] );
+    gl.uniformMatrix4fv(params.w2, false, [0.0150, 0.3100, 0.0540, 0.3990, 0.2250, 0.4900, 0.4990, 0.0890, 0.0110,0.3590, 1., 1., 1., 1., 0.2717, 0.1765] );
+    gl.uniformMatrix4fv(params.rk0,   false, [0.7980, 0.5880, 0.2040, 0.9410, 0.7750, 0.7040, 0.6980, 0.2080, 0.8890,0.1240,  0.0,0.0 , 0.0, 0.0, 0.5257, 0.3147] );  // kernel ring heights
+    gl.uniformMatrix4fv(params.rk1,   false, [0.9860, 0.8950, 0.3110, 0.1290, 0.6220, 0.0450, 0.8770, 0.0940, 0.4150,0.9860,  0.0,0.0 , 0.0, 0.0, 0.9010, 0.1560] );
+    gl.uniformMatrix4fv(params.rk2,   false, [0.3570, 0.9030, 0.8030, 0.7060, 0.0600, 0.3730, 0.2670, 0.2570, 0.0000,0.7930,  0.0,0.0 , 0.0, 0.0, 0.0872, 0.7179] );
+    gl.uniformMatrix4fv(params.mu,      false, [0.1730, 0.1230, 0.3020, 0.4160, 0.0660, 0.4590, 0.3780, 0.1350, 0.3420,0.1930,  0.0,0.0 , 0.0, 0.0, 0.1973, 0.2002] );  // growth center
+    gl.uniformMatrix4fv(params.sigma,   false, [0.0145, 0.0140, 0.0915, 0.0410, 0.1695, 0.1715, 0.1540, 0.1675, 0.1080,0.1395,1., 1., 1., 1., 0.1543, 0.1587] );  // growth width
+    gl.uniformMatrix4fv(params.eta,     false, [0.3650, 0.3080, 0.0000, 0.1260, 0.2200, 0.2550, 0.2100, 0.2860, 0.2660,0.3420,  0.0,0.0 , 0.0, 0.0, 0.3687, 0.4677 ] );  // growth strength
+    gl.uniformMatrix4fv(params.relR,    false, [0.7380, 0.9600, 0.2050, 0.4570, 0.2000, 0.5300, 0.5200, 0.2140, 0.5000,0.6290,1., 1., 1., 1., 0.7687, 0.4324] );  // relative kernel radius
     break;
     case 3:
     speciesName = "tri-color ghosts";
-    gl.uniform1f(params.baseNoise, 0.08);
-    gl.uniformMatrix4fv(params.betaLen, false, [2., 3., 1., 2., 3., 1., 2., 3., 1., 0., 0., 0., 0., 0., 0., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1./4., 1., 1., 1./4., 1., 1., 1./4., 1., 1., 0., 0., 0., 0., 0., 0., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [1., 3./4., 0., 1., 3./4., 0., 1., 3./4., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 3./4., 0., 0., 3./4., 0., 0., 3./4., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.16, 0.22, 0.28, 0.16, 0.22, 0.28, 0.16, 0.22, 0.28, 0., 0., 0., 0., 0., 0., 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.025, 0.042, 0.025, 0.025, 0.042, 0.025, 0.025, 0.042, 0.025, 1., 1., 1., 1., 1., 1., 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0., 0., 0., 0., 0., 0., 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.] );  // relative kernel radius
+    gl.uniform1f(params.T,4.45);
+    gl.uniformMatrix4fv(params.b0, false, [0.7082, 0.8403, 0.0711, 0.0051, 0.9114, 0.6402, 0.1446, 0.7150, 0.6682,0.0029,0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
+    gl.uniformMatrix4fv(params.b1, false, [0.6035, 0.0101, 0.5291, 0.9359, 0.7906, 0.7790, 0.5333, 0.6888, 0.4874,0.1804, 0.0,0.0 , 0.0, 0.0, 0.1345, 0.3537 ] );
+    gl.uniformMatrix4fv(params.b2, false, [0.6199, 0.8927, 0.3840, 0.9250, 0.2957, 0.1091, 0.5295, 0.2291, 0.8398,0.1621 ,  0.0,0.0 , 0.0, 0.0, 0.5695, 0.7907 ] );
+    gl.uniformMatrix4fv(params.w0, false, [0.1654, 0.0105, 0.3522, 0.0729, 0.0849, 0.2849, 0.0189, 0.1269, 0.1104,0.0100 , 1., 1., 1., 1., 0.2602, 0.4109 ] );
+    gl.uniformMatrix4fv(params.w1, false, [0.0100, 0.1868, 0.2147, 0.0170, 0.1461, 0.1167, 0.4996, 0.0372, 0.4320,0.1944 , 1., 1., 1., 1., 0.1362, 0.2186 ] );
+    gl.uniformMatrix4fv(params.w2, false, [0.4989, 0.1386, 0.2967, 0.0426, 0.0836, 0.1651, 0.1817, 0.2290, 0.1478,0.1512, 1., 1., 1., 1., 0.2717, 0.1765]  );
+    gl.uniformMatrix4fv(params.rk0,   false, [0.8369, 0.0390, 0.7392, 0.1371, 0.0288, 0.8752, 0.9324, 0.8954, 0.7233,0.4350,  0.0,0.0 , 0.0, 0.0, 0.5257, 0.3147] );  // kernel ring heights
+    gl.uniformMatrix4fv(params.rk1,   false, [0.4729, 0.5165, 0.0048, 0.7887, 0.0893, 0.9156, 0.7814, 0.1141, 0.5061,0.9794,  0.0,0.0 , 0.0, 0.0, 0.9010, 0.1560] );
+    gl.uniformMatrix4fv(params.rk2,   false, [0.3015, 0.9349, 0.5102, 0.8717, 0.0273, 0.8015, 0.1131, 0.1845, 0.8241,0.0472,  0.0,0.0 , 0.0, 0.0, 0.0872, 0.7179] );
+    gl.uniformMatrix4fv(params.mu,      false, [0.2475, 0.4779, 0.1603, 0.4212, 0.1071, 0.2709, 0.1464, 0.1873, 0.2627,0.0780,  0.0,0.0 , 0.0, 0.0, 0.1973, 0.2002] );  // growth center
+    gl.uniformMatrix4fv(params.sigma,   false, [0.0580, 0.0933, 0.0876, 0.0464, 0.1768, 0.0502, 0.0670, 0.0339, 0.0666,0.1063,1., 1., 1., 1., 0.1543, 0.1587] );  // growth width
+    gl.uniformMatrix4fv(params.eta,     false, [0.2603, 0.3101, 0.0479, 0.1652, 0.2658, 0.2464, 0.4150, 0.4054, 0.3599,0.3027,  0.0,0.0 , 0.0, 0.0, 0.3687, 0.4677 ] );  // growth strength
+    gl.uniformMatrix4fv(params.relR,    false, [0.7929, 0.4538, 0.9902, 0.4768, 0.2418, 0.6539, 0.3363, 0.8611, 0.7565,0.9465,1., 1., 1., 1., 0.7687, 0.4324]  );  // relative kernel radius
     break;
-    case 4:
-    speciesName = "KH97WU courting";  // Tessellatium (courting, slightly reproductive)";
-    gl.uniform1f(params.baseNoise, 0.14);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 2., 2., 1., 2., 1., 1., 1., 2., 2., 1., 1., 2., 1., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 0., 1., 5./6., 1., 1., 1., 11./12., 3./4., 1., 1., 1./6., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 1./4., 1., 0., 1., 0., 0., 0., 1., 1., 0., 0., 1., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.204, 0.359, 0.176, 0.128, 0.386, 0.229, 0.181, 0.466, 0.466, 0.37, 0.447, 0.391, 0.299, 0.398, 0.183, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.0574, 0.152, 0.0314, 0.0545, 0.0825, 0.0348, 0.0657, 0.1224, 0.1789, 0.1372, 0.1064, 0.0644, 0.0891, 0.1065, 0.0773, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.116, 0.448, 0.332, 0.392, 0.398, 0.614, 0.448, 0.224, 0.624, 0.352, 0.342, 0.634, 0.362, 0.472, 0.242, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.93, 0.59, 0.58, 0.97, 0.79, 0.87, 1.0, 0.64, 0.67, 0.68, 0.5, 0.85, 0.69, 0.87, 0.66, 1.] );  // relative kernel radius
-    break;
-    case 5:
-    speciesName = "XEH4YR explosive";  // Tessellatium (explosive)";
-    gl.uniform1f(params.baseNoise, 0.10);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 2., 2., 1., 2., 1., 1., 1., 2., 2., 2., 1., 3., 1., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 0., 1., 5./6., 1., 1., 1., 11./12., 3./4., 11./12., 1., 1./6., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 1./4., 1., 0., 1., 0., 0., 0., 1., 1., 1., 0., 1., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.282, 0.354, 0.197, 0.164, 0.406, 0.251, 0.259, 0.517, 0.455, 0.264, 0.472, 0.417, 0.208, 0.395, 0.184, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.0646, 0.1584, 0.0359, 0.056, 0.0738, 0.0383, 0.0665, 0.1164, 0.1806, 0.1437, 0.0939, 0.0666, 0.0815, 0.1049, 0.0748, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.082, 0.544, 0.26, 0.294, 0.508, 0.56, 0.326, 0.21, 0.638, 0.346, 0.384, 0.748, 0.44, 0.366, 0.294, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.85, 0.62, 0.69, 0.84, 0.82, 0.86, 1.0, 0.5, 0.78, 0.6, 0.5, 0.7, 0.67, 0.6, 0.8, 1.] );  // relative kernel radius
-    break;
-    case 6:
-    speciesName = "HAESRE zigzagging";  // Tessellatium (zigzaging)";
-    gl.uniform1f(params.baseNoise, 0.13);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 2., 2., 1., 2., 1., 1., 1., 2., 2., 2., 1., 2., 1., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 0., 1., 3./4., 1., 1., 1., 11./12., 5./6., 1., 1., 1./4., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 1./4., 1., 0., 1., 0., 0., 0., 1., 1., 11./12., 0., 1., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.272, 0.337, 0.129, 0.132, 0.429, 0.239, 0.25, 0.497, 0.486, 0.276, 0.425, 0.352, 0.21, 0.381, 0.244, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.0674, 0.1576, 0.0382, 0.0514, 0.0813, 0.0409, 0.0691, 0.1166, 0.1751, 0.1344, 0.1026, 0.0797, 0.0921, 0.1056, 0.0813, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.15, 0.474, 0.342, 0.192, 0.524, 0.598, 0.426, 0.348, 0.62, 0.338, 0.314, 0.608, 0.292, 0.426, 0.346, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.87, 0.65, 0.67, 0.98, 0.77, 0.83, 1.0, 0.7, 0.99, 0.69, 0.7, 0.57, 0.89, 0.84, 0.76, 1.] );  // relative kernel radius
-    break;
-    case 7:
-    speciesName = "GDNQYX variety";  // Tessellatium (stable)";
-    gl.uniform1f(params.baseNoise, 0.13);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 2., 2., 1., 2., 1., 1., 1., 2., 2., 2., 1., 2., 1., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 0., 1., 5./6., 1., 1., 1., 11./12., 3./4., 1., 1., 1./6., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 1./4., 1., 0., 1., 0., 0., 0., 1., 1., 11./12., 0., 1., 0., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.242, 0.375, 0.194, 0.122, 0.413, 0.221, 0.192, 0.492, 0.426, 0.361, 0.464, 0.361, 0.235, 0.381, 0.216, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.061, 0.1553, 0.0361, 0.0531, 0.0774, 0.0365, 0.0649, 0.1219, 0.1759, 0.1381, 0.1044, 0.0686, 0.0924, 0.1118, 0.0748, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.144, 0.506, 0.332, 0.3, 0.502, 0.58, 0.344, 0.268, 0.582, 0.326, 0.418, 0.642, 0.39, 0.378, 0.294, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.98, 0.59, 0.5, 0.93, 0.73, 0.88, 0.93, 0.61, 0.84, 0.7, 0.57, 0.73, 0.74, 0.87, 0.72, 1.] );  // relative kernel radius
-    break;
-    case 8:
-    speciesName = "Y3CS55 emitter";  // Papillatium (fast emitter)";
-    gl.uniform1f(params.baseNoise, 0.10);
-    gl.uniformMatrix4fv(params.betaLen, false, [1., 1., 1., 2., 1., 2., 1., 1., 1., 1., 1., 3., 1., 1., 2., 0.] );  // kernel ring number
-    gl.uniformMatrix4fv(params.beta0,   false, [1., 1., 1., 1./12., 1., 5./6., 1., 1., 1., 1., 1., 1., 1., 1., 1., 0.] );  // kernel ring heights
-    gl.uniformMatrix4fv(params.beta1,   false, [0., 0., 0., 1., 0., 1., 0., 0., 0., 0., 0., 11./12., 0., 0., 1./12., 0.] );
-    gl.uniformMatrix4fv(params.beta2,   false, [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-    gl.uniformMatrix4fv(params.mu,      false, [0.168, 0.1, 0.265, 0.111, 0.327, 0.223, 0.293, 0.465, 0.606, 0.404, 0.377, 0.297, 0.319, 0.483, 0.1, 0.] );  // growth center
-    gl.uniformMatrix4fv(params.sigma,   false, [0.062, 0.1495, 0.0488, 0.0555, 0.0763, 0.0333, 0.0724, 0.1345, 0.1807, 0.1413, 0.1136, 0.0701, 0.1038, 0.1185, 0.0571, 1.] );  // growth width
-    gl.uniformMatrix4fv(params.eta,     false, [0.076, 0.562, 0.548, 0.306, 0.568, 0.598, 0.396, 0.298, 0.59, 0.396, 0.156, 0.426, 0.558, 0.388, 0.132, 0.] );  // growth strength
-    gl.uniformMatrix4fv(params.relR,    false, [0.58, 0.68, 0.5, 0.87, 1.0, 1.0, 0.88, 0.88, 0.86, 0.98, 0.63, 0.53, 1.0, 0.89, 0.59, 1.] );  // relative kernel radius
-    break;
-    case 9:
-        speciesName = "F45LYC cloud";
-    gl.uniform1f(params.baseNoise, 0.09);
-        gl.uniformMatrix4fv(params.betaLen, false, [3., 2., 1., 3., 2., 1., 3., 2., 1., 2., 1., 1., 2., 2., 1., 0.] );  // kernel ring number
-        gl.uniformMatrix4fv(params.beta0,   false, [1., 2./3., 1., 1., 5./12., 1., 1., 1./6., 1., 1./6., 1., 1., 7./12., 1./4., 1., 0.] );  // kernel ring heights
-        gl.uniformMatrix4fv(params.beta1,   false, [1./4., 1., 0., 1./12., 1., 0., 1./12., 1., 0., 1., 0., 0., 1., 1., 0., 0.] );
-        gl.uniformMatrix4fv(params.beta2,   false, [11./12., 0., 0., 2./3., 0., 0., 7./12., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-        gl.uniformMatrix4fv(params.mu,      false, [0.151, 0.217, 0.249, 0.358, 0.243, 0.463, 0.145, 0.181, 0.31, 0.116, 0.326, 0.68, 0.276, 0.242, 0.119, 0.] );  // growth center
-        gl.uniformMatrix4fv(params.sigma,   false, [0.0176, 0.0693, 0.0606, 0.025, 0.0752, 0.112, 0.01, 0.0844, 0.0847, 0.0602, 0.087, 0.1145, 0.0671, 0.035, 0.0922, 1.] );  // growth width
-        gl.uniformMatrix4fv(params.eta,     false, [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.] );  // growth strength
-        gl.uniformMatrix4fv(params.relR,    false, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.] );  // relative kernel radius
-    break;
-    case 10:
-        speciesName = "F45LYC cloud";
-    gl.uniform1f(params.baseNoise, 0.19);
-        gl.uniformMatrix4fv(params.betaLen, false, [3., 2., 1., 3., 2., 1., 3., 2., 1., 2., 1., 1., 2., 2., 1., 0.] );  // kernel ring number
-        gl.uniformMatrix4fv(params.beta0,   false, [1., 2./3., 1., 1., 5./12., 1., 1., 1./6., 1., 1./6., 1., 1., 7./12., 1./4., 1., 0.] );  // kernel ring heights
-        gl.uniformMatrix4fv(params.beta1,   false, [1./4., 1., 0., 1./12., 1., 0., 1./12., 1., 0., 1., 0., 0., 1., 1., 0., 0.] );
-        gl.uniformMatrix4fv(params.beta2,   false, [11./12., 0., 0., 2./3., 0., 0., 7./12., 0., 0., 0., 0., 0., 0., 0., 0., 0.] );
-        gl.uniformMatrix4fv(params.mu,      false, [0.151, 0.217, 0.249, 0.358, 0.243, 0.463, 0.145, 0.181, 0.31, 0.116, 0.326, 0.68, 0.276, 0.242, 0.119, 0.] );  // growth center
-        gl.uniformMatrix4fv(params.sigma,   false, [0.0176, 0.0693, 0.0606, 0.025, 0.0752, 0.112, 0.01, 0.0844, 0.0847, 0.0602, 0.087, 0.1145, 0.0671, 0.035, 0.0922, 1.] );  // growth width
-        gl.uniformMatrix4fv(params.eta,     false, [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.65, 0.] );  // growth strength
-        gl.uniformMatrix4fv(params.relR,    false, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.] );  // relative kernel radius
-    break;
+
   }
 }
 
@@ -243,25 +180,26 @@ function initWebGL(shaderSources) {
         iChannel3:          gl.getUniformLocation(simProgram, "iChannel3"),
         iDate:              gl.getUniformLocation(simProgram, "iDate"),
         iFrameRate:         gl.getUniformLocation(simProgram, "iFrameRate"),
-        R:                  gl.getUniformLocation(simProgram, "R"),
         color:              gl.getUniformLocation(simProgram, "color"),
         radius:              gl.getUniformLocation(simProgram, "radius")
   };
-  if (initSpecies != null) {
-    params = {
-
-      T:                  gl.getUniformLocation(simProgram, "T"),
-      baseNoise:          gl.getUniformLocation(simProgram, "baseNoise"),
-      betaLen:            gl.getUniformLocation(simProgram, "betaLen"),
-      beta0:              gl.getUniformLocation(simProgram, "beta0"),
-      beta1:              gl.getUniformLocation(simProgram, "beta1"),
-      beta2:              gl.getUniformLocation(simProgram, "beta2"),
-      mu:                 gl.getUniformLocation(simProgram, "mu"),
-      sigma:              gl.getUniformLocation(simProgram, "sigma"),
-      eta:                gl.getUniformLocation(simProgram, "eta"),
-      relR:               gl.getUniformLocation(simProgram, "relR")
-    };
-  }
+  params = {
+    R:                gl.getUniformLocation(simProgram, "R"),
+    T:                gl.getUniformLocation(simProgram, "T"),
+    b0:              gl.getUniformLocation(simProgram, "b0"),
+    b1:              gl.getUniformLocation(simProgram, "b1"),
+    b2:              gl.getUniformLocation(simProgram, "b2"),
+    w0:              gl.getUniformLocation(simProgram, "w0"),
+    w1:              gl.getUniformLocation(simProgram, "w1"),
+    w2:              gl.getUniformLocation(simProgram, "w2"),
+    rk0:              gl.getUniformLocation(simProgram, "rk0"),
+    rk1:              gl.getUniformLocation(simProgram, "rk1"),
+    rk2:              gl.getUniformLocation(simProgram, "rk2"),
+    mu:                 gl.getUniformLocation(simProgram, "mu"),
+    sigma:              gl.getUniformLocation(simProgram, "sigma"),
+    eta:                gl.getUniformLocation(simProgram, "eta"),
+    relR:               gl.getUniformLocation(simProgram, "relR")
+  };
 
     textbox.innerHTML = "initializing vertex shader...";
     var vertexArray = new Float32Array([
@@ -280,7 +218,7 @@ function initWebGL(shaderSources) {
     resetTime();
     initUniforms();
     setUniforms();
-    setSpecies(initSpecies);
+    setSpecies(0);
 
 
 
@@ -346,7 +284,7 @@ function initUniforms() {
     gl.uniform1i(uniforms.iChannel3, 3);
     gl.uniform1f(uniforms.iSampleRate, 44100.0);
     gl.uniform4f(uniforms.iMouse, 0.0, 0.0, 0.0, 0.0);
-    gl.uniform1f(uniforms.R, 8.5);
+    gl.uniform1f(params.R, 8.5);
     gl.uniform3f(uniforms.color, 1.0,0.0,0.0);
     gl.uniform1f(uniforms.radius, 0.5);
 
